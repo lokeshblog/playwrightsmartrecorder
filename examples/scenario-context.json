@@ -1,0 +1,102 @@
+{
+  "version": "1.0",
+  "name": "Checkout",
+  "capturedAt": "2026-09-01T09:00:00.000Z",
+  "startUrl": "https://example.com/checkout",
+  "endUrl": "https://example.com/confirmation",
+  "steps": [
+    {
+      "index": 1,
+      "timestamp": "2026-09-01T09:00:01.000Z",
+      "pageUrl": "https://example.com/checkout",
+      "action": {
+        "type": "click"
+      },
+      "locatorContext": {
+        "version": "1.0",
+        "capturedAt": "2026-09-01T09:00:01.000Z",
+        "url": "https://example.com/checkout",
+        "codegenLocator": {
+          "type": "getByRole",
+          "value": "button",
+          "expression": "getByRole(\"button\", { name: \"Submit order\", exact: true })"
+        },
+        "target": {
+          "tag": "button",
+          "text": "Submit order",
+          "accessibleName": "Submit order",
+          "role": "button",
+          "attributes": {
+            "type": "submit"
+          }
+        },
+        "ancestors": [
+          {
+            "depth": 1,
+            "boundary": true,
+            "tag": "form",
+            "attributes": {
+              "data-testid": "checkout-form"
+            }
+          }
+        ],
+        "siblings": [],
+        "nearby": [],
+        "matchingElements": {
+          "codegenLocatorCount": 1
+        },
+        "candidates": [
+          {
+            "locator": "getByTestId(\"checkout-form\").getByRole(\"button\", { name: \"Submit order\", exact: true })",
+            "kind": "scoped",
+            "score": 100,
+            "matchCount": 1,
+            "confidence": "high",
+            "evidence": [
+              "semantic role",
+              "accessible name",
+              "stable parent scope",
+              "exactly one matching element"
+            ],
+            "penalties": []
+          }
+        ],
+        "recommended": {
+          "locator": "getByTestId(\"checkout-form\").getByRole(\"button\", { name: \"Submit order\", exact: true })",
+          "kind": "scoped",
+          "score": 100,
+          "matchCount": 1,
+          "confidence": "high",
+          "evidence": [
+            "semantic role",
+            "accessible name",
+            "stable parent scope",
+            "exactly one matching element"
+          ],
+          "penalties": []
+        },
+        "alternatives": [],
+        "rejected": []
+      },
+      "locator": "getByTestId(\"checkout-form\").getByRole(\"button\", { name: \"Submit order\", exact: true })",
+      "code": "await page.getByTestId(\"checkout-form\").getByRole(\"button\", { name: \"Submit order\", exact: true }).click();",
+      "confidence": "high",
+      "suggestions": [
+        "getByTestId(\"checkout-form\").getByRole(\"button\", { name: \"Submit order\", exact: true })"
+      ],
+      "testCaseId": "test-1",
+      "businessStep": "Click Submit order"
+    }
+  ],
+  "testCases": [
+    {
+      "id": "test-1",
+      "name": "Test 1",
+      "stepIndexes": [1]
+    }
+  ],
+  "generatedCode": [
+    "await page.getByTestId(\"checkout-form\").getByRole(\"button\", { name: \"Submit order\", exact: true }).click();"
+  ],
+  "warnings": []
+}

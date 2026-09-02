@@ -1,0 +1,1 @@
+Use the codegen-to-project skill. Convert the verified recording at .codegen/recordings/2026-09-02T07-36-55-checkout/scenario-context.json into repository-standard Playwright tests. Reuse existing fixtures, page objects, authentication, and naming conventions. Run the narrowest generated test and repair any remaining locator failures.

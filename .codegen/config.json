@@ -1,0 +1,30 @@
+{
+  "maxAncestorDepth": 5,
+  "semanticBoundaries": [
+    "form",
+    "section",
+    "article",
+    "nav",
+    "main",
+    "dialog",
+    "table",
+    "ul",
+    "ol"
+  ],
+  "preferredAttributes": ["data-testid", "data-test", "data-cy", "data-qa"],
+  "applicationAttributes": ["data-component", "data-field", "data-action"],
+  "avoidAttributes": ["style"],
+  "generatedValuePatterns": [
+    "^css-[a-z0-9]+$",
+    "^sc-[A-Za-z0-9]+$",
+    "^ember\\d+$",
+    "^(react|vue|ng)[-_]?\\d+$",
+    "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+    "^[a-f0-9]{10,}$",
+    "^\\d{4,}$"
+  ],
+  "minimumLocatorScore": 70,
+  "requireUniqueLocator": true,
+  "nearbyElementLimit": 8,
+  "maxContainerHtmlLength": 50000
+}

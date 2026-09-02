@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://playwright-codegen-smart.dev/schemas/scenario-context.schema.json",
+  "title": "Playwright Scenario Context",
+  "type": "object",
+  "required": [
+    "version",
+    "name",
+    "capturedAt",
+    "startUrl",
+    "endUrl",
+    "steps",
+    "testCases",
+    "generatedCode",
+    "warnings"
+  ],
+  "properties": {
+    "version": { "const": "1.0" },
+    "name": { "type": "string" },
+    "capturedAt": { "type": "string", "format": "date-time" },
+    "startUrl": { "type": "string" },
+    "endUrl": { "type": "string" },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "index",
+          "timestamp",
+          "pageUrl",
+          "action",
+          "locatorContext",
+          "locator",
+          "code",
+          "confidence",
+          "suggestions",
+          "testCaseId",
+          "businessStep"
+        ],
+        "properties": {
+          "index": { "type": "integer", "minimum": 1 },
+          "timestamp": { "type": "string", "format": "date-time" },
+          "pageUrl": { "type": "string" },
+          "action": {
+            "type": "object",
+            "required": ["type"],
+            "properties": {
+              "type": {
+                "enum": [
+                  "click",
+                  "doubleClick",
+                  "hover",
+                  "fill",
+                  "selectOption",
+                  "setInputFiles",
+                  "check",
+                  "uncheck",
+                  "press",
+                  "navigate",
+                  "assert"
+                ]
+              },
+              "value": { "type": "string" },
+              "force": { "type": "boolean" },
+              "assertion": {
+                "type": "object",
+                "required": ["matcher"],
+                "properties": {
+                  "matcher": {
+                    "enum": [
+                      "toBeAttached",
+                      "toBeVisible",
+                      "toBeHidden",
+                      "toBeEnabled",
+                      "toBeDisabled",
+                      "toBeEditable",
+                      "toBeEmpty",
+                      "toBeFocused",
+                      "toBeChecked",
+                      "toBeInViewport",
+                      "toHaveAccessibleDescription",
+                      "toHaveAccessibleErrorMessage",
+                      "toHaveAccessibleName",
+                      "toHaveText",
+                      "toContainText",
+                      "toHaveValue",
+                      "toHaveValues",
+                      "toHaveAttribute",
+                      "toHaveClass",
+                      "toHaveCSS",
+                      "toHaveId",
+                      "toHaveJSProperty",
+                      "toHaveRole",
+                      "toHaveScreenshot",
+                      "toHaveCount"
+                    ]
+                  },
+                  "expected": {
+                    "type": ["string", "number", "boolean", "array"],
+                    "items": { "type": "string" }
+                  },
+                  "attribute": { "type": "string" },
+                  "negated": { "type": "boolean" }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+          "locatorContext": {
+            "anyOf": [
+              {
+                "$ref": "locator-context.schema.json"
+              },
+              { "type": "null" }
+            ]
+          },
+          "locator": { "type": "string" },
+          "code": { "type": "string" },
+          "confidence": {
+            "enum": ["high", "medium", "low", "unresolved"]
+          },
+          "warning": { "type": "string" },
+          "suggestions": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "testCaseId": { "type": "string" },
+          "businessStep": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "testCases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "stepIndexes"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "stepIndexes": {
+            "type": "array",
+            "items": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "generatedCode": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}

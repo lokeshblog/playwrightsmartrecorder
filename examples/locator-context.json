@@ -1,0 +1,73 @@
+{
+  "version": "1.0",
+  "capturedAt": "2026-09-01T09:00:00.000Z",
+  "url": "https://example.com/checkout",
+  "codegenLocator": {
+    "type": "getByRole",
+    "value": "button",
+    "expression": "getByRole(\"button\", { name: \"Submit\", exact: true })"
+  },
+  "target": {
+    "tag": "button",
+    "text": "Submit",
+    "accessibleName": "Submit",
+    "role": "button",
+    "attributes": {
+      "type": "submit"
+    }
+  },
+  "ancestors": [
+    {
+      "depth": 1,
+      "boundary": true,
+      "tag": "form",
+      "attributes": {
+        "data-testid": "checkout-form"
+      }
+    }
+  ],
+  "siblings": [],
+  "nearby": [],
+  "matchingElements": {
+    "codegenLocatorCount": 2
+  },
+  "candidates": [
+    {
+      "locator": "getByTestId(\"checkout-form\").getByRole(\"button\", { name: \"Submit\", exact: true })",
+      "kind": "scoped",
+      "score": 100,
+      "matchCount": 1,
+      "confidence": "high",
+      "evidence": [
+        "semantic role",
+        "accessible name",
+        "scoped by stable data-testid",
+        "exactly one matching element",
+        "stable parent scope"
+      ],
+      "penalties": []
+    }
+  ],
+  "recommended": {
+    "locator": "getByTestId(\"checkout-form\").getByRole(\"button\", { name: \"Submit\", exact: true })",
+    "kind": "scoped",
+    "score": 100,
+    "matchCount": 1,
+    "confidence": "high",
+    "evidence": [
+      "semantic role",
+      "accessible name",
+      "scoped by stable data-testid",
+      "exactly one matching element",
+      "stable parent scope"
+    ],
+    "penalties": []
+  },
+  "alternatives": [],
+  "rejected": [
+    {
+      "locator": "locator(\"button\").nth(0)",
+      "reason": "positional selector"
+    }
+  ]
+}

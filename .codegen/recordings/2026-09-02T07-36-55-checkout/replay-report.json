@@ -1,0 +1,120 @@
+{
+  "version": "1.0",
+  "scenarioName": "Checkout",
+  "startedAt": "2026-09-02T07:35:39.895Z",
+  "finishedAt": "2026-09-02T07:36:54.780Z",
+  "status": "aborted",
+  "startUrl": "https://qa.harness.io/checkout",
+  "results": [
+    {
+      "stepIndex": 1,
+      "testCaseId": "test-1",
+      "status": "passed",
+      "startedAt": "2026-09-02T07:35:40.289Z",
+      "attempts": 1,
+      "locator": "page",
+      "finishedAt": "2026-09-02T07:35:40.569Z",
+      "durationMs": 280
+    },
+    {
+      "stepIndex": 2,
+      "testCaseId": "test-1",
+      "status": "passed",
+      "startedAt": "2026-09-02T07:35:40.569Z",
+      "attempts": 1,
+      "locator": "page",
+      "finishedAt": "2026-09-02T07:35:41.140Z",
+      "durationMs": 571
+    },
+    {
+      "stepIndex": 3,
+      "testCaseId": "test-1",
+      "status": "passed",
+      "startedAt": "2026-09-02T07:35:41.140Z",
+      "attempts": 1,
+      "locator": "locator(\"div[class~=\\\"_signin_lumtr_8\\\"]\")",
+      "finishedAt": "2026-09-02T07:35:41.180Z",
+      "durationMs": 40
+    },
+    {
+      "stepIndex": 4,
+      "testCaseId": "test-1",
+      "status": "passed",
+      "startedAt": "2026-09-02T07:35:41.180Z",
+      "attempts": 1,
+      "locator": "locator(\"#email\")",
+      "finishedAt": "2026-09-02T07:35:41.462Z",
+      "durationMs": 282
+    },
+    {
+      "stepIndex": 5,
+      "testCaseId": "test-1",
+      "status": "skipped",
+      "startedAt": "2026-09-02T07:35:41.462Z",
+      "attempts": 2,
+      "locator": "locator(\"input[class~=\\\"_pwdInput_1mkr8_34\\\"]\")",
+      "error": "Protected input was redacted; provide test data in the generated repository test",
+      "finishedAt": "2026-09-02T07:35:57.438Z",
+      "durationMs": 15976
+    },
+    {
+      "stepIndex": 6,
+      "testCaseId": "test-1",
+      "status": "passed",
+      "startedAt": "2026-09-02T07:35:57.438Z",
+      "attempts": 1,
+      "locator": "page",
+      "finishedAt": "2026-09-02T07:35:57.926Z",
+      "durationMs": 488
+    },
+    {
+      "stepIndex": 7,
+      "testCaseId": "test-1",
+      "status": "passed",
+      "startedAt": "2026-09-02T07:35:57.926Z",
+      "attempts": 1,
+      "locator": "page",
+      "finishedAt": "2026-09-02T07:35:58.274Z",
+      "durationMs": 348
+    },
+    {
+      "stepIndex": 8,
+      "testCaseId": "test-1",
+      "status": "passed",
+      "startedAt": "2026-09-02T07:35:58.274Z",
+      "attempts": 1,
+      "locator": "page",
+      "finishedAt": "2026-09-02T07:35:58.576Z",
+      "durationMs": 302
+    },
+    {
+      "stepIndex": 9,
+      "testCaseId": "test-1",
+      "status": "skipped",
+      "startedAt": "2026-09-02T07:35:58.576Z",
+      "attempts": 1,
+      "locator": "locator(\"path\")",
+      "error": "locator.click: Error: strict mode violation: locator('path') resolved to 8 elements:\n    1) <path fill=\"#ff8e02\" d=\"M122.5 69.25H96.47a33.1 33.1 0 000-10.5h26.05a5.25 5.25 0 010 10.5z\"></path> aka locator('path').first()\n    2) <path fill=\"#ffddb3\" fill-opacity=\"0.3\" d=\"M112.04 97.83L89.47 84.8a33.1 33.1 0 005.25-9.1l22.57 13.03a5.25 5.25 0 01-5.28 9.1zM88.68 117.35L75.65 94.78a33.1 33.1 0 009.1-5.25l13.02 22.57a5.25 5.25 0 11-9.1 5.25zM58.7 122.57V96.5a33.1 33.1 0 0010.5 0v26.07a5.25 5.25 0 01-10.5 0zM30.1 112.1l13.04-22.57a33.1 33.1 0 009.1 5.25L39.2 117.35a5.25 5.25 0 11-9.1-5.25zM10.6 88.74L33.16 75.7a33.1 33.1 0 005.25 9.1L15.88 97.83a5.25 5.25 0 11-5.25-9.1z\"></path> aka locator('path').nth(1)\n    3) <path fill=\"#ffd29a\" fill-opacity=\"0.4\" d=\"M5.37 58.75h26.06a33.1 33.1 0 000 10.5H5.37a5.25 5.25 0 010-10.5z\"></path> aka locator('path').nth(2)\n    4) <path fill=\"#ffc680\" fill-opacity=\"0.5\" d=\"M15.85 30.17L38.4 43.2a33.1 33.1 0 00-5.24 9.1L10.6 39.25a5.25 5.25 0 115.25-9.1z\"></path> aka locator('path').nth(3)\n    5) <path fill=\"#ffbb67\" fill-opacity=\"0.6\" d=\"M39.2 10.65l13.03 22.57a33.1 33.1 0 00-9.1 5.25l-13-22.57a5.25 5.25 0 119.1-5.25z\"></path> aka locator('path').nth(4)\n    6) <path fill=\"#ffb04d\" fill-opacity=\"0.7\" d=\"M69.2 5.43V31.5a33.1 33.1 0 00-10.5 0V5.42a5.25 5.25 0 1110.5 0z\"></path> aka locator('path').nth(5)\n    7) <path fill=\"#ffa535\" fill-opacity=\"0.8\" d=\"M97.77 15.9L84.75 38.47a33.1 33.1 0 00-9.1-5.25l13.03-22.57a5.25 5.25 0 119.1 5.25z\"></path> aka locator('path:nth-child(7)')\n    8) <path fill=\"#ff991b\" fill-opacity=\"0.9\" d=\"M117.3 39.26L94.7 52.3a33.1 33.1 0 00-5.25-9.1l22.57-13.03a5.25 5.25 0 015.25 9.1z\"></path> aka locator('path:nth-child(8)')\n\nCall log:\n\u001b[2m  - waiting for locator('path')\u001b[22m\n",
+      "finishedAt": "2026-09-02T07:36:21.592Z",
+      "durationMs": 23016
+    },
+    {
+      "stepIndex": 10,
+      "testCaseId": "test-1",
+      "status": "failed",
+      "startedAt": "2026-09-02T07:36:21.593Z",
+      "attempts": 1,
+      "locator": "getByRole(\"link\", { name: \"Cloud & AI Cost Management\", exact: true })",
+      "error": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('link', { name: 'Cloud & AI Cost Management', exact: true })\u001b[22m\n",
+      "finishedAt": "2026-09-02T07:36:54.779Z",
+      "durationMs": 33186
+    }
+  ],
+  "repairedStepIndexes": [
+    5
+  ],
+  "skippedStepIndexes": [
+    5,
+    9
+  ]
+}

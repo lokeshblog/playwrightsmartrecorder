@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://playwright-codegen-smart.dev/schemas/locator-context.schema.json",
+  "title": "Playwright Locator Context",
+  "type": "object",
+  "required": [
+    "version",
+    "capturedAt",
+    "url",
+    "codegenLocator",
+    "target",
+    "ancestors",
+    "siblings",
+    "nearby",
+    "matchingElements",
+    "candidates",
+    "recommended",
+    "alternatives",
+    "rejected"
+  ],
+  "properties": {
+    "version": { "const": "1.0" },
+    "capturedAt": { "type": "string", "format": "date-time" },
+    "url": { "type": "string" },
+    "codegenLocator": {
+      "type": "object",
+      "required": ["type", "value", "expression"],
+      "properties": {
+        "type": { "type": "string" },
+        "value": { "type": "string" },
+        "name": { "type": "string" },
+        "expression": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "target": { "$ref": "#/$defs/element" },
+    "ancestors": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          { "$ref": "#/$defs/element" },
+          {
+            "type": "object",
+            "required": ["depth", "boundary"],
+            "properties": {
+              "depth": { "type": "integer", "minimum": 1 },
+              "boundary": { "type": "boolean" }
+            }
+          }
+        ]
+      }
+    },
+    "siblings": { "type": "array", "items": { "$ref": "#/$defs/element" } },
+    "nearby": { "type": "array", "items": { "$ref": "#/$defs/element" } },
+    "matchingElements": {
+      "type": "object",
+      "required": ["codegenLocatorCount"],
+      "properties": {
+        "codegenLocatorCount": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "candidates": { "type": "array", "items": { "$ref": "#/$defs/candidate" } },
+    "recommended": {
+      "anyOf": [{ "$ref": "#/$defs/candidate" }, { "type": "null" }]
+    },
+    "alternatives": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/candidate" }
+    },
+    "rejected": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["locator", "reason"],
+        "properties": {
+          "locator": { "type": "string" },
+          "reason": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "containerHtml": { "type": "string" },
+    "containerHtmlTruncated": { "type": "boolean" }
+  },
+  "$defs": {
+    "element": {
+      "type": "object",
+      "required": ["tag", "attributes"],
+      "properties": {
+        "tag": { "type": "string" },
+        "childElementCount": { "type": "integer", "minimum": 0 },
+        "text": { "type": "string" },
+        "accessibleName": { "type": "string" },
+        "role": { "type": "string" },
+        "html": { "type": "string" },
+        "attributes": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "required": [
+        "locator",
+        "kind",
+        "score",
+        "matchCount",
+        "confidence",
+        "evidence",
+        "penalties"
+      ],
+      "properties": {
+        "locator": { "type": "string" },
+        "kind": {
+          "enum": [
+            "testId",
+            "applicationAttribute",
+            "role",
+            "label",
+            "id",
+            "placeholder",
+            "text",
+            "css",
+            "xpath",
+            "positional",
+            "scoped"
+          ]
+        },
+        "score": { "type": "number", "minimum": 0, "maximum": 110 },
+        "matchCount": { "type": "integer", "minimum": 0 },
+        "confidence": { "enum": ["high", "medium", "low"] },
+        "evidence": { "type": "array", "items": { "type": "string" } },
+        "penalties": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,7 @@
+node_modules/
+dist/
+coverage/
+.codegen/locator-context.json
+.codegen/scenario-context.json
+.codegen/repair-result.json
+*.log

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.example.invalid/playwright-codegen-smart/replay-report.schema.json",
+  "title": "Playwright Smart Replay Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "scenarioName",
+    "startedAt",
+    "finishedAt",
+    "status",
+    "startUrl",
+    "results",
+    "repairedStepIndexes",
+    "skippedStepIndexes"
+  ],
+  "properties": {
+    "version": { "const": "1.0" },
+    "scenarioName": { "type": "string" },
+    "startedAt": { "type": "string" },
+    "finishedAt": { "type": "string" },
+    "status": { "enum": ["passed", "failed", "aborted"] },
+    "startUrl": { "type": "string" },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "stepIndex",
+          "testCaseId",
+          "status",
+          "attempts",
+          "locator"
+        ],
+        "properties": {
+          "stepIndex": { "type": "integer", "minimum": 1 },
+          "testCaseId": { "type": "string" },
+          "status": {
+            "enum": ["pending", "running", "passed", "failed", "skipped"]
+          },
+          "startedAt": { "type": "string" },
+          "finishedAt": { "type": "string" },
+          "durationMs": { "type": "number", "minimum": 0 },
+          "attempts": { "type": "integer", "minimum": 0 },
+          "locator": { "type": "string" },
+          "error": { "type": "string" }
+        }
+      }
+    },
+    "repairedStepIndexes": {
+      "type": "array",
+      "items": { "type": "integer", "minimum": 1 }
+    },
+    "skippedStepIndexes": {
+      "type": "array",
+      "items": { "type": "integer", "minimum": 1 }
+    }
+  }
+}

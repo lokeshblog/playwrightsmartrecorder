@@ -1,6 +1,7 @@
 node_modules/
 dist/
 coverage/
+.codegen/recordings
 .codegen/locator-context.json
 .codegen/scenario-context.json
 .codegen/repair-result.json

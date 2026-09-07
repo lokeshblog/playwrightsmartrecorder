@@ -1,9 +1,17 @@
 import type { Frame, Page } from "playwright";
+import { createElementPicker } from "../capture/cdp-picker.js";
 import { extractDomContext } from "../context/extract.js";
 import { analyzeContext } from "../locator/analyze.js";
 import { candidateToLocator } from "../locator/candidates.js";
+import { resolvesToActionTarget } from "../locator/identity.js";
+import { suggestLocators } from "../locator/suggest.js";
+import { createRecorderControl, type RecorderControl } from "./control.js";
+import { describeTarget, summarizeTarget } from "./describe.js";
+import { enrichScenario } from "./intent.js";
+import { prettyFormatHtml } from "../ui/format-html.js";
 import type {
   AssertionMatcher,
+  LocatorSuggestion,
   ScenarioAction,
   ScenarioContext,
   ScenarioStep,
@@ -21,15 +29,22 @@ interface RecordResponse {
   stepIndex: number;
   unresolved: boolean;
   suggestions: string[];
+  /** Every locator on offer, annotated, for the manual-locator prompt. */
+  offers?: LocatorSuggestion[];
   /** Human-readable target, shown when asking the user for a locator. */
   description?: string;
+  /** What the element is, so the prompt explains the step it belongs to. */
+  targetFacts?: string[];
   /** Sanitized HTML of the nearest semantic container. */
   containerHtml?: string;
+  containerHtmlTruncated?: boolean;
 }
 
 interface RecordingTestCase {
   id: string;
   name: string;
+  jiraId?: string;
+  zephyrId?: string;
   steps: ScenarioStep[];
 }
 
@@ -44,6 +59,8 @@ interface PanelUpdate {
   message: string;
   steps: StepSummary[];
   activeTestCase: string;
+  jiraId?: string;
+  zephyrId?: string;
 }
 
 /** Panel state owned by Node so it survives page navigations and applies in every frame. */
@@ -92,7 +109,11 @@ export function actionCode(action: ScenarioAction, locator: string): string {
     case "fill":
       return `await ${target}.fill(${JSON.stringify(action.value ?? "")});`;
     case "selectOption":
-      return `await ${target}.selectOption(${JSON.stringify(action.value ?? "")});`;
+      return `await ${target}.selectOption(${
+        action.selectBy === "label"
+          ? `{ label: ${JSON.stringify(action.value ?? "")} }`
+          : JSON.stringify(action.value ?? "")
+      });`;
     case "setInputFiles": {
       const files = (action.value ?? "")
         .split(",")
@@ -145,19 +166,6 @@ function businessStep(action: ScenarioAction, description: string): string {
   }
 }
 
-function describeTarget(
-  context: Awaited<ReturnType<typeof analyzeContext>>,
-): string {
-  const { target } = context;
-  return (
-    target.accessibleName ??
-    target.text?.slice(0, 100) ??
-    target.attributes.id ??
-    target.attributes["data-testid"] ??
-    `<${target.tag}>`
-  );
-}
-
 export async function recordScenario(
   page: Page,
   config: SmartConfig,
@@ -178,6 +186,14 @@ export async function recordScenario(
   let queue = Promise.resolve();
   let lastElementId: string | undefined;
   const eventFrames = new Map<number, { frame: Frame; markerId: string }>();
+  const externalHandlers: {
+    weakLocator?: (
+      frame: Frame,
+      response: RecordResponse,
+      action: ScenarioAction,
+    ) => Promise<void>;
+    syncSettings?: () => void;
+  } = {};
 
   const reindex = (): void => {
     steps.forEach((step, index) => {
@@ -197,6 +213,8 @@ export async function recordScenario(
     message,
     steps: summarize(),
     activeTestCase: activeTestCase.name,
+    ...(activeTestCase.jiraId ? { jiraId: activeTestCase.jiraId } : {}),
+    ...(activeTestCase.zephyrId ? { zephyrId: activeTestCase.zephyrId } : {}),
   });
   const addNavigationStep = (url: string): void => {
     if (!url || url === "about:blank") return;
@@ -251,18 +269,18 @@ export async function recordScenario(
               ? `Context capture failed: ${error.message}`
               : "Context capture failed";
         }
-        const suggestions = locatorContext
-          ? [
-              ...locatorContext.candidates.map(({ locator }) => locator),
-              ...locatorContext.rejected.map(({ locator }) => locator),
-            ].filter((value, index, all) => all.indexOf(value) === index)
+        const offers = locatorContext
+          ? suggestLocators(locatorContext, config)
           : [];
+        const suggestions = offers.map(({ locator }) => locator);
         const fallback =
           locatorContext?.recommended ??
           locatorContext?.candidates.find(
-            ({ matchCount }) => matchCount === 1,
-          ) ??
-          locatorContext?.candidates[0];
+            ({ matchCount, resolvesToTarget }) =>
+              resolvesToTarget !== false &&
+              matchCount > 0 &&
+              (!config.requireUniqueLocator || matchCount === 1),
+          );
         const locator =
           fallback?.locator ??
           `locator("${locatorContext?.target.tag ?? "unknown"}")`;
@@ -275,10 +293,26 @@ export async function recordScenario(
         const describe = locatorContext
           ? describeTarget(locatorContext)
           : locator;
-        const hints: Pick<RecordResponse, "description" | "containerHtml"> = {
+        const facts = locatorContext ? summarizeTarget(locatorContext) : [];
+        const targetSummary = facts.join(" · ");
+        const hints: Pick<
+          RecordResponse,
+          | "description"
+          | "offers"
+          | "targetFacts"
+          | "containerHtml"
+          | "containerHtmlTruncated"
+        > = {
           description: describe,
+          offers,
+          targetFacts: facts,
           ...(locatorContext?.containerHtml
             ? { containerHtml: locatorContext.containerHtml }
+            : {}),
+          ...(locatorContext?.containerHtmlTruncated !== undefined
+            ? {
+                containerHtmlTruncated: locatorContext.containerHtmlTruncated,
+              }
             : {}),
         };
         const previous = steps.at(-1);
@@ -293,6 +327,8 @@ export async function recordScenario(
           previous.code = actionCode(event.action, locator);
           previous.confidence = fallback?.confidence ?? "unresolved";
           previous.timestamp = new Date().toISOString();
+          previous.suggestions = suggestions;
+          if (targetSummary) previous.targetSummary = targetSummary;
           previous.businessStep = businessStep(event.action, describe);
           response = {
             stepIndex: previous.index,
@@ -313,6 +349,7 @@ export async function recordScenario(
           confidence: fallback?.confidence ?? "unresolved",
           ...(warning ? { warning } : {}),
           suggestions,
+          ...(targetSummary ? { targetSummary } : {}),
           testCaseId: activeTestCase.id,
           businessStep: businessStep(event.action, describe),
         };
@@ -329,7 +366,10 @@ export async function recordScenario(
         };
       });
       queue = processing;
-      return processing.then(() => response);
+      return processing.then(async () => {
+        await externalHandlers.weakLocator?.(frame, response, event.action);
+        return response;
+      });
     },
   );
 
@@ -355,6 +395,18 @@ export async function recordScenario(
           return {
             accepted: false,
             message: `Locator matched ${count} elements; exactly one is required`,
+          };
+        const resolvesToTarget = await candidateToLocator(
+          source.frame,
+          expression,
+        ).evaluateAll(
+          resolvesToActionTarget,
+          `[${actionMarker}="${source.markerId}"]`,
+        );
+        if (!resolvesToTarget)
+          return {
+            accepted: false,
+            message: "Locator matched a different element",
           };
         step.locator = expression;
         step.code = actionCode(step.action, expression);
@@ -393,6 +445,7 @@ export async function recordScenario(
     "__pwCodegenSmartSettings",
     (_source, patch: unknown) => {
       Object.assign(settings, (patch ?? {}) as Partial<RecorderSettings>);
+      externalHandlers.syncSettings?.();
       return settings;
     },
   );
@@ -475,11 +528,13 @@ export async function recordScenario(
     const applySettings = (next: RecorderSettings): void => {
       mode = next.mode;
       negateAssertion = next.negate;
-      askOnWeakLocator = next.ask;
+      // Weak-locator prompts are rendered in the external controller.
+      askOnWeakLocator = false;
       recorderActive = next.active;
       renderMode?.(next.mode);
       renderToggles?.(next.negate, next.ask);
     };
+    state.__pwCodegenSmartApplySettings = applySettings;
     const pullSettings = (): void => {
       void settingsBinding?.({}).then(applySettings);
     };
@@ -855,6 +910,32 @@ export async function recordScenario(
       }
       return null;
     };
+    const controls =
+      'button,a,input,[role="button"],[role="link"],[role="checkbox"],[role="menuitem"],[role="menuitemcheckbox"],[role="option"],[role="tab"]';
+    const ownText = (node: Element): string =>
+      (node.textContent ?? "").replace(/\s+/g, " ").trim();
+    // A control carries the text of one thing; a paragraph of it is a wrapper.
+    const oversized = (node: Element): boolean => ownText(node).length > 120;
+    /**
+     * Menus and panels are frequently rendered inside the control that opens
+     * them, so the nearest control can own an entire menu. Such a wrapper is
+     * never the thing that was clicked: keep the widest item under it instead,
+     * which is the row or card the pointer landed on.
+     */
+    const clicked = (origin: Element): Element => {
+      const control = origin.closest(controls);
+      if (!control || control === origin) return control ?? origin;
+      if (!oversized(control) && !control.querySelector(controls))
+        return control;
+      let item = origin;
+      for (
+        let node: Element | null = origin;
+        node && node !== control;
+        node = node.parentElement
+      )
+        if (ownText(node) && !oversized(node)) item = node;
+      return item;
+    };
 
     document.addEventListener(
       "click",
@@ -863,10 +944,7 @@ export async function recordScenario(
         if (!(origin instanceof Element)) return;
         flushAllFills();
         if (origin.closest("[data-pw-codegen-smart-controls]")) return;
-        const target =
-          origin.closest(
-            'button,a,input,[role="button"],[role="link"],[role="checkbox"]',
-          ) ?? origin;
+        const target = clicked(origin);
         if (target.hasAttribute("data-pw-codegen-smart-replay")) {
           target.removeAttribute("data-pw-codegen-smart-replay");
           return;
@@ -959,9 +1037,16 @@ export async function recordScenario(
             type: "setInputFiles",
             value: [...(target.files ?? [])].map(({ name }) => name).join(","),
           });
-        else if (target instanceof HTMLSelectElement)
-          void send(target, { type: "selectOption", value: target.value });
-        else if (["checkbox", "radio"].includes(target.type))
+        else if (target instanceof HTMLSelectElement) {
+          const selected = target.selectedOptions[0];
+          const label = (selected?.label || selected?.textContent || "").trim();
+          const byLabel = Boolean(label && label !== target.value);
+          void send(target, {
+            type: "selectOption",
+            value: byLabel ? label : target.value,
+            selectBy: byLabel ? "label" : "value",
+          });
+        } else if (["checkbox", "radio"].includes(target.type))
           void send(target, { type: target.checked ? "check" : "uncheck" });
       },
       true,
@@ -1002,7 +1087,10 @@ export async function recordScenario(
       true,
     );
 
-    if (window.top === window) {
+    if (
+      window.top === window &&
+      state.__pwCodegenSmartEmbeddedControls === true
+    ) {
       const addControls = (): void => {
         if (
           !recorderActive ||
@@ -1244,7 +1332,344 @@ export async function recordScenario(
 
   await page.addInitScript(installRecorder);
   for (const frame of page.frames()) await frame.evaluate(installRecorder);
+  const pickerStatus: { report: (message: string) => void } = {
+    report: () => undefined,
+  };
+  const picker = await createElementPicker(page, {
+    onStatus: (message) => pickerStatus.report(message),
+  });
+  let pickLoop: Promise<void> | undefined;
+  const applySettingsInFrames = async (): Promise<void> => {
+    await Promise.all(
+      page.frames().map((frame) =>
+        frame
+          .evaluate((next) => {
+            const apply = (
+              window as unknown as Record<
+                string,
+                (value: RecorderSettings) => void
+              >
+            ).__pwCodegenSmartApplySettings;
+            apply?.(next);
+          }, settings)
+          .catch(() => undefined),
+      ),
+    );
+  };
+  const noValueMatchers: AssertionMatcher[] = [
+    "toBeAttached",
+    "toBeVisible",
+    "toBeHidden",
+    "toBeEnabled",
+    "toBeDisabled",
+    "toBeEditable",
+    "toBeEmpty",
+    "toBeFocused",
+    "toBeChecked",
+    "toBeInViewport",
+    "toHaveScreenshot",
+  ];
+  const actionForPick = async (
+    selectedMode: string,
+    target: Awaited<ReturnType<typeof picker.pick>> & {},
+  ): Promise<ScenarioAction | null> => {
+    if (selectedMode === "forceClick") return { type: "click", force: true };
+    if (selectedMode === "doubleClick") return { type: "doubleClick" };
+    if (selectedMode === "hover") return { type: "hover" };
+    if (selectedMode === "check") return { type: "check" };
+    if (selectedMode === "uncheck") return { type: "uncheck" };
+    if (selectedMode === "press") {
+      const key = await control.prompt({
+        title: "Record a key press",
+        message: "Which key should the test press on this element?",
+        label: "Key",
+        value: "Enter",
+        confirmLabel: "Record press",
+      });
+      return key === null ? null : { type: "press", value: key || "Enter" };
+    }
+    if (!selectedMode.startsWith("assert:")) return null;
+    const matcher = selectedMode.slice("assert:".length) as AssertionMatcher;
+    if (noValueMatchers.includes(matcher))
+      return {
+        type: "assert",
+        assertion: { matcher, negated: settings.negate },
+      };
+    let attribute: string | undefined;
+    if (
+      ["toHaveAttribute", "toHaveCSS", "toHaveJSProperty"].includes(matcher)
+    ) {
+      attribute =
+        (await control.prompt({
+          title: `expect.${matcher}`,
+          message: "Which property should be asserted?",
+          label: "Property name",
+          value: matcher === "toHaveCSS" ? "display" : "aria-label",
+          confirmLabel: "Next",
+        })) ?? "";
+    }
+    const defaultValue = await target.locator.evaluate(
+      (element, options) => {
+        if (options.matcher === "toHaveCount") return "1";
+        if (
+          options.matcher === "toHaveValue" &&
+          (element instanceof HTMLInputElement ||
+            element instanceof HTMLTextAreaElement ||
+            element instanceof HTMLSelectElement)
+        )
+          return element.value;
+        if (options.matcher === "toHaveId") return element.id;
+        if (options.matcher === "toHaveClass")
+          return element.getAttribute("class") ?? "";
+        if (options.matcher === "toHaveRole")
+          return element.getAttribute("role") ?? "";
+        if (options.matcher === "toHaveAccessibleName")
+          return element.getAttribute("aria-label") ?? "";
+        if (options.matcher === "toHaveAttribute")
+          return element.getAttribute(options.attribute ?? "") ?? "";
+        if (options.matcher === "toHaveCSS")
+          return getComputedStyle(element).getPropertyValue(
+            options.attribute ?? "",
+          );
+        if (options.matcher === "toHaveJSProperty") {
+          const value = (element as unknown as Record<string, unknown>)[
+            options.attribute ?? ""
+          ];
+          return typeof value === "string"
+            ? value
+            : (JSON.stringify(value) ?? "");
+        }
+        return element.textContent?.trim() ?? "";
+      },
+      { matcher, attribute },
+    );
+    const entered = await control.prompt({
+      title: `expect.${matcher}`,
+      label:
+        matcher === "toHaveValues"
+          ? "Expected values (comma separated)"
+          : "Expected value",
+      value: defaultValue,
+    });
+    if (entered === null) return null;
+    return {
+      type: "assert",
+      assertion: {
+        matcher,
+        expected:
+          matcher === "toHaveCount"
+            ? Number(entered)
+            : matcher === "toHaveValues"
+              ? entered.split(",").map((value) => value.trim())
+              : entered,
+        ...(attribute !== undefined ? { attribute } : {}),
+        negated: settings.negate,
+      },
+    };
+  };
+  const requestManualLocator = async (
+    source: Frame,
+    response: RecordResponse,
+    action: ScenarioAction,
+  ): Promise<void> => {
+    if (!settings.ask || !response.unresolved || response.stepIndex === 0)
+      return;
+    let error: string | undefined;
+    for (;;) {
+      const entered = await control.prompt({
+        title: "This locator needs your help",
+        message: `${action.type} on ${response.description ?? "the selected element"} — pick a suggestion and edit it, or type your own.`,
+        label: "Playwright locator",
+        value: response.suggestions[0] ?? "",
+        suggestions: response.offers ?? [],
+        context: response.targetFacts ?? [],
+        ...(response.containerHtml
+          ? {
+              details: response.containerHtml,
+              detailsTruncated: response.containerHtmlTruncated ?? false,
+            }
+          : {}),
+        ...(error ? { error } : {}),
+        confirmLabel: "Use locator",
+        cancelLabel: "Keep unresolved",
+      });
+      if (!entered) return;
+      const result = await source.evaluate(
+        (payload) =>
+          (
+            window as unknown as Record<
+              string,
+              (value: unknown) => Promise<{
+                accepted: boolean;
+                message: string;
+              }>
+            >
+          ).__pwCodegenSmartManualLocator?.(payload),
+        { stepIndex: response.stepIndex, locator: entered },
+      );
+      if (result?.accepted) return;
+      error = result?.message ?? "Invalid locator";
+    }
+  };
+  externalHandlers.weakLocator = requestManualLocator;
+  const recordPick = async (selectedMode: string): Promise<void> => {
+    const picked = await picker.pick();
+    if (!picked) return;
+    try {
+      const action = await actionForPick(selectedMode, picked);
+      if (!action) return;
+      await picked.locator.evaluate(
+        (element, value) =>
+          element.setAttribute("data-pw-codegen-smart-action", value),
+        picked.markerId,
+      );
+      await picked.frame.evaluate(
+        (payload) =>
+          (
+            window as unknown as Record<
+              string,
+              (value: unknown) => Promise<RecordResponse>
+            >
+          ).__pwCodegenSmartRecord?.(payload),
+        { id: picked.markerId, action },
+      );
+    } finally {
+      await picked.release();
+    }
+  };
+  const runPickLoop = async (selectedMode: string): Promise<void> => {
+    while (
+      settings.active &&
+      settings.mode === selectedMode &&
+      selectedMode !== "auto"
+    ) {
+      try {
+        await recordPick(selectedMode);
+      } catch (error) {
+        if (
+          settings.active &&
+          settings.mode === selectedMode &&
+          !(error instanceof Error && /cancel/i.test(error.message))
+        )
+          warnings.push(`Element picker: ${String(error)}`);
+      }
+    }
+  };
+  const control: RecorderControl = await createRecorderControl(
+    page,
+    {
+      settings: async (patch) => {
+        const previousMode = settings.mode;
+        Object.assign(settings, patch);
+        if (
+          patch.mode !== undefined &&
+          (patch.mode === "auto" || patch.mode !== previousMode)
+        )
+          await picker.cancel();
+        await applySettingsInFrames();
+        return settings;
+      },
+      refresh: async () => {
+        await queue;
+        return panelUpdate("");
+      },
+      pick: async (selectedMode) => {
+        if (pickLoop) return;
+        pickLoop = runPickLoop(selectedMode).finally(() => {
+          pickLoop = undefined;
+        });
+        await pickLoop;
+      },
+      newTest: async () => {
+        await queue;
+        const number = testCases.length + 1;
+        activeTestCase = {
+          id: `test-${number}`,
+          name: `Test ${number}`,
+          steps: [],
+        };
+        testCases.push(activeTestCase);
+        lastElementId = undefined;
+        options.onTestCase?.(activeTestCase.name);
+        return panelUpdate(`Recording ${activeTestCase.name}`);
+      },
+      deleteLine: async () => {
+        await queue;
+        const removed = activeTestCase.steps.at(-1);
+        if (!removed) return panelUpdate("No line to delete");
+        removeStep(removed);
+        return panelUpdate(`Deleted: ${removed.businessStep}`);
+      },
+      deleteTest: async () => {
+        await queue;
+        if (testCases.length === 1) {
+          for (const step of [...activeTestCase.steps]) removeStep(step);
+          return panelUpdate(`Cleared ${activeTestCase.name}`);
+        }
+        const removed = activeTestCase;
+        for (const step of [...removed.steps]) removeStep(step);
+        testCases.splice(testCases.indexOf(removed), 1);
+        activeTestCase = testCases.at(-1)!;
+        options.onTestCase?.(activeTestCase.name);
+        return panelUpdate(
+          `Deleted ${removed.name}; recording ${activeTestCase.name}`,
+        );
+      },
+      deleteStep: async (index) => {
+        await queue;
+        const step = steps.find((candidate) => candidate.index === index);
+        if (!step) return panelUpdate("Step not found");
+        removeStep(step);
+        return panelUpdate(`Deleted step ${String(index)}`);
+      },
+      testMetadata: (patch) => {
+        const jiraId = patch.jiraId?.trim();
+        const zephyrId = patch.zephyrId?.trim();
+        if (jiraId) activeTestCase.jiraId = jiraId;
+        else delete activeTestCase.jiraId;
+        if (zephyrId) activeTestCase.zephyrId = zephyrId;
+        else delete activeTestCase.zephyrId;
+        return panelUpdate(`Updated metadata for ${activeTestCase.name}`);
+      },
+      stop: () => {
+        settings.active = false;
+        void picker.cancel();
+        resolveStop?.();
+      },
+      onClose: () => {
+        settings.active = false;
+        void picker.cancel();
+        resolveStop?.();
+      },
+    },
+    {
+      prettyHtml: prettyFormatHtml,
+    },
+  );
+  await control.setSettings({
+    mode: settings.mode,
+    negate: settings.negate,
+    ask: settings.ask,
+  });
+  pickerStatus.report = (message) => {
+    void control.setStatus(message);
+  };
+  externalHandlers.syncSettings = () => {
+    void control.setSettings({
+      mode: settings.mode,
+      negate: settings.negate,
+      ask: settings.ask,
+    });
+  };
+  await control.setCapability(
+    picker.capabilities.freezeScripts && picker.capabilities.inspectMode
+      ? "True application freeze is available."
+      : "True freeze unavailable; the in-page picker fallback will be used.",
+    picker.capabilities.freezeScripts && picker.capabilities.inspectMode,
+  );
   await stopped;
+  await picker.cancel();
+  await pickLoop?.catch(() => undefined);
   await queue;
   for (const frame of page.frames()) {
     await frame
@@ -1261,22 +1686,29 @@ export async function recordScenario(
       })
       .catch(() => undefined);
   }
-  return {
+  await picker.clearMarkers();
+  await picker.dispose();
+  await control.close();
+  return enrichScenario({
     version: "1.0",
     name: options.name ?? "Recorded Playwright scenario",
     capturedAt,
     startUrl,
     endUrl: page.url(),
     steps,
-    testCases: testCases.map(({ id, name, steps: testSteps }) => ({
-      id,
-      name,
-      stepIndexes: testSteps.map(({ index }) => index),
-    })),
+    testCases: testCases.map(
+      ({ id, name, jiraId, zephyrId, steps: testSteps }) => ({
+        id,
+        name,
+        ...(jiraId ? { jiraId } : {}),
+        ...(zephyrId ? { zephyrId } : {}),
+        stepIndexes: testSteps.map(({ index }) => index),
+      }),
+    ),
     generatedCode: testCases.flatMap(({ name, steps: testSteps }) => [
       `// ${name}`,
       ...testSteps.map(({ code }) => code),
     ]),
     warnings,
-  };
+  });
 }

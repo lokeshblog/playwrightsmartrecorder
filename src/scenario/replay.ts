@@ -267,9 +267,14 @@ async function executeStep(
         );
       await locator.fill(action.value ?? "", { timeout: timeoutMs });
       break;
-    case "selectOption":
-      await locator.selectOption(action.value ?? "", { timeout: timeoutMs });
+    case "selectOption": {
+      const option = action.value ?? "";
+      await locator.selectOption(
+        action.selectBy === "label" ? { label: option } : option,
+        { timeout: timeoutMs },
+      );
       break;
+    }
     case "setInputFiles":
       if (runtimeValue === undefined)
         throw new Error(

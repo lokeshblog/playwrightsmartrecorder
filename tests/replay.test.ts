@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { chromium, type Browser } from "playwright";
+import { chromium, type Browser, type Page } from "playwright";
 import {
   DEFAULT_REPLAY_TIMEOUT_MS,
   defaultConfig,
@@ -20,6 +20,29 @@ beforeAll(async () => {
 afterAll(async () => {
   await browser.close();
 });
+
+async function recorderControl(application: Page): Promise<Page> {
+  let found: Page | undefined;
+  await expect
+    .poll(async () => {
+      for (const candidate of application.context().pages()) {
+        if (
+          candidate !== application &&
+          !candidate.isClosed() &&
+          (await candidate
+            .locator("[data-pw-codegen-smart-controls]")
+            .count()
+            .catch(() => 0))
+        ) {
+          found = candidate;
+          return true;
+        }
+      }
+      return false;
+    })
+    .toBe(true);
+  return found!;
+}
 
 function step(
   index: number,
@@ -110,6 +133,31 @@ describe("scenario replay", () => {
       "passed",
     ]);
     expect(replayReportSchema.parse(result.report)).toEqual(result.report);
+    await page.close();
+  });
+
+  it("replays a native select by its visible label", async () => {
+    const page = await browser.newPage();
+    await page.setContent(
+      '<label for="country">Country</label><select id="country"><option value="us-id">United States</option><option value="ca-id">Canada</option></select>',
+    );
+    const result = await replayScenario(
+      page,
+      scenario([
+        step(1, {
+          action: {
+            type: "selectOption",
+            value: "Canada",
+            selectBy: "label",
+          },
+          locator: 'getByLabel("Country", { exact: true })',
+          businessStep: "Select Canada from Country",
+        }),
+      ]),
+      { timeoutMs: 1_000 },
+    );
+    expect(result.report.status).toBe("passed");
+    expect(await page.getByLabel("Country").inputValue()).toBe("ca-id");
     await page.close();
   });
 
@@ -416,8 +464,9 @@ describe("scenario replay", () => {
       smartConfigSchema.parse(defaultConfig),
       { name: "Checkout" },
     );
-    const recorder = page.locator("[data-pw-codegen-smart-controls]");
-    await recorder.waitFor();
+    const recorder = (await recorderControl(page)).locator(
+      "[data-pw-codegen-smart-controls]",
+    );
     await page.getByRole("button", { name: "Checkout" }).click();
     await recorder.locator("[data-stop]").click();
     const captured = await recorded;

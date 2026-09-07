@@ -11,6 +11,8 @@ export function scenarioToCsv(scenario: ScenarioContext): string {
   const rows: CsvValue[][] = [
     [
       "Test Case",
+      "Jira ID",
+      "Zephyr ID",
       "Step",
       "Business Step",
       "Action",
@@ -19,6 +21,10 @@ export function scenarioToCsv(scenario: ScenarioContext): string {
       "Confidence",
       "Page URL",
       "Playwright Code",
+      // A weak locator is only repairable with the element it came from.
+      "Element Context",
+      "Warning",
+      "Locator Options",
     ],
   ];
   for (const testCase of scenario.testCases) {
@@ -27,6 +33,8 @@ export function scenarioToCsv(scenario: ScenarioContext): string {
       .forEach((step, index) => {
         rows.push([
           testCase.name,
+          testCase.jiraId,
+          testCase.zephyrId,
           index + 1,
           step.businessStep,
           step.action.type === "assert"
@@ -39,6 +47,9 @@ export function scenarioToCsv(scenario: ScenarioContext): string {
           step.confidence,
           step.pageUrl,
           step.code,
+          step.targetSummary,
+          step.warning,
+          step.suggestions.join(" | "),
         ]);
       });
   }

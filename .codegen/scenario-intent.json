@@ -1,0 +1,474 @@
+{
+  "version": "1.0",
+  "name": "Checkout",
+  "startUrl": "https://qa.harness.io/#/",
+  "endUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+  "productHints": {
+    "navModules": [
+      "ce"
+    ],
+    "pageHeadings": [
+      "or login with",
+      "Work more productively",
+      "All Budgets"
+    ],
+    "features": [
+      "budgets"
+    ]
+  },
+  "testCases": [
+    {
+      "id": "test-1",
+      "name": "Test 1",
+      "jiraId": "QPE-1234",
+      "steps": [
+        {
+          "index": 1,
+          "startUrl": "https://qa.harness.io/#/",
+          "urlAfter": "https://qa.harness.io/auth/",
+          "intent": "Navigate to https://qa.harness.io/#/",
+          "action": "navigate",
+          "value": "https://qa.harness.io/#/",
+          "productHints": {},
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 2,
+          "startUrl": "https://qa.harness.io/auth/",
+          "urlAfter": "https://qa.harness.io/auth/#/",
+          "intent": "Navigate to https://qa.harness.io/auth/",
+          "action": "navigate",
+          "value": "https://qa.harness.io/auth/",
+          "productHints": {},
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 3,
+          "startUrl": "https://qa.harness.io/auth/#/",
+          "urlAfter": "https://qa.harness.io/auth/#/signin",
+          "intent": "Navigate to https://qa.harness.io/auth/#/",
+          "action": "navigate",
+          "value": "https://qa.harness.io/auth/#/",
+          "productHints": {},
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 4,
+          "startUrl": "https://qa.harness.io/auth/#/signin",
+          "urlAfter": "https://qa.harness.io/auth/#/signin",
+          "intent": "Navigate to https://qa.harness.io/auth/#/signin",
+          "action": "navigate",
+          "value": "https://qa.harness.io/auth/#/signin",
+          "productHints": {},
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 5,
+          "startUrl": "https://qa.harness.io/auth/#/signin",
+          "urlAfter": "https://qa.harness.io/auth/#/signin",
+          "intent": "Enter \"ccm_playwright@harnessioteam.testinator.com\" in email@work.com",
+          "action": "fill",
+          "value": "ccm_playwright@harnessioteam.testinator.com",
+          "locatorHint": {
+            "role": "textbox",
+            "name": "email@work.com"
+          },
+          "productHints": {
+            "pageHeading": "or login with"
+          },
+          "skipInTest": true,
+          "confidence": "high",
+          "context": "element: <input name=\"email\"> · role: textbox · name: \"email@work.com\" · type: \"email\" · placeholder: \"email@work.com\" · path: <form> > <div> > <input name=\"email\"> · inside: <div> \"Email\" (1 level up) · near: \"Email\" (label), \"[REDACTED]\" (label), \"[REDACTED]\" (semantic)"
+        },
+        {
+          "index": 6,
+          "startUrl": "https://qa.harness.io/auth/#/signin",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ",
+          "intent": "Enter a protected value in [REDACTED]",
+          "action": "fill",
+          "value": "[REDACTED]",
+          "locatorHint": {
+            "role": "textbox",
+            "name": "[REDACTED]"
+          },
+          "productHints": {
+            "pageHeading": "or login with"
+          },
+          "skipInTest": true,
+          "confidence": "low",
+          "context": "element: <input name=\"[REDACTED]\"> · role: textbox · name: \"[REDACTED]\" · type: \"[REDACTED]\" · class: \"_pwdInput_1mkr8_34\" · path: <form> > <div> > <div> > <div> > <input name=\"[REDACTED]\"> · near: \"Email\" (label), \"email@work.com\" (control), \"[REDACTED]\" (label)"
+        },
+        {
+          "index": 7,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/main-dashboard",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ",
+          "productHints": {},
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 8,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/main-dashboard",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/main-dashboard",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/main-dashboard",
+          "productHints": {},
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 9,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
+          "productHints": {},
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 10,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
+          "intent": "Click <svg>",
+          "action": "click",
+          "locatorHint": {
+            "expression": "locator(\"svg\")"
+          },
+          "productHints": {
+            "pageHeading": "Work more productively"
+          },
+          "skipInTest": false,
+          "confidence": "unresolved",
+          "context": "element: <svg> · path: <span> > <span> > <span> > <div> > <span> > <svg>"
+        },
+        {
+          "index": 11,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
+          "intent": "Click <div>",
+          "action": "click",
+          "locatorHint": {
+            "expression": "locator(\"div\")"
+          },
+          "productHints": {
+            "pageHeading": "Work more productively"
+          },
+          "skipInTest": false,
+          "confidence": "unresolved",
+          "context": "element: <div> · class: \"StyledProps--font StyledProps--main oYY21D StyledProps--flex StyledProps--flex-justifyContent-center\" · path: <div> > <span> > <span> > <span> > <span> > <div>"
+        },
+        {
+          "index": 12,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
+          "intent": "Click Cloud & AI Cost Management",
+          "action": "click",
+          "locatorHint": {
+            "role": "link",
+            "name": "Cloud & AI Cost Management"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "pageHeading": "Work more productively"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <a id=\"mode-card-link\"> · role: link · name: \"Cloud & AI Cost Management\" · href: \"/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce?noscope=true\" · class: \"_eiaVo Qkpzbe\" · path: <div id=\"mode-selector-panel\"> > <div> > <div> > <span> > <span> > <a id=\"mode-card-link\">"
+        },
+        {
+          "index": 13,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
+          "intent": "Click id=\"mode-selector-panel\"",
+          "action": "click",
+          "locatorHint": {
+            "expression": "locator(\"#mode-selector-panel\")"
+          },
+          "productHints": {
+            "navModule": "ce"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <div id=\"mode-selector-panel\"> · class: \"StyledProps--font StyledProps--main GVAp_b bp3-popover-dismiss\" · path: <div> > <div> > <div> > <div> > <div> > <div id=\"mode-selector-panel\">"
+        },
+        {
+          "index": 14,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
+          "productHints": {
+            "navModule": "ce"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 15,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "intent": "Click Budgets",
+          "action": "click",
+          "locatorHint": {
+            "role": "link",
+            "name": "Budgets"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "budgets"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <a> · role: link · name: \"Budgets\" · href: \"/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets\" · class: \"vYVFb8\" · path: <div> > <div id=\"main-side-nav\"> > <div> > <div> > <div> > <a> · near: \"Overview\" (semantic), \"Cost Explorer\" (semantic), \"Cost Categories\" (semantic)"
+        },
+        {
+          "index": 16,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "budgets"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 17,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "intent": "Click New Budget",
+          "action": "click",
+          "locatorHint": {
+            "role": "button",
+            "name": "New Budget"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "budgets",
+            "pageHeading": "All Budgets"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <button> · role: button · name: \"New Budget\" · text: \"plusNew Budget\" · type: \"button\" · path: <div data-testid=\"page-subheader\"> > <button> · near: \"Search\" (control), \"Add Filter\" (control), \"Save\" (control)"
+        },
+        {
+          "index": 18,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "intent": "Force click - Select -",
+          "action": "click",
+          "locatorHint": {
+            "role": "textbox",
+            "name": "- Select -"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "budgets",
+            "pageHeading": "All Budgets"
+          },
+          "skipInTest": false,
+          "confidence": "medium",
+          "context": "element: <input name=\"perspective\"> · role: textbox · name: \"- Select -\" · type: \"text\" · placeholder: \"- Select -\" · class: \"bp3-input\" · path: <div> > <div> > <div> > <div> > <div> > <input name=\"perspective\"> · inside: <div> \"chevron-down\" (1 level up) · near: \"Select View\" (label), \"Budget Name\" (label), \"Specify name\" (control)"
+        },
+        {
+          "index": 19,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "intent": "Click GCP",
+          "action": "click",
+          "locatorHint": {
+            "name": "GCP",
+            "expression": "locator(\"li\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "budgets",
+            "pageHeading": "All Budgets"
+          },
+          "skipInTest": false,
+          "confidence": "unresolved",
+          "context": "element: <li> · name: \"GCP\" · class: \"Select--menuItem\" · path: <ul> > <li>"
+        },
+        {
+          "index": 20,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "intent": "Click GCP",
+          "action": "click",
+          "locatorHint": {
+            "name": "GCP",
+            "expression": "getByText(\"GCP\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "budgets",
+            "pageHeading": "All Budgets"
+          },
+          "skipInTest": false,
+          "confidence": "medium",
+          "context": "element: <p> · name: \"GCP\" · class: \"StyledProps--font Text--lineclamp StyledProps--main Select--menuItemLabel\" · path: <ul> > <li> > <p>"
+        },
+        {
+          "index": 21,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "intent": "Enter \"sadfgfhgjh\" in Specify name",
+          "action": "fill",
+          "value": "sadfgfhgjh",
+          "locatorHint": {
+            "role": "textbox",
+            "name": "Specify name"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "budgets",
+            "pageHeading": "All Budgets"
+          },
+          "skipInTest": false,
+          "valueKind": {
+            "unique": false,
+            "createsResource": false
+          },
+          "confidence": "high",
+          "context": "element: <input name=\"budgetName\"> · role: textbox · name: \"Specify name\" · type: \"text\" · placeholder: \"Specify name\" · class: \"bp3-input\" · path: <div> > <div> > <div> > <div> > <div> > <input name=\"budgetName\"> · inside: <div> \"Budget Name\" (3 levels up) · near: \"Select View\" (label), \"- Select -\" (control), \"Budget Name\" (label)"
+        },
+        {
+          "index": 22,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "intent": "Click Continue",
+          "action": "click",
+          "locatorHint": {
+            "role": "button",
+            "name": "Continue"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "budgets",
+            "pageHeading": "All Budgets"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <button> · role: button · name: \"Continue\" · text: \"Continuechevron-right\" · type: \"submit\" · path: <form> > <div> > <div> > <div> > <button> · near: \"Select View\" (label), \"- Select -\" (control), \"Budget Name\" (label)"
+        },
+        {
+          "index": 23,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "intent": "Enter \"10\" in name=\"budgetAmount\"",
+          "action": "fill",
+          "value": "10",
+          "locatorHint": {
+            "role": "textbox",
+            "expression": "locator(\"input[name=\\\"budgetAmount\\\"]\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "budgets",
+            "pageHeading": "All Budgets"
+          },
+          "skipInTest": false,
+          "confidence": "medium",
+          "context": "element: <input name=\"budgetAmount\"> · role: textbox · type: \"number\" · class: \"bp3-input\" · path: <div> > <div> > <div> > <div> > <div> > <input name=\"budgetAmount\"> · inside: <div> \"Specify amount ($)\" (3 levels up) · near: \"Budget Period\" (label), \"- Select -\" (control), \"MM/DD/YYYY\" (control)"
+        },
+        {
+          "index": 24,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "intent": "Click Last period's spend",
+          "action": "click",
+          "locatorHint": {
+            "name": "Last period's spend",
+            "expression": "locator(\"li\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "budgets",
+            "pageHeading": "All Budgets"
+          },
+          "skipInTest": false,
+          "confidence": "unresolved",
+          "context": "element: <li> · name: \"Last period's spend\" · class: \"Select--menuItem\" · path: <ul> > <li>"
+        },
+        {
+          "index": 25,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "intent": "Click Total cost last period$600.82Projected cost end of this period$570.27",
+          "action": "click",
+          "locatorHint": {
+            "expression": "locator(\"div\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "budgets",
+            "pageHeading": "All Budgets"
+          },
+          "skipInTest": false,
+          "confidence": "unresolved",
+          "context": "element: <div> · text: \"Total cost last period$600.82Projected cost end of this period$570.27\" · class: \"StyledProps--font StyledProps--main StyledProps--padding-left-medium\" · path: <form> > <div> > <div> > <div> > <div> · near: \"Budget Period\" (label), \"- Select -\" (control), \"MM/DD/YYYY\" (control)"
+        },
+        {
+          "index": 26,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "intent": "Click Continue",
+          "action": "click",
+          "locatorHint": {
+            "role": "button",
+            "name": "Continue"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "budgets",
+            "pageHeading": "All Budgets"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <button> · role: button · name: \"Continue\" · text: \"Continuechevron-right\" · type: \"submit\" · path: <form> > <div> > <div> > <div> > <button> · near: \"Budget Period\" (label), \"- Select -\" (control), \"MM/DD/YYYY\" (control)"
+        },
+        {
+          "index": 27,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "intent": "Click Save",
+          "action": "click",
+          "locatorHint": {
+            "role": "button",
+            "name": "Save"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "budgets",
+            "pageHeading": "All Budgets"
+          },
+          "skipInTest": false,
+          "confidence": "medium",
+          "context": "element: <button> · role: button · name: \"Save\" · text: \"Savechevron-right\" · type: \"button\" · path: <form> > <div> > <div> > <div> > <button> · near: \"Add new alert\" (control), \"Previous\" (control)"
+        }
+      ]
+    }
+  ],
+  "unresolvedStepIndexes": [
+    6,
+    10,
+    11,
+    19,
+    24,
+    25
+  ]
+}

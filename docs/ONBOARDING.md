@@ -16,11 +16,11 @@ that verified evidence to a repository-specific Cursor skill for conversion.
 
 Three phases, three artifacts:
 
-| Phase   | Command               | Produces                                        |
-| ------- | --------------------- | ----------------------------------------------- |
-| Record  | `capture` / `session` | `scenario-context.json`, `scenario-context.csv` |
-| Replay  | `session` / `replay`  | `replay-report.json`                            |
-| Convert | Cursor skill          | Repository-standard test code                   |
+| Phase   | Command               | Produces                                  |
+| ------- | --------------------- | ----------------------------------------- |
+| Record  | `capture` / `session` | detailed context, compact intent, and CSV |
+| Replay  | `session` / `replay`  | `replay-report.json`                      |
+| Convert | Cursor skill          | Repository-standard test code             |
 
 ## 2. Architecture
 
@@ -39,13 +39,20 @@ participates in locator scoring.
 | `src/config/schema.ts`              | Zod schemas and `defaultConfig`                                                        |
 | `src/config/load.ts`                | Repository-root discovery, `init` scaffolding                                          |
 | `src/capture/capture.ts`            | Browser lifecycle (`withPage`), single-element picker                                  |
+| `src/capture/cdp-picker.ts`         | Chromium application freeze and CDP element inspection                                 |
 | `src/context/extract.ts`            | In-page DOM walk: target, ancestors, siblings, nearby, container HTML, redaction       |
 | `src/locator/candidates.ts`         | Candidate generation; `candidateToLocator` parses an expression into a live `Locator`  |
 | `src/locator/score.ts`              | Deterministic scoring with evidence and penalties                                      |
 | `src/locator/analyze.ts`            | Live match counting plus identity validation against the real target                   |
-| `src/scenario/record.ts`            | In-page recorder, control panel, step assembly, code generation                        |
+| `src/locator/identity.ts`           | Shared rule for when a locator drives the same action as the recorded element          |
+| `src/locator/suggest.ts`            | Groups every candidate into locator offers with the reason for each                    |
+| `src/scenario/record.ts`            | In-page event recorder, step assembly, and code generation                             |
+| `src/scenario/describe.ts`          | Names a step's target and summarizes the element for later repair                      |
+| `src/scenario/control.ts`           | External recorder window, settings, prompts, and live step list                        |
+| `src/ui/format-html.ts`             | Safe text-only formatting for captured surrounding HTML                                |
 | `src/scenario/replay.ts`            | Headless-capable execution engine and `ReplayReport`                                   |
 | `src/scenario/review.ts`            | Interactive Replay & repair panel bound to the engine                                  |
+| `src/scenario/intent.ts`            | Conversion hints and compact `scenario-intent.json`                                    |
 | `src/scenario/export.ts`            | Business-readable CSV                                                                  |
 | `src/repair/repair.ts`              | Standalone locator repair against a live page                                          |
 | `src/cli/index.ts`                  | Commander CLI: `init`, `capture`, `session`, `replay`, `analyze`, `repair`, `validate` |
@@ -60,19 +67,33 @@ Browser event
        └─ extract.ts   deterministic DOM context
             └─ candidates.ts   candidate expressions
                  └─ score.ts + analyze.ts   score, count, identity-check
-                      └─ ScenarioStep { action, locator, code, confidence, suggestions }
-                           └─ scenario-context.json
+                      └─ ScenarioStep { action, intent, URL, product and locator hints }
+                           ├─ scenario-context.json   detailed repair evidence
+                           └─ scenario-intent.json    compact conversion handoff
                                 └─ replay.ts   executes each step
                                      └─ replay-report.json
                                           └─ Cursor skill   repository test code
+
+External control action/assertion
+  └─ cdp-picker.ts   freeze application + inspect node
+       └─ record.ts   same extraction, scoring, and step pipeline
 ```
 
-### Two panels, one browser
+### Separate recording controls
 
-`record.ts` and `review.ts` both inject a floating panel and communicate with
-Node through `page.exposeBinding`. Panel state that must survive navigation
-(click mode, negate, ask-on-weak-locator) is owned by Node, not the page, so a
-page load cannot silently reset it.
+Recording controls run in a separate browser window from the application.
+Normal actions are still captured by the lightweight listeners installed by
+`record.ts`. For an explicit action or assertion, `cdp-picker.ts` disables
+script execution and pauses animations only in the application target, then
+uses Chromium's native element inspector. The control window remains
+responsive while dropdowns, prompts, and timer-based toasts stay frozen.
+
+Control state that must survive navigation (click mode, negate, and
+ask-on-weak-locator) is owned by Node, not either page. Freeze cancellation,
+selection, shutdown, and errors always resume the application in a `finally`
+path. The Chrome DevTools Protocol implementation is Chromium-only; unsupported
+or headless window configurations use a separate control tab and display their
+reduced capability.
 
 Recording is disabled before replay begins, otherwise replay clicks would be
 re-recorded by the still-active listeners.
@@ -88,10 +109,12 @@ overwrites an earlier one:
   recordings/
     2026-09-02T06-37-06-checkout/
       scenario-context.json
+      scenario-intent.json
       scenario-context.csv
       replay-report.json             session/replay only
       cursor-prompt.txt              session/replay only
   scenario-context.json              mirror of the most recent run
+  scenario-intent.json
   scenario-context.csv
   replay-report.json
 ```
@@ -235,6 +258,7 @@ design.
 
 ```bash
 npx playwright-codegen-smart validate .codegen/scenario-context.json
+npx playwright-codegen-smart validate .codegen/scenario-intent.json
 npx playwright-codegen-smart validate .codegen/replay-report.json
 npx playwright-codegen-smart analyze .codegen/locator-context.json
 ```
@@ -244,8 +268,9 @@ npx playwright-codegen-smart analyze .codegen/locator-context.json
 After **Finish & save**, the CLI prints the exact request, also saved to
 `cursor-prompt.txt` in the run folder. Paste it into Cursor, or ask:
 
-> Use the codegen-to-project skill to convert
-> `.codegen/scenario-context.json` into our standard Playwright test. Check
+> Use the codegen-to-project skill with UI-2.0 or UI-3.0. Read
+> `.codegen/scenario-intent.json` first and use
+> `.codegen/scenario-context.json` for detailed evidence. Check
 > `.codegen/replay-report.json` and do not treat failed or skipped steps as
 > verified.
 
@@ -276,11 +301,11 @@ npm run format
 
 Suite layout:
 
-| File                     | Covers                                                                                                  |
-| ------------------------ | ------------------------------------------------------------------------------------------------------- |
-| `tests/locator.test.ts`  | DOM context extraction, candidate generation, scoring, uniqueness, shadow DOM, redaction, repair        |
-| `tests/scenario.test.ts` | Recording order, assertions, testcases, live panel, per-line delete, in-page dialogs, sticky click mode |
-| `tests/replay.test.ts`   | Step execution, testcase selection, restart, locator repair, runtime data, iframes, review panel        |
+| File                     | Covers                                                                                            |
+| ------------------------ | ------------------------------------------------------------------------------------------------- |
+| `tests/locator.test.ts`  | DOM context, select semantics, candidate identity, HTML formatting, shadow DOM, redaction, repair |
+| `tests/scenario.test.ts` | Recording, external controls, frozen CDP picking, testcases, dialogs, and locator suggestions     |
+| `tests/replay.test.ts`   | Step execution, testcase selection, restart, locator repair, runtime data, iframes, review panel  |
 
 Tests drive a real headless Chromium against `page.setContent` fixtures. They
 import from `src/`, so **tests do not require a build**.
@@ -319,23 +344,25 @@ When adding a capability, keep the layers intact:
   `actionCode`, `businessStep`, the recorder listener in
   `src/scenario/record.ts`, `executeStep` in `src/scenario/replay.ts`, both
   schemas, and `tests/scenario.test.ts`.
-- **New panel control** — panel state that must survive navigation belongs in
-  the Node-owned settings object, not in page scope.
+- **New control-window action** — state that must survive application
+  navigation belongs in the Node-owned settings object, not in either page.
 - **Any shipped change** — update `README.md`, this document, and the version in
   `package.json`.
 
 ## 8. Troubleshooting
 
-| Symptom                                     | Cause and fix                                                                                                                                        |
-| ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Executable doesn't exist`                  | Run `npx playwright install chromium`. If your browsers live in a custom cache, set `PLAYWRIGHT_BROWSERS_PATH` to it                                 |
-| A CLI change has no effect                  | Stale `dist/`. Run `npm run build`                                                                                                                   |
-| `connect ECONNREFUSED 127.0.0.1:9222`       | Chrome was not started with `--remote-debugging-port=9222`, or it was already running without the flag                                               |
-| Recorder appears on the wrong tab           | The CLI uses the first page of the first context. Close extra tabs or reorder them                                                                   |
-| Login page instead of the app under `--cdp` | You logged in under a different Chrome profile. Use the window started with `--user-data-dir`                                                        |
-| Recorder panel steals clicks during replay  | Recording was not stopped. Use `session`, or click **Stop recording** first                                                                          |
-| Assertion prompt flashes and disappears     | Fixed: prompts are in-page dialogs, because Playwright auto-dismisses native dialogs when the driver has no dialog listener. Rebuild if you see this |
-| Many low-confidence locators                | The application relies on generated class names. Add stable `data-testid` or accessible names, or scope through a container, and recapture           |
-| `Locator matched N elements` on repair      | The expression is not unique. Scope it through a row, card, form, or dialog                                                                          |
-| Replay fails on a `[REDACTED]` step         | Expected. Supply the value via **Custom action data**, or provide test data in the generated repository test                                         |
-| Replay fails on `toHaveScreenshot`          | Snapshot assertions need a repository baseline and cannot be replayed from recording data alone                                                      |
+| Symptom                                      | Cause and fix                                                                                                                              |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `Executable doesn't exist`                   | Run `npx playwright install chromium`. If your browsers live in a custom cache, set `PLAYWRIGHT_BROWSERS_PATH` to it                       |
+| A CLI change has no effect                   | Stale `dist/`. Run `npm run build`                                                                                                         |
+| `connect ECONNREFUSED 127.0.0.1:9222`        | Chrome was not started with `--remote-debugging-port=9222`, or it was already running without the flag                                     |
+| Recorder appears on the wrong tab            | The CLI uses the first page of the first context. Close extra tabs or reorder them                                                         |
+| Login page instead of the app under `--cdp`  | You logged in under a different Chrome profile. Use the window started with `--user-data-dir`                                              |
+| Application changes while picking a locator  | Use an explicit action/assertion in the external controller. Chromium freezes application scripts and animations until the pick completes  |
+| Control window is a tab instead              | Separate OS windows are not available in that launch mode. The controller tab still works and displays whether true freeze is available    |
+| Recorder controls steal clicks during replay | Recording was not stopped. Use `session`, or click **Stop recording** first                                                                |
+| Assertion prompt flashes and disappears      | Rebuild the package. Prompts now live in the external controller and are not native browser dialogs                                        |
+| Many low-confidence locators                 | The application relies on generated class names. Add stable `data-testid` or accessible names, or scope through a container, and recapture |
+| `Locator matched N elements` on repair       | The expression is not unique. Scope it through a row, card, form, or dialog                                                                |
+| Replay fails on a `[REDACTED]` step          | Expected. Supply the value via **Custom action data**, or provide test data in the generated repository test                               |
+| Replay fails on `toHaveScreenshot`           | Snapshot assertions need a repository baseline and cannot be replayed from recording data alone                                            |

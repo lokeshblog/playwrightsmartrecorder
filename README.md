@@ -33,11 +33,13 @@ Each capture writes to its own timestamped folder, so no recording ever overwrit
   recordings/
     2026-09-02T05-15-46-budget-flow/
       scenario-context.json
+      scenario-intent.json
       scenario-context.csv
     2026-09-02T05-15-47-budget-flow/
       scenario-context.json
       scenario-context.csv
   scenario-context.json   # copy of the most recent run
+  scenario-intent.json    # compact, AI-oriented conversion handoff
   scenario-context.csv
 ```
 
@@ -133,9 +135,12 @@ npx playwright-codegen-smart capture https://app.example.com --output ./scenario
 npx playwright-codegen-smart capture https://app.example.com --single
 ```
 
-The movable recorder panel provides:
+Smart Recorder opens its controls in a separate browser window so the
+application can be frozen without freezing the recorder itself. The controller
+provides:
 
 - Automatic navigation, click, fill, select, file upload, check/uncheck, and Enter-key recording
+- Frozen element picking for explicit actions and assertions. Application JavaScript, timers, and animations pause while Chromium's element picker is active, keeping dropdowns and short-lived toasts available for inspection
 - Explicit force click, double click, hover, check, uncheck, and arbitrary key-press modes, each staying active until you change it
 - Playwright locator assertions: attached, visible/hidden, enabled/disabled, editable, empty, focused, checked, viewport, accessible name/description/error, text, value(s), attribute, class, CSS, ID, JS property, role, screenshot, and count, including `.not`
 - **+ New testcase**, **Undo last line**, **Delete testcase**, and **Stop recording**
@@ -151,24 +156,76 @@ The same steps stream into the terminal as you record them, with a confidence ma
     3  ✕  deleted: Click Sign in
 ```
 
-The selected click mode stays active until you change it, so you can assert several elements in a row without reselecting the matcher each time. While a non-auto mode is active the dropdown is highlighted and a banner explains what the next click will record. Assertion modes record instead of clicking, so choose **Auto** or press `Esc` when you need to interact with the page again. Tick **Negate assertion (.not)** to record the inverse — the step's code becomes `.not.<matcher>()` and its business description reads `not.<matcher>`. The mode, negate, and prompt choices are held outside the page, so they survive navigations and apply inside iframes.
+The selected click mode stays active until you change it, so you can inspect
+several elements in a row without reselecting the matcher. Selecting a
+non-auto mode freezes the application and arms Chromium's element picker; the
+pick is recorded without reaching the application. Choose **Auto** to resume
+normal interaction. Tick **Negate assertion (.not)** to record the inverse —
+the step's code becomes `.not.<matcher>()` and its business description reads
+`not.<matcher>`. Settings are owned by Node, so they survive application
+navigations and apply inside iframes.
 
-Testcases are automatically named `Test 1`, `Test 2`, and so on. Each action's DOM walk stops at a configured semantic boundary or maximum depth. Sensitive values are replaced with `[REDACTED]`.
+Testcases are automatically named `Test 1`, `Test 2`, and so on. The control
+window accepts an optional Jira ID and Zephyr ID for each active testcase;
+switching to a new testcase gives it independent IDs. Each action's DOM walk
+stops at a configured semantic boundary or maximum depth. Sensitive values are
+replaced with `[REDACTED]`.
 
-If no candidate meets the recommendation threshold, recording keeps the best low-confidence fallback, candidate suggestions, clicked-element details, and sanitized HTML from the nearest semantic container. Recording never interrupts you for this by default. Tick **Ask when locator is weak** in the panel to be asked for a manual Playwright locator instead; each step asks at most once.
+If no candidate meets the recommendation threshold, recording marks the step
+unresolved. Tick **Ask when locator is weak** to be asked for a locator; a
+manual locator must uniquely resolve to the element that was selected.
 
-That request is an in-page dialog rather than a browser `prompt`, because Playwright dismisses native dialogs automatically when the driving script has no dialog listener — which made earlier prompts flash on screen and vanish. The dialog lists the suggested locators as clickable options, shows the surrounding HTML on demand, and stays open reporting why a locator was rejected until you supply a unique one or keep the fallback. Assertion values and key presses use the same dialog.
+Requests appear in the external controller rather than the application page or
+a native browser prompt. The dialog explains the step before it asks for a
+locator:
 
-Every candidate is validated against the element you actually interacted with, not just by match count, so a locator that resolves to a different element is never recommended.
+- **What was interacted with** lists the element, its role, name, text,
+  identifying attributes, DOM path, container, and labelled neighbours.
+- **Suggested locators** is a dropdown of every locator the analysis produced,
+  grouped as recommended, unique match, matches several elements, position
+  based, rejected, or matching a different element, with the reason for each.
+  Choosing one fills the editable locator field.
+- The surrounding HTML is shown safely redacted in an indented, readable
+  format, reports truncation, and can be copied raw.
+
+The same evidence is written to the recording: every step keeps its
+`targetSummary` and full list of offered locators, the CSV gains **Element
+Context**, **Warning**, and **Locator Options** columns, and the Cursor prompt
+names the steps that still need a locator. A step whose locator is only a
+fallback such as `locator("span")` therefore still says what it did.
+
+Assertion values and key presses use the same controller dialog.
+
+True application freeze and native element inspection use the Chrome DevTools
+Protocol and therefore require Chromium. In headless or unsupported launch
+configurations, the controller opens as a separate tab and reports the reduced
+capability instead of claiming that the application is frozen.
+
+Every candidate is validated against the element you actually interacted with, not just by match count, so a locator that resolves to a different element is never recommended. A locator still counts as correct when it lands on markup that carries the same element — the label inside a menu item, or a wrapper that holds nothing but the item — because clicking it performs the same action. A container that also holds other items or controls is still rejected.
 
 Typing is grouped into a single `fill` step rather than one step per keystroke. The value is committed after a short pause, or immediately on blur, `Enter`, or the next interaction. The manual-locator request appears at most once per step, so it never interrupts you character by character.
 
 ## JSON format
 
-The primary scenario format is defined by [`schemas/scenario-context.schema.json`](schemas/scenario-context.schema.json). Each step embeds the locator format in [`schemas/locator-context.schema.json`](schemas/locator-context.schema.json), and replay results use [`schemas/replay-report.schema.json`](schemas/replay-report.schema.json). Validate a report with:
+The detailed scenario format is defined by
+[`schemas/scenario-context.schema.json`](schemas/scenario-context.schema.json).
+Each step now includes `urlAfter`, English `intent`, structured `locatorHint`,
+`productHints`, `skipInTest`, optional `valueKind`, and explicit `expect`
+evidence. Each testcase can include `jiraId` and `zephyrId`.
+
+Every capture also writes compact
+[`scenario-intent.json`](schemas/scenario-intent.schema.json). This excludes
+raw HTML and candidate dumps, and is the first file the conversion skill reads.
+The detailed file remains available for weak-locator repair. Each step embeds
+the locator format in
+[`schemas/locator-context.schema.json`](schemas/locator-context.schema.json),
+and replay results use
+[`schemas/replay-report.schema.json`](schemas/replay-report.schema.json).
+Validate an artifact with:
 
 ```bash
 npx playwright-codegen-smart validate .codegen/scenario-context.json
+npx playwright-codegen-smart validate .codegen/scenario-intent.json
 npx playwright-codegen-smart validate .codegen/replay-report.json
 npx playwright-codegen-smart analyze .codegen/locator-context.json
 ```
@@ -206,7 +263,13 @@ After `init`—or after installing your own framework-specific skill—ask:
 
 > Convert the latest recorded scenario into our project's standard Playwright test.
 
-The skill reads ordered steps from `.codegen/scenario-context.json`, then inspects Playwright configuration, fixtures, test folders, page/component objects, helpers, naming, assertions, and similar tests. Existing repository patterns take precedence over generic advice and every recommended locator is revalidated.
+The skill reads `.codegen/scenario-intent.json` first, consults detailed
+`.codegen/scenario-context.json` only where needed, and requires `UI-2.0` or
+`UI-3.0`. It resolves module ownership from routes and source code—not the
+recording name—then chooses the existing feature folder and file, reuses common
+fixtures/components, applies Jira/Zephyr tags, and handles generated data and
+cleanup. Existing repository patterns take precedence and every locator is
+revalidated.
 
 Example generated code in a repository that already uses page objects:
 

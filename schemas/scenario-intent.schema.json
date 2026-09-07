@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://playwright-codegen-smart.dev/schemas/scenario-intent.schema.json",
+  "title": "Playwright Scenario Intent",
+  "type": "object",
+  "required": [
+    "version",
+    "name",
+    "startUrl",
+    "endUrl",
+    "productHints",
+    "testCases",
+    "unresolvedStepIndexes"
+  ],
+  "properties": {
+    "version": { "const": "1.0" },
+    "name": { "type": "string" },
+    "startUrl": { "type": "string" },
+    "endUrl": { "type": "string" },
+    "productHints": {
+      "type": "object",
+      "required": ["navModules", "pageHeadings", "features"],
+      "properties": {
+        "navModules": { "type": "array", "items": { "type": "string" } },
+        "pageHeadings": { "type": "array", "items": { "type": "string" } },
+        "features": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    "testCases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "steps"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "jiraId": { "type": "string" },
+          "zephyrId": { "type": "string" },
+          "steps": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "index",
+                "startUrl",
+                "urlAfter",
+                "intent",
+                "action",
+                "skipInTest",
+                "confidence"
+              ],
+              "properties": {
+                "index": { "type": "integer", "minimum": 1 },
+                "startUrl": { "type": "string" },
+                "urlAfter": { "type": "string" },
+                "intent": { "type": "string" },
+                "action": { "type": "string" },
+                "value": { "type": "string" },
+                "locatorHint": { "type": "object" },
+                "productHints": { "type": "object" },
+                "skipInTest": { "type": "boolean" },
+                "valueKind": { "type": "object" },
+                "expect": { "type": "object" },
+                "confidence": {
+                  "enum": ["high", "medium", "low", "unresolved"]
+                },
+                "context": { "type": "string" }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "unresolvedStepIndexes": {
+      "type": "array",
+      "items": { "type": "integer", "minimum": 1 }
+    }
+  },
+  "additionalProperties": false
+}

@@ -9,6 +9,7 @@ import type {
 } from "../types.js";
 
 interface BrowserExtraction {
+  pageHeading?: string;
   target: ElementContext;
   ancestors: AncestorContext[];
   siblings: SiblingContext[];
@@ -64,6 +65,56 @@ export async function extractDomContext(
         };
         return roles[node.tagName] || undefined;
       };
+      const formControl = (node: Element): boolean =>
+        node instanceof HTMLInputElement ||
+        node instanceof HTMLSelectElement ||
+        node instanceof HTMLTextAreaElement;
+      // Option text is the value of a select, never part of a label name.
+      const labelText = (
+        label: Element,
+        exclude?: Element,
+      ): string | undefined => {
+        const parts: string[] = [];
+        const walk = (node: Node): void => {
+          if (node === exclude) return;
+          if (node.nodeType === Node.TEXT_NODE) {
+            parts.push(node.textContent ?? "");
+            return;
+          }
+          if (!(node instanceof Element)) return;
+          if (
+            node instanceof HTMLSelectElement ||
+            node instanceof HTMLOptionElement
+          )
+            return;
+          for (const child of [...node.childNodes]) walk(child);
+        };
+        walk(label);
+        const value = parts.join(" ").replace(/\s+/g, " ").trim().slice(0, 300);
+        return value || undefined;
+      };
+      /** Text that contributes to a control name, excluding decorative icons. */
+      const controlText = (control: Element): string | undefined => {
+        const parts: string[] = [];
+        const walk = (node: Node): void => {
+          if (node.nodeType === Node.TEXT_NODE) {
+            parts.push(node.textContent ?? "");
+            return;
+          }
+          if (!(node instanceof Element)) return;
+          if (
+            node instanceof SVGElement ||
+            node.getAttribute("aria-hidden") === "true" ||
+            node.hasAttribute("icon") ||
+            node.classList.contains("bp3-icon")
+          )
+            return;
+          for (const child of [...node.childNodes]) walk(child);
+        };
+        walk(control);
+        const value = parts.join(" ").replace(/\s+/g, " ").trim().slice(0, 300);
+        return value || undefined;
+      };
       const accessibleName = (node: Element): string | undefined => {
         const labelledBy = node.getAttribute("aria-labelledby");
         if (labelledBy) {
@@ -78,20 +129,33 @@ export async function extractDomContext(
           const value = node.getAttribute(attr);
           if (value) return clean(value, attr);
         }
-        if (node instanceof HTMLInputElement && node.id) {
+        if (formControl(node) && node.id) {
           const label = document.querySelector(
             `label[for="${CSS.escape(node.id)}"]`,
           );
-          if (label?.textContent?.trim())
-            return clean(label.textContent.trim(), "label");
+          const value = label ? labelText(label, node) : undefined;
+          if (value) return clean(value, "label");
         }
         const wrappingLabel = node.closest("label");
-        return (
-          clean(
-            wrappingLabel?.textContent?.trim() || text(node) || "",
-            "text",
-          ) || undefined
-        );
+        if (wrappingLabel) {
+          const value = labelText(
+            wrappingLabel,
+            wrappingLabel === node ? undefined : node,
+          );
+          if (value) return clean(value, "label");
+        }
+        // Controls have no name of their own; their text is data, not identity.
+        if (formControl(node)) return undefined;
+        const own = controlText(node);
+        // Descendant text joined across a container names the container's
+        // contents, not the element, so it cannot serve as a name.
+        if (
+          !own ||
+          own.length > 120 ||
+          (node.childElementCount > 0 && own.length > 60)
+        )
+          return undefined;
+        return clean(own, "text") || undefined;
       };
       const attributes = (node: Element): Record<string, string> => {
         const output: Record<string, string> = {};
@@ -157,7 +221,9 @@ export async function extractDomContext(
           childElementCount: node.childElementCount,
           attributes: attributes(node),
         };
-        const nodeText = text(node);
+        // A form control's descendant text is value data (for example all
+        // <option> labels), not a stable name for the control itself.
+        const nodeText = formControl(node) ? undefined : text(node);
         const name = accessibleName(node);
         const nodeRole = role(node);
         if (nodeText) result.text = nodeText;
@@ -247,7 +313,11 @@ export async function extractDomContext(
         semanticContainer ?? element.parentElement ?? element,
         options.maxContainerHtmlLength,
       );
+      const heading = [...document.querySelectorAll("h1,h2,[role='heading']")]
+        .map((node) => text(node))
+        .find((value) => value !== undefined);
       return {
+        ...(heading ? { pageHeading: heading } : {}),
         target: describe(element, true),
         ancestors,
         siblings,

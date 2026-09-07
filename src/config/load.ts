@@ -61,6 +61,10 @@ export async function initializeProject(
       content: "{}\n",
     },
     {
+      path: path.join(root, ".codegen", "scenario-intent.json"),
+      content: "{}\n",
+    },
+    {
       path: path.join(
         root,
         ".cursor",

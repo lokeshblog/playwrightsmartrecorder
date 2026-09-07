@@ -22,6 +22,7 @@
     "version": { "const": "1.0" },
     "capturedAt": { "type": "string", "format": "date-time" },
     "url": { "type": "string" },
+    "pageHeading": { "type": "string" },
     "codegenLocator": {
       "type": "object",
       "required": ["type", "value", "expression"],
@@ -131,7 +132,8 @@
         "matchCount": { "type": "integer", "minimum": 0 },
         "confidence": { "enum": ["high", "medium", "low"] },
         "evidence": { "type": "array", "items": { "type": "string" } },
-        "penalties": { "type": "array", "items": { "type": "string" } }
+        "penalties": { "type": "array", "items": { "type": "string" } },
+        "resolvesToTarget": { "type": "boolean" }
       },
       "additionalProperties": false
     }

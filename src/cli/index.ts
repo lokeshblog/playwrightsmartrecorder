@@ -12,10 +12,12 @@ import {
   locatorContextSchema,
   replayReportSchema,
   scenarioContextSchema,
+  scenarioIntentSchema,
 } from "../config/schema.js";
 import { scoreCandidate } from "../locator/score.js";
 import { repairLocator } from "../repair/repair.js";
 import { scenarioToCsv } from "../scenario/export.js";
+import { scenarioToIntent } from "../scenario/intent.js";
 import { recordScenario } from "../scenario/record.js";
 import { replayScenario } from "../scenario/replay.js";
 import { reviewScenario } from "../scenario/review.js";
@@ -88,14 +90,35 @@ async function saveSessionArtifacts(
     scenarioToCsv(scenario),
   );
   await writeFile(
+    path.join(directory, "scenario-intent.json"),
+    `${JSON.stringify(scenarioToIntent(scenario), null, 2)}\n`,
+  );
+  await writeFile(
     path.join(directory, "replay-report.json"),
     `${JSON.stringify(report, null, 2)}\n`,
   );
   const relative = path.relative(root, scenarioFile);
+  const relativeIntent = path.relative(
+    root,
+    path.join(directory, "scenario-intent.json"),
+  );
+  const weak = scenario.steps.filter(
+    ({ confidence }) => confidence === "unresolved" || confidence === "low",
+  );
   const cursorPrompt = [
     "Use the codegen-to-project skill.",
-    `Convert the verified recording at ${relative} into repository-standard Playwright tests.`,
+    `Read the compact intent at ${relativeIntent}, then use detailed evidence from ${relative} only where needed.`,
+    "Convert the recording into repository-standard Playwright tests.",
+    report.status === "passed"
+      ? "The replay passed; still revalidate repository-specific assumptions."
+      : `The replay status is ${report.status}; do not treat these steps as verified.`,
     "Reuse existing fixtures, page objects, authentication, and naming conventions.",
+    // A weak step needs its element context to be readable, so point at it.
+    ...(weak.length
+      ? [
+          `Steps ${weak.map(({ index }) => index).join(", ")} have no trustworthy locator: read their targetSummary, suggestions, and locatorContext in the JSON to work out what each step does, then write a locator that expresses that intent.`,
+        ]
+      : []),
     "Run the narrowest generated test and repair any remaining locator failures.",
   ].join(" ");
   await writeFile(
@@ -113,6 +136,10 @@ async function saveSessionArtifacts(
     scenarioToCsv(scenario),
   );
   await writeFile(
+    path.resolve(root, ".codegen/scenario-intent.json"),
+    `${JSON.stringify(scenarioToIntent(scenario), null, 2)}\n`,
+  );
+  await writeFile(
     path.resolve(root, ".codegen/replay-report.json"),
     `${JSON.stringify(report, null, 2)}\n`,
   );
@@ -127,7 +154,7 @@ async function saveSessionArtifacts(
 const program = new Command()
   .name("playwright-codegen-smart")
   .description("Capture DOM context and generate robust Playwright locators")
-  .version("1.1.0");
+  .version("1.4.0");
 
 program
   .command("init")
@@ -172,8 +199,9 @@ program
         options.single
           ? "Browser ready. Click the element to inspect."
           : [
-              "Recording scenario. Complete the flow, then click 'Stop recording' or press Ctrl+Shift+S.",
-              "Steps appear below as you record them; delete any line from the in-page panel.",
+              "Recording scenario. Use the Smart Recorder control window, then click 'Stop recording' or press Ctrl+Shift+S.",
+              "Explicit actions and assertions freeze the application while you pick an element.",
+              "Steps appear in the control window as you record them.",
               "Locator confidence: ● high  ◐ medium  ○ low",
               "",
               "▸ Test 1",
@@ -223,6 +251,10 @@ program
         );
         await mkdir(path.dirname(csvOutput), { recursive: true });
         await writeFile(csvOutput, scenarioToCsv(result));
+        await writeFile(
+          path.join(path.dirname(output), "scenario-intent.json"),
+          `${JSON.stringify(scenarioToIntent(result), null, 2)}\n`,
+        );
         console.log(`saved ${path.relative(root, csvOutput)}`);
         console.log(
           `captured ${result.testCases.length} testcase${result.testCases.length === 1 ? "" : "s"} and ${result.steps.length} step${result.steps.length === 1 ? "" : "s"}`,
@@ -237,6 +269,11 @@ program
           await writeFile(
             latest.replace(/\.json$/i, ".csv"),
             scenarioToCsv(result),
+          );
+        if (!("recommended" in result))
+          await writeFile(
+            latest.replace(/scenario-context\.json$/i, "scenario-intent.json"),
+            `${JSON.stringify(scenarioToIntent(result), null, 2)}\n`,
           );
         console.log(`latest copy at ${path.relative(root, latest)}`);
       }
@@ -472,7 +509,13 @@ program
     const scenario = scenarioContextSchema.safeParse(input);
     const locator = locatorContextSchema.safeParse(input);
     const replay = replayReportSchema.safeParse(input);
-    if (!scenario.success && !locator.success && !replay.success)
+    const intent = scenarioIntentSchema.safeParse(input);
+    if (
+      !scenario.success &&
+      !locator.success &&
+      !replay.success &&
+      !intent.success
+    )
       scenarioContextSchema.parse(input);
     console.log(`${file} is valid`);
   });

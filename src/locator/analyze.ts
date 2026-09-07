@@ -4,6 +4,7 @@ import {
   candidateToLocator,
   generateCandidates,
 } from "./candidates.js";
+import { resolvesToActionTarget } from "./identity.js";
 import { scoreCandidate } from "./score.js";
 import type { LocatorContext, RawDomContext, SmartConfig } from "../types.js";
 
@@ -19,7 +20,6 @@ export async function analyzeContext(
   options: AnalyzeOptions = {},
 ): Promise<LocatorContext> {
   const generated = generateCandidates(raw, config);
-  const disqualified = new Set<string>();
   const candidates = await Promise.all(
     generated.candidates.map(async (candidate) => {
       let count = 0;
@@ -29,21 +29,20 @@ export async function analyzeContext(
         count = await locator.count();
         if (options.targetSelector && count > 0)
           resolvesToTarget = await locator.evaluateAll(
-            (elements, selector) =>
-              elements.some((element) => element.matches(selector)),
+            resolvesToActionTarget,
             options.targetSelector,
           );
       } catch {
         count = 0;
       }
       const scored = scoreCandidate(candidate, count, config);
-      if (resolvesToTarget) return scored;
-      disqualified.add(scored.locator);
+      if (resolvesToTarget) return { ...scored, resolvesToTarget: true };
       return {
         ...scored,
         score: Math.max(0, scored.score - 60),
         confidence: "low" as const,
         penalties: [...scored.penalties, "resolves to a different element"],
+        resolvesToTarget: false,
       };
     }),
   );
@@ -53,8 +52,8 @@ export async function analyzeContext(
   );
   const recommended =
     candidates.find(
-      ({ matchCount, score, locator }) =>
-        !disqualified.has(locator) &&
+      ({ matchCount, score, resolvesToTarget }) =>
+        (resolvesToTarget ?? true) &&
         (!config.requireUniqueLocator || matchCount === 1) &&
         score >= config.minimumLocatorScore,
     ) ?? null;
@@ -76,6 +75,7 @@ export async function analyzeContext(
     version: "1.0",
     capturedAt: new Date().toISOString(),
     url: raw.url,
+    ...(raw.pageHeading ? { pageHeading: raw.pageHeading } : {}),
     codegenLocator,
     target: raw.target,
     ancestors: raw.ancestors,

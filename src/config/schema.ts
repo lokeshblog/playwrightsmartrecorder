@@ -21,6 +21,12 @@ export const defaultConfig = {
     "^sc-[A-Za-z0-9]+$",
     "^ember\\d+$",
     "^(react|vue|ng)[-_]?\\d+$",
+    "^react-select-\\d+-",
+    "^mui-\\d+$",
+    "^jss\\d+$",
+    "^makeStyles-[A-Za-z0-9]+-\\d+$",
+    "^:r[0-9a-z]+:$",
+    "^radix-[A-Za-z0-9_-]+$",
     "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
     "^[a-f0-9]{10,}$",
     "^\\d{4,}$",
@@ -104,12 +110,14 @@ const candidateSchema = z.object({
   evidence: z.array(z.string()),
   penalties: z.array(z.string()),
   generated: z.boolean().optional(),
+  resolvesToTarget: z.boolean().optional(),
 });
 
 export const locatorContextSchema = z.object({
   version: z.literal("1.0"),
   capturedAt: z.string(),
   url: z.string(),
+  pageHeading: z.string().optional(),
   codegenLocator: z.object({
     type: z.string(),
     value: z.string(),
@@ -150,6 +158,7 @@ export const scenarioContextSchema = z.object({
       index: z.number().int().positive(),
       timestamp: z.string(),
       pageUrl: z.string(),
+      urlAfter: z.string().optional(),
       action: z.object({
         type: z.enum([
           "click",
@@ -165,6 +174,7 @@ export const scenarioContextSchema = z.object({
           "assert",
         ]),
         value: z.string().optional(),
+        selectBy: z.enum(["value", "label"]).optional(),
         force: z.boolean().optional(),
         assertion: z
           .object({
@@ -209,6 +219,65 @@ export const scenarioContextSchema = z.object({
       confidence: z.enum(["high", "medium", "low", "unresolved"]),
       warning: z.string().optional(),
       suggestions: z.array(z.string()),
+      targetSummary: z.string().optional(),
+      intent: z.string().optional(),
+      productHints: z
+        .object({
+          navModule: z.string().optional(),
+          pageHeading: z.string().optional(),
+          feature: z.string().optional(),
+        })
+        .optional(),
+      locatorHint: z
+        .object({
+          testId: z.string().optional(),
+          role: z.string().optional(),
+          name: z.string().optional(),
+          expression: z.string().optional(),
+        })
+        .optional(),
+      skipInTest: z.boolean().optional(),
+      valueKind: z
+        .object({
+          unique: z.boolean(),
+          createsResource: z.boolean(),
+        })
+        .optional(),
+      expect: z
+        .object({
+          kind: z.enum(["heading", "toast", "row-visible", "assertion"]),
+          matcher: z.enum([
+            "toBeAttached",
+            "toBeVisible",
+            "toBeHidden",
+            "toBeEnabled",
+            "toBeDisabled",
+            "toBeEditable",
+            "toBeEmpty",
+            "toBeFocused",
+            "toBeChecked",
+            "toBeInViewport",
+            "toHaveAccessibleDescription",
+            "toHaveAccessibleErrorMessage",
+            "toHaveAccessibleName",
+            "toHaveText",
+            "toContainText",
+            "toHaveValue",
+            "toHaveValues",
+            "toHaveAttribute",
+            "toHaveClass",
+            "toHaveCSS",
+            "toHaveId",
+            "toHaveJSProperty",
+            "toHaveRole",
+            "toHaveScreenshot",
+            "toHaveCount",
+          ]),
+          value: z
+            .union([z.string(), z.array(z.string()), z.number(), z.boolean()])
+            .optional(),
+        })
+        .optional(),
       testCaseId: z.string(),
       businessStep: z.string(),
     }),
@@ -217,11 +286,66 @@ export const scenarioContextSchema = z.object({
     z.object({
       id: z.string(),
       name: z.string(),
+      jiraId: z.string().optional(),
+      zephyrId: z.string().optional(),
       stepIndexes: z.array(z.number().int().positive()),
     }),
   ),
   generatedCode: z.array(z.string()),
   warnings: z.array(z.string()),
+});
+
+export const scenarioIntentSchema = z.object({
+  version: z.literal("1.0"),
+  name: z.string(),
+  startUrl: z.string(),
+  endUrl: z.string(),
+  productHints: z.object({
+    navModules: z.array(z.string()),
+    pageHeadings: z.array(z.string()),
+    features: z.array(z.string()),
+  }),
+  testCases: z.array(
+    z.object({
+      id: z.string(),
+      name: z.string(),
+      jiraId: z.string().optional(),
+      zephyrId: z.string().optional(),
+      steps: z.array(
+        z.object({
+          index: z.number().int().positive(),
+          startUrl: z.string(),
+          urlAfter: z.string(),
+          intent: z.string(),
+          action: z.string(),
+          value: z.string().optional(),
+          locatorHint: z.record(z.string(), z.string()).optional(),
+          productHints: z.record(z.string(), z.string()).optional(),
+          skipInTest: z.boolean(),
+          valueKind: z
+            .object({ unique: z.boolean(), createsResource: z.boolean() })
+            .optional(),
+          expect: z
+            .object({
+              kind: z.enum(["heading", "toast", "row-visible", "assertion"]),
+              matcher: z.string(),
+              value: z
+                .union([
+                  z.string(),
+                  z.array(z.string()),
+                  z.number(),
+                  z.boolean(),
+                ])
+                .optional(),
+            })
+            .optional(),
+          confidence: z.enum(["high", "medium", "low", "unresolved"]),
+          context: z.string().optional(),
+        }),
+      ),
+    }),
+  ),
+  unresolvedStepIndexes: z.array(z.number().int().positive()),
 });
 
 export const replayReportSchema = z.object({

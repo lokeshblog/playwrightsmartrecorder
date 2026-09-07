@@ -98,7 +98,14 @@ export function generateCandidates(
       });
   }
   const leafLike = (target.childElementCount ?? 0) === 0;
-  if (
+  // A select's text is its option list, so text never identifies the control.
+  if (target.tag === "select") {
+    if (target.text)
+      rejected.push({
+        locator: `getByText(${quote(target.text)}, { exact: true })`,
+        reason: "select text is option content, not the control",
+      });
+  } else if (
     target.text &&
     target.text.length <= 120 &&
     (leafLike || target.text.length <= 60)

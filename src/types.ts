@@ -58,11 +58,25 @@ export interface LocatorCandidate {
   evidence: string[];
   penalties: string[];
   generated?: boolean | undefined;
+  /**
+   * Whether the locator resolves to the element that was interacted with.
+   * Analysis always sets it; it is optional so older contexts stay readable.
+   */
+  resolvesToTarget?: boolean | undefined;
 }
 
 export interface RejectedCandidate {
   locator: string;
   reason: string;
+}
+
+/** A locator offered for a step, with what is known for and against it. */
+export interface LocatorSuggestion {
+  locator: string;
+  /** Heading it is offered under, for example "Recommended". */
+  group: string;
+  /** Short reason it is trustworthy or not, for example "matches 3 elements". */
+  note: string;
 }
 
 export interface CodegenLocator {
@@ -76,6 +90,7 @@ export interface LocatorContext {
   version: "1.0";
   capturedAt: string;
   url: string;
+  pageHeading?: string | undefined;
   codegenLocator: CodegenLocator;
   target: ElementContext;
   ancestors: AncestorContext[];
@@ -92,6 +107,8 @@ export interface LocatorContext {
 
 export interface RawDomContext {
   url: string;
+  /** Primary visible page heading at capture time. */
+  pageHeading?: string | undefined;
   target: ElementContext;
   ancestors: AncestorContext[];
   siblings: SiblingContext[];
@@ -143,6 +160,8 @@ export type AssertionMatcher =
 export interface ScenarioAction {
   type: ScenarioActionType;
   value?: string | undefined;
+  /** How a selectOption value is matched. Defaults to "value" when absent. */
+  selectBy?: "value" | "label" | undefined;
   force?: boolean | undefined;
   assertion?: {
     matcher: AssertionMatcher;
@@ -155,7 +174,10 @@ export interface ScenarioAction {
 export interface ScenarioStep {
   index: number;
   timestamp: string;
+  /** URL before the action. Kept as pageUrl for backward compatibility. */
   pageUrl: string;
+  /** URL observed after this step and its resulting navigation. */
+  urlAfter?: string | undefined;
   action: ScenarioAction;
   locatorContext: LocatorContext | null;
   locator: string;
@@ -163,6 +185,39 @@ export interface ScenarioStep {
   confidence: Confidence | "unresolved";
   warning?: string | undefined;
   suggestions: string[];
+  /**
+   * What the step touched, in plain language: tag, role, text, container and
+   * neighbours. Carries the intent of a step whose locator needs repairing.
+   */
+  targetSummary?: string | undefined;
+  /** Business intent suitable for test.step or a page method name. */
+  intent?: string | undefined;
+  /** Product ownership clues derived without assuming a repository layout. */
+  productHints?: {
+    navModule?: string | undefined;
+    pageHeading?: string | undefined;
+    feature?: string | undefined;
+  };
+  /** Structured locator evidence; expression is a last hint, not test code. */
+  locatorHint?: {
+    testId?: string | undefined;
+    role?: string | undefined;
+    name?: string | undefined;
+    expression?: string | undefined;
+  };
+  /** Setup/navigation mechanics the converter should normally omit. */
+  skipInTest?: boolean | undefined;
+  /** Data lifecycle hints for unique names and cleanup. */
+  valueKind?: {
+    unique: boolean;
+    createsResource: boolean;
+  };
+  /** Explicit outcome captured through assertion mode. */
+  expect?: {
+    kind: "heading" | "toast" | "row-visible" | "assertion";
+    matcher: AssertionMatcher;
+    value?: string | string[] | number | boolean | undefined;
+  };
   testCaseId: string;
   businessStep: string;
 }
@@ -170,7 +225,45 @@ export interface ScenarioStep {
 export interface ScenarioTestCase {
   id: string;
   name: string;
+  /** Optional work-item IDs entered by the recorder user. */
+  jiraId?: string | undefined;
+  zephyrId?: string | undefined;
   stepIndexes: number[];
+}
+
+/** Compact handoff consumed before the detailed scenario context. */
+export interface ScenarioIntent {
+  version: "1.0";
+  name: string;
+  startUrl: string;
+  endUrl: string;
+  productHints: {
+    navModules: string[];
+    pageHeadings: string[];
+    features: string[];
+  };
+  testCases: Array<{
+    id: string;
+    name: string;
+    jiraId?: string | undefined;
+    zephyrId?: string | undefined;
+    steps: Array<{
+      index: number;
+      startUrl: string;
+      urlAfter: string;
+      intent: string;
+      action: ScenarioActionType;
+      value?: string | undefined;
+      locatorHint?: ScenarioStep["locatorHint"];
+      productHints?: ScenarioStep["productHints"];
+      skipInTest: boolean;
+      valueKind?: ScenarioStep["valueKind"];
+      expect?: ScenarioStep["expect"];
+      confidence: ScenarioStep["confidence"];
+      context?: string | undefined;
+    }>;
+  }>;
+  unresolvedStepIndexes: number[];
 }
 
 export interface ScenarioContext {

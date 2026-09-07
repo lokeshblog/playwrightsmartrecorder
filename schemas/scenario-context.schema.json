@@ -41,6 +41,7 @@
           "index": { "type": "integer", "minimum": 1 },
           "timestamp": { "type": "string", "format": "date-time" },
           "pageUrl": { "type": "string" },
+          "urlAfter": { "type": "string" },
           "action": {
             "type": "object",
             "required": ["type"],
@@ -61,6 +62,7 @@
                 ]
               },
               "value": { "type": "string" },
+              "selectBy": { "enum": ["value", "label"] },
               "force": { "type": "boolean" },
               "assertion": {
                 "type": "object",
@@ -125,6 +127,52 @@
             "type": "array",
             "items": { "type": "string" }
           },
+          "targetSummary": { "type": "string" },
+          "intent": { "type": "string" },
+          "productHints": {
+            "type": "object",
+            "properties": {
+              "navModule": { "type": "string" },
+              "pageHeading": { "type": "string" },
+              "feature": { "type": "string" }
+            },
+            "additionalProperties": false
+          },
+          "locatorHint": {
+            "type": "object",
+            "properties": {
+              "testId": { "type": "string" },
+              "role": { "type": "string" },
+              "name": { "type": "string" },
+              "expression": { "type": "string" }
+            },
+            "additionalProperties": false
+          },
+          "skipInTest": { "type": "boolean" },
+          "valueKind": {
+            "type": "object",
+            "required": ["unique", "createsResource"],
+            "properties": {
+              "unique": { "type": "boolean" },
+              "createsResource": { "type": "boolean" }
+            },
+            "additionalProperties": false
+          },
+          "expect": {
+            "type": "object",
+            "required": ["kind", "matcher"],
+            "properties": {
+              "kind": {
+                "enum": ["heading", "toast", "row-visible", "assertion"]
+              },
+              "matcher": { "type": "string" },
+              "value": {
+                "type": ["string", "number", "boolean", "array"],
+                "items": { "type": "string" }
+              }
+            },
+            "additionalProperties": false
+          },
           "testCaseId": { "type": "string" },
           "businessStep": { "type": "string" }
         },
@@ -139,6 +187,8 @@
         "properties": {
           "id": { "type": "string" },
           "name": { "type": "string" },
+          "jiraId": { "type": "string" },
+          "zephyrId": { "type": "string" },
           "stepIndexes": {
             "type": "array",
             "items": { "type": "integer", "minimum": 1 }

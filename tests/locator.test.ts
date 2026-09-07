@@ -4,12 +4,17 @@ import {
   analyzeContext,
   captureSelection,
   defaultConfig,
+  describeTarget,
   extractDomContext,
   generateCandidates,
   isGeneratedValue,
+  prettyFormatHtml,
   repairLocator,
+  resolvesToActionTarget,
   scoreCandidate,
   smartConfigSchema,
+  suggestLocators,
+  summarizeTarget,
 } from "../src/index.js";
 import type { RawDomContext, SmartConfig } from "../src/types.js";
 
@@ -134,6 +139,24 @@ describe("candidate generation", () => {
     );
     expect(result.candidates.map(({ locator }) => locator)).toContain(
       'getByTestId("user-david").getByRole("button", { name: "Edit", exact: true })',
+    );
+  });
+});
+
+describe("surrounding HTML formatting", () => {
+  it("indents nested HTML without interpreting captured markup", () => {
+    const formatted = prettyFormatHtml(
+      '<form action="#"><div><label for="view">View</label><select id="view"><option>One</option></select></div><script>alert("not executed")</script></form>',
+    );
+    expect(formatted).toContain(
+      '\n  <div>\n    <label for="view">View</label>',
+    );
+    expect(formatted).toContain('<script>alert("not executed")</script>');
+  });
+
+  it("preserves a truncated tag instead of throwing", () => {
+    expect(prettyFormatHtml('<main><div data-name="partial')).toContain(
+      '<div data-name="partial',
     );
   });
 });
@@ -296,12 +319,120 @@ describe("live uniqueness and DOM context", () => {
     expect(result.recommended?.locator).not.toBe('locator("#second")');
   });
 
+  it("keeps a text locator that resolves to the label inside the clicked item", async () => {
+    await page.setContent(
+      '<ul class="bp3-menu"><li class="Select--menuItem"><p>All Costs</p></li>' +
+        '<li class="Select--menuItem" data-mark="yes"><p>GCP</p></li></ul>',
+    );
+    const context = await extractDomContext(
+      page.locator('[data-mark="yes"]'),
+      config,
+    );
+    const result = await analyzeContext(page, context, config, {
+      targetSelector: '[data-mark="yes"]',
+    });
+    const text = result.candidates.find(({ kind }) => kind === "text");
+    expect(text?.resolvesToTarget).toBe(true);
+    expect(result.recommended?.locator).toContain("GCP");
+  });
+
+  it("separates wrappers of the target from other controls inside it", async () => {
+    await page.setContent(
+      '<ul><li><p>AWS</p></li><li data-mark="yes"><p>GCP</p></li></ul>' +
+        '<div data-row="yes">Budget A<button>Delete</button></div>',
+    );
+    const label = page.getByText("GCP", { exact: true });
+    await expect(
+      label.evaluateAll(resolvesToActionTarget, '[data-mark="yes"]'),
+    ).resolves.toBe(true);
+    await expect(
+      page
+        .locator("ul")
+        .evaluateAll(resolvesToActionTarget, '[data-mark="yes"]'),
+    ).resolves.toBe(false);
+    await expect(
+      page
+        .getByRole("button", { name: "Delete" })
+        .evaluateAll(resolvesToActionTarget, '[data-row="yes"]'),
+    ).resolves.toBe(false);
+  });
+
   it("skips text locators built from concatenated container text", async () => {
     const result = await analyze(
       "<section><div><h2>Work more productively</h2><p>Have all the modules you work with in one view</p></div></section>",
       "section > div",
     );
     expect(result.candidates.some(({ kind }) => kind === "text")).toBe(false);
+  });
+
+  it("does not name a menu container after the items it contains", async () => {
+    const items = [
+      "Continuous Delivery & GitOps",
+      "Continuous Integration",
+      "Feature Flags",
+      "Cloud & AI Cost Management",
+    ]
+      .map((label) => `<div class="card"><p>${label}</p></div>`)
+      .join("");
+    const result = await analyze(
+      `<div role="button" id="module-picker">Unified View${items}</div>`,
+      "#module-picker",
+    );
+    expect(result.target.accessibleName).toBeUndefined();
+    expect(result.candidates.some(({ kind }) => kind === "role")).toBe(false);
+  });
+
+  it("excludes decorative icon descriptions from a button name", async () => {
+    const result = await analyze(
+      '<button><span>Continue</span><span icon="chevron-right"><svg><desc>chevron-right</desc></svg></span></button>',
+      "button",
+    );
+    expect(result.target.accessibleName).toBe("Continue");
+    expect(result.candidates.map(({ locator }) => locator)).toContain(
+      'getByRole("button", { name: "Continue", exact: true })',
+    );
+  });
+
+  it("uses only the associated label as a native select name", async () => {
+    const result = await analyze(
+      '<label for="country">Country</label><select id="country"><option>United States</option><option>Canada</option></select>',
+      "select",
+    );
+    expect(result.target.accessibleName).toBe("Country");
+    expect(result.target.text).toBeUndefined();
+    expect(result.candidates.map(({ locator }) => locator)).toContain(
+      'getByLabel("Country", { exact: true })',
+    );
+    expect(result.candidates.some(({ kind }) => kind === "text")).toBe(false);
+  });
+
+  it("does not include wrapping select options in the label", async () => {
+    const result = await analyze(
+      "<label>Country<select><option>United States</option><option>Canada</option></select></label>",
+      "select",
+    );
+    expect(result.target.accessibleName).toBe("Country");
+  });
+
+  it("does not recommend an ambiguous duplicate select label", async () => {
+    const result = await analyze(
+      '<select aria-label="Type"><option>One</option></select><select aria-label="Type"><option>Two</option></select>',
+      "select:first-child",
+    );
+    expect(
+      result.candidates.find(({ kind }) => kind === "label")?.matchCount,
+    ).toBe(2);
+    expect(result.recommended).toBeNull();
+  });
+
+  it("rejects common component-library generated IDs", () => {
+    for (const id of [
+      "react-select-3-input",
+      "mui-12345",
+      ":r0:",
+      "radix-_r_123",
+    ])
+      expect(isGeneratedValue(id, config), id).toBe(true);
   });
 
   it("does not expose password values", async () => {
@@ -328,6 +459,82 @@ describe("live uniqueness and DOM context", () => {
     const result = await capture;
     expect(result.target.attributes["data-testid"]).toBe("picked");
     expect(result.recommended?.matchCount).toBe(1);
+  });
+});
+
+describe("suggestions", () => {
+  it("offers ambiguous and rejected locators when nothing resolves", async () => {
+    const result = await analyze(
+      "<ul><li><span>Rule update</span></li><li><span>Rule update</span></li></ul>",
+      "li:first-child span",
+    );
+    expect(result.recommended).toBeNull();
+    const offers = suggestLocators(result, config);
+    expect(offers.length).toBeGreaterThan(0);
+    const ambiguous = offers.find(
+      ({ group }) => group === "Matches several elements",
+    );
+    expect(ambiguous?.note).toContain("matches 2 elements");
+  });
+
+  it("offers the recommended locator first and never repeats one", async () => {
+    const result = await analyze(
+      '<button data-testid="save" id="save">Save</button>',
+      "button",
+    );
+    const offers = suggestLocators(result, config);
+    expect(offers[0]?.group).toBe("Recommended");
+    expect(offers[0]?.locator).toBe(result.recommended?.locator);
+    expect(new Set(offers.map(({ locator }) => locator)).size).toBe(
+      offers.length,
+    );
+  });
+
+  it("explains why a candidate was rejected", async () => {
+    const result = await analyze(
+      '<button id="ember123">Save</button>',
+      "button",
+    );
+    const offers = suggestLocators(result, config);
+    expect(offers).toContainEqual({
+      locator: 'locator("#ember123")',
+      group: "Rejected by analysis",
+      note: "generated-looking ID",
+    });
+  });
+});
+
+describe("step description", () => {
+  it("names an unnamed element after its surroundings", async () => {
+    const result = await analyze(
+      '<nav><a href="/ce"><svg viewBox="0 0 1 1"></svg><p>Cloud &amp; AI Cost Management</p></a></nav>',
+      "svg",
+    );
+    expect(describeTarget(result)).toBe(
+      '<svg> in "Cloud & AI Cost Management"',
+    );
+  });
+
+  it("summarizes what an unresolved step touched", async () => {
+    const result = await analyze(
+      '<ul data-testid="alerts"><li><label>Rule update</label><span>Rule update</span></li></ul>',
+      "span",
+    );
+    const facts = summarizeTarget(result);
+    expect(facts[0]).toBe("element: <span>");
+    expect(facts).toContain('name: "Rule update"');
+    expect(facts).toContain('path: <ul data-testid="alerts"> > <li> > <span>');
+    expect(facts.some((fact) => fact.includes("(label)"))).toBe(true);
+  });
+
+  it("does not label a container with the text of the element inside it", async () => {
+    const result = await analyze(
+      "<ul><li><span>Rule update</span></li><li><span>Rule update</span></li></ul>",
+      "li:first-child span",
+    );
+    expect(
+      summarizeTarget(result).some((fact) => fact.startsWith("inside:")),
+    ).toBe(false);
   });
 });
 

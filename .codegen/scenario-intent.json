@@ -2,7 +2,7 @@
   "version": "1.0",
   "name": "Checkout",
   "startUrl": "https://qa.harness.io/#/",
-  "endUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+  "endUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=CloudAccounts",
   "productHints": {
     "navModules": [
       "ce"
@@ -10,17 +10,24 @@
     "pageHeadings": [
       "or login with",
       "Work more productively",
-      "All Budgets"
+      "All Budgets",
+      "AutoStopping Rules",
+      "Account Settings"
     ],
     "features": [
-      "budgets"
+      "cost-explorer",
+      "perspectives",
+      "budgets",
+      "anomaly-detection",
+      "autostopping-rules",
+      "governance",
+      "settings"
     ]
   },
   "testCases": [
     {
       "id": "test-1",
       "name": "Test 1",
-      "jiraId": "QPE-1234",
       "steps": [
         {
           "index": 1,
@@ -70,9 +77,9 @@
           "index": 5,
           "startUrl": "https://qa.harness.io/auth/#/signin",
           "urlAfter": "https://qa.harness.io/auth/#/signin",
-          "intent": "Enter \"ccm_playwright@harnessioteam.testinator.com\" in email@work.com",
+          "intent": "Enter \"ccm_playwright_view_access@harnessioteam.testinator.com\" in email@work.com",
           "action": "fill",
-          "value": "ccm_playwright@harnessioteam.testinator.com",
+          "value": "ccm_playwright_view_access@harnessioteam.testinator.com",
           "locatorHint": {
             "role": "textbox",
             "name": "email@work.com"
@@ -147,28 +154,12 @@
           "productHints": {
             "pageHeading": "Work more productively"
           },
-          "skipInTest": false,
+          "skipInTest": true,
           "confidence": "unresolved",
           "context": "element: <svg> · path: <span> > <span> > <span> > <div> > <span> > <svg>"
         },
         {
           "index": 11,
-          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
-          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
-          "intent": "Click <div>",
-          "action": "click",
-          "locatorHint": {
-            "expression": "locator(\"div\")"
-          },
-          "productHints": {
-            "pageHeading": "Work more productively"
-          },
-          "skipInTest": false,
-          "confidence": "unresolved",
-          "context": "element: <div> · class: \"StyledProps--font StyledProps--main oYY21D StyledProps--flex StyledProps--flex-justifyContent-center\" · path: <div> > <span> > <span> > <span> > <span> > <div>"
-        },
-        {
-          "index": 12,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
           "intent": "Click Cloud & AI Cost Management",
@@ -186,7 +177,7 @@
           "context": "element: <a id=\"mode-card-link\"> · role: link · name: \"Cloud & AI Cost Management\" · href: \"/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce?noscope=true\" · class: \"_eiaVo Qkpzbe\" · path: <div id=\"mode-selector-panel\"> > <div> > <div> > <span> > <span> > <a id=\"mode-card-link\">"
         },
         {
-          "index": 13,
+          "index": 12,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
           "intent": "Click id=\"mode-selector-panel\"",
@@ -202,7 +193,7 @@
           "context": "element: <div id=\"mode-selector-panel\"> · class: \"StyledProps--font StyledProps--main GVAp_b bp3-popover-dismiss\" · path: <div> > <div> > <div> > <div> > <div> > <div id=\"mode-selector-panel\">"
         },
         {
-          "index": 14,
+          "index": 13,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
           "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
@@ -215,8 +206,933 @@
           "confidence": "high"
         },
         {
-          "index": 15,
+          "index": 14,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer",
+          "intent": "Click Cost Explorer",
+          "action": "click",
+          "locatorHint": {
+            "role": "link",
+            "name": "Cost Explorer"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "cost-explorer"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <a> · role: link · name: \"Cost Explorer\" · href: \"/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer\" · class: \"vYVFb8\" · path: <div> > <div id=\"main-side-nav\"> > <div> > <div> > <div> > <a> · near: \"Overview\" (semantic), \"Cost Categories\" (semantic), \"BI Dashboards\" (semantic)"
+        },
+        {
+          "index": 15,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/ObCEjUd7QSavY0AVcp6Rxw",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "cost-explorer"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 16,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/ObCEjUd7QSavY0AVcp6Rxw",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/ObCEjUd7QSavY0AVcp6Rxw?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3A%7B%22gcpCost%22%3A%22COST%22%2C%22includeDiscounts%22%3Afalse%2C%22includeTaxes%22%3Afalse%2C%22includePromotions%22%3Afalse%2C%22includeNegotiatedSavings%22%3Atrue%2C%22includeSubscriptionCredits%22%3Afalse%2C%22includeSustainedUseDiscounts%22%3Afalse%2C%22includeResourceBasedCudCredits%22%3Afalse%2C%22includeLegacyBasedCudCredits%22%3Afalse%2C%22includeSpendBasedCudDiscounts%22%3Afalse%7D%2C%22azureViewPreferences%22%3A%7B%22costType%22%3A%22ACTUAL%22%7D%2C%22showAnomalies%22%3Afalse%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22NOT_IN%22%2C%22values%22%3A%5B%22CLUSTER%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-08%22%2C%22from%22%3A%222026-08-09%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D&unitMetrics=%5B%5D",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/ObCEjUd7QSavY0AVcp6Rxw",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/ObCEjUd7QSavY0AVcp6Rxw",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "cost-explorer"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 17,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/ObCEjUd7QSavY0AVcp6Rxw?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3A%7B%22gcpCost%22%3A%22COST%22%2C%22includeDiscounts%22%3Afalse%2C%22includeTaxes%22%3Afalse%2C%22includePromotions%22%3Afalse%2C%22includeNegotiatedSavings%22%3Atrue%2C%22includeSubscriptionCredits%22%3Afalse%2C%22includeSustainedUseDiscounts%22%3Afalse%2C%22includeResourceBasedCudCredits%22%3Afalse%2C%22includeLegacyBasedCudCredits%22%3Afalse%2C%22includeSpendBasedCudDiscounts%22%3Afalse%7D%2C%22azureViewPreferences%22%3A%7B%22costType%22%3A%22ACTUAL%22%7D%2C%22showAnomalies%22%3Afalse%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22NOT_IN%22%2C%22values%22%3A%5B%22CLUSTER%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-08%22%2C%22from%22%3A%222026-08-09%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D&unitMetrics=%5B%5D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/ObCEjUd7QSavY0AVcp6Rxw?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3A%7B%22gcpCost%22%3A%22COST%22%2C%22includeDiscounts%22%3Afalse%2C%22includeTaxes%22%3Afalse%2C%22includePromotions%22%3Afalse%2C%22includeNegotiatedSavings%22%3Atrue%2C%22includeSubscriptionCredits%22%3Afalse%2C%22includeSustainedUseDiscounts%22%3Afalse%2C%22includeResourceBasedCudCredits%22%3Afalse%2C%22includeLegacyBasedCudCredits%22%3Afalse%2C%22includeSpendBasedCudDiscounts%22%3Afalse%7D%2C%22azureViewPreferences%22%3A%7B%22costType%22%3A%22ACTUAL%22%7D%2C%22showAnomalies%22%3Afalse%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22NOT_IN%22%2C%22values%22%3A%5B%22CLUSTER%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-08%22%2C%22from%22%3A%222026-08-09%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D&unitMetrics=%5B%5D",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/ObCEjUd7QSavY0AVcp6Rxw?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3A%7B%22gcpCost%22%3A%22COST%22%2C%22includeDiscounts%22%3Afalse%2C%22includeTaxes%22%3Afalse%2C%22includePromotions%22%3Afalse%2C%22includeNegotiatedSavings%22%3Atrue%2C%22includeSubscriptionCredits%22%3Afalse%2C%22includeSustainedUseDiscounts%22%3Afalse%2C%22includeResourceBasedCudCredits%22%3Afalse%2C%22includeLegacyBasedCudCredits%22%3Afalse%2C%22includeSpendBasedCudDiscounts%22%3Afalse%7D%2C%22azureViewPreferences%22%3A%7B%22costType%22%3A%22ACTUAL%22%7D%2C%22showAnomalies%22%3Afalse%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22NOT_IN%22%2C%22values%22%3A%5B%22CLUSTER%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-08%22%2C%22from%22%3A%222026-08-09%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D&unitMetrics=%5B%5D",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/ObCEjUd7QSavY0AVcp6Rxw?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3A%7B%22gcpCost%22%3A%22COST%22%2C%22includeDiscounts%22%3Afalse%2C%22includeTaxes%22%3Afalse%2C%22includePromotions%22%3Afalse%2C%22includeNegotiatedSavings%22%3Atrue%2C%22includeSubscriptionCredits%22%3Afalse%2C%22includeSustainedUseDiscounts%22%3Afalse%2C%22includeResourceBasedCudCredits%22%3Afalse%2C%22includeLegacyBasedCudCredits%22%3Afalse%2C%22includeSpendBasedCudDiscounts%22%3Afalse%7D%2C%22azureViewPreferences%22%3A%7B%22costType%22%3A%22ACTUAL%22%7D%2C%22showAnomalies%22%3Afalse%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22NOT_IN%22%2C%22values%22%3A%5B%22CLUSTER%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-08%22%2C%22from%22%3A%222026-08-09%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D&unitMetrics=%5B%5D",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "cost-explorer"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 18,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/ObCEjUd7QSavY0AVcp6Rxw?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3A%7B%22gcpCost%22%3A%22COST%22%2C%22includeDiscounts%22%3Afalse%2C%22includeTaxes%22%3Afalse%2C%22includePromotions%22%3Afalse%2C%22includeNegotiatedSavings%22%3Atrue%2C%22includeSubscriptionCredits%22%3Afalse%2C%22includeSustainedUseDiscounts%22%3Afalse%2C%22includeResourceBasedCudCredits%22%3Afalse%2C%22includeLegacyBasedCudCredits%22%3Afalse%2C%22includeSpendBasedCudDiscounts%22%3Afalse%7D%2C%22azureViewPreferences%22%3A%7B%22costType%22%3A%22ACTUAL%22%7D%2C%22showAnomalies%22%3Afalse%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22NOT_IN%22%2C%22values%22%3A%5B%22CLUSTER%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-08%22%2C%22from%22%3A%222026-08-09%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D&unitMetrics=%5B%5D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "intent": "Click Switch back to Perspectives",
+          "action": "click",
+          "locatorHint": {
+            "role": "button",
+            "name": "Switch back to Perspectives"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <button> · role: button · name: \"Switch back to Perspectives\" · type: \"button\" · path: <div> > <div> > <div> > <div> > <div> > <button> · near: \"See what's new\" (semantic), \"cross\" (control)"
+        },
+        {
+          "index": 19,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 20,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "intent": "Verify New Perspective toBeDisabled",
+          "action": "assert",
+          "locatorHint": {
+            "name": "New Perspective",
+            "expression": "getByText(\"plusNew Perspective\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeDisabled"
+          },
+          "confidence": "medium",
+          "context": "element: <span> · name: \"New Perspective\" · text: \"plusNew Perspective\" · class: \"bp3-popover-target\" · path: <div> > <div> > <div> > <div> > <span> > <span>"
+        },
+        {
+          "index": 21,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "intent": "Hover over New Perspective",
+          "action": "hover",
+          "locatorHint": {
+            "name": "New Perspective",
+            "expression": "getByText(\"plusNew Perspective\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "confidence": "medium",
+          "context": "element: <span> · name: \"New Perspective\" · text: \"plusNew Perspective\" · class: \"bp3-popover-target\" · path: <div> > <div> > <div> > <div> > <span> > <span>"
+        },
+        {
+          "index": 22,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "intent": "Click <div>",
+          "action": "click",
+          "locatorHint": {
+            "expression": "locator(\"div\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "confidence": "unresolved",
+          "context": "element: <div> · class: \"Layout--vertical Layout--layout-spacing-small StyledProps--main Yq3kiG StyledProps--padding-small\" · path: <div> > <div> > <div> > <div> > <div> > <div>"
+        },
+        {
+          "index": 23,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "intent": "Verify You are not authorized to Create / Edit Perspectives. toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "You are not authorized to Create / Edit Perspectives.",
+            "expression": "getByText(\"You are not authorized to Create / Edit Perspectives.\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <p> · name: \"You are not authorized to Create / Edit Perspectives.\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 24,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "intent": "Verify <div> toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "expression": "locator(\"div\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "unresolved",
+          "context": "element: <div> · class: \"Layout--vertical Layout--layout-spacing-small StyledProps--main Yq3kiG StyledProps--padding-small\" · path: <div> > <div> > <div> > <div> > <div> > <div>"
+        },
+        {
+          "index": 25,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "intent": "Verify You are not authorized to Create / Edit Perspectives. toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "You are not authorized to Create / Edit Perspectives.",
+            "expression": "getByText(\"You are not authorized to Create / Edit Perspectives.\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <p> · name: \"You are not authorized to Create / Edit Perspectives.\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 26,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "intent": "Verify You are missing the following permission: toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "You are missing the following permission:",
+            "expression": "getByText(\"You are missing the following permission:\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <p> · name: \"You are missing the following permission:\" · class: \"StyledProps--font StyledProps--main StyledProps--font-size-small StyledProps--color StyledProps--color-grey800\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 27,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "intent": "Verify \" Create / Edit Perspectives \" in Account scope toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "\" Create / Edit Perspectives \" in Account scope",
+            "expression": "getByText(\"\\\"Create / Edit Perspectives\\\" in Account scope\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <p> · name: \"\" Create / Edit Perspectives \" in Account scope\" · text: \"\"Create / Edit Perspectives\" in Account scope\" · class: \"StyledProps--font StyledProps--main StyledProps--font-size-small StyledProps--color StyledProps--color-grey800\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 28,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "intent": "Verify <span> in \"New Perspective\" toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "expression": "locator(\"span\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "unresolved",
+          "context": "element: <span> · path: <div data-testid=\"page-body\"> > <div> > <div> > <div> > <span> · inside: <div> \"New Perspective\" (1 level up) · near: \"New Perspective\" (semantic)"
+        },
+        {
+          "index": 29,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "intent": "Verify Search perspectives toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "role": "textbox",
+            "name": "Search perspectives"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <input> · role: textbox · name: \"Search perspectives\" · type: \"search\" · placeholder: \"Search perspectives\" · class: \"bp3-input ExpandingSearchInput--filter\" · path: <div data-testid=\"page-body\"> > <div> > <div> > <div> > <div> > <input> · inside: <div> \"New Perspective\" (2 levels up)"
+        },
+        {
+          "index": 30,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "intent": "Enter \"Aws\" in Search perspectives",
+          "action": "fill",
+          "value": "Aws",
+          "locatorHint": {
+            "role": "textbox",
+            "name": "Search perspectives"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "confidence": "medium",
+          "context": "element: <input> · role: textbox · name: \"Search perspectives\" · type: \"search\" · placeholder: \"Search perspectives\" · class: \"bp3-input ExpandingSearchInput--filter\" · path: <div data-testid=\"page-body\"> > <div> > <div> > <div> > <div> > <input> · inside: <div> \"New Perspective\" (2 levels up)"
+        },
+        {
+          "index": 31,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Press Enter on Search perspectives",
+          "action": "press",
+          "value": "Enter",
+          "locatorHint": {
+            "role": "textbox",
+            "name": "Search perspectives"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "confidence": "medium",
+          "context": "element: <input> · role: textbox · name: \"Search perspectives\" · type: \"search\" · placeholder: \"Search perspectives\" · class: \"bp3-input ExpandingSearchInput--filter\" · path: <div data-testid=\"page-body\"> > <div> > <div> > <div> > <div> > <input> · inside: <div> \"New Perspective\" (2 levels up)"
+        },
+        {
+          "index": 32,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 33,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Verify data-testid=\"menu-uPXL2dw8T9-urS_HyzNc7w\" toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "testId": "menu-uPXL2dw8T9-urS_HyzNc7w",
+            "role": "button"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "high",
+          "context": "element: <button data-testid=\"menu-uPXL2dw8T9-urS_HyzNc7w\"> · role: button · type: \"button\" · path: <div> > <div> > <div> > <span> > <span> > <button data-testid=\"menu-uPXL2dw8T9-urS_HyzNc7w\"> · inside: <div> \"AWS By Harness Last 30 Days By Harness By Harness\" (5 levels up)"
+        },
+        {
+          "index": 34,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Verify data-testid=\"menu-uPXL2dw8T9-urS_HyzNc7w\" toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "testId": "menu-uPXL2dw8T9-urS_HyzNc7w",
+            "role": "button"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "high",
+          "context": "element: <button data-testid=\"menu-uPXL2dw8T9-urS_HyzNc7w\"> · role: button · type: \"button\" · path: <div> > <div> > <div> > <span> > <span> > <button data-testid=\"menu-uPXL2dw8T9-urS_HyzNc7w\"> · inside: <div> \"AWS By Harness Last 30 Days By Harness By Harness\" (5 levels up)"
+        },
+        {
+          "index": 35,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Click data-testid=\"menu-uPXL2dw8T9-urS_HyzNc7w\"",
+          "action": "click",
+          "locatorHint": {
+            "testId": "menu-uPXL2dw8T9-urS_HyzNc7w",
+            "role": "button"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <button data-testid=\"menu-uPXL2dw8T9-urS_HyzNc7w\"> · role: button · type: \"button\" · path: <div> > <div> > <div> > <span> > <span> > <button data-testid=\"menu-uPXL2dw8T9-urS_HyzNc7w\"> · inside: <div> \"AWS By Harness Last 30 Days By Harness By Harness\" (5 levels up)"
+        },
+        {
+          "index": 36,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Click Edit",
+          "action": "click",
+          "locatorHint": {
+            "name": "Edit",
+            "expression": "getByTestId(\"menuItem\").getByText(\"editEdit\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <a> · name: \"Edit\" · text: \"editEdit\" · class: \"bp3-menu-item bp3-disabled\" · path: <div data-testid=\"menuItem\"> > <li> > <a> · near: \"Clone\" (semantic), \"Delete\" (semantic), \"Move to\" (semantic)"
+        },
+        {
+          "index": 37,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Click Edit",
+          "action": "click",
+          "locatorHint": {
+            "name": "Edit",
+            "expression": "getByTestId(\"menuItem\").getByText(\"editEdit\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <a> · name: \"Edit\" · text: \"editEdit\" · class: \"bp3-menu-item bp3-disabled\" · path: <div data-testid=\"menuItem\"> > <li> > <a> · near: \"Clone\" (semantic), \"Delete\" (semantic), \"Move to\" (semantic)"
+        },
+        {
+          "index": 38,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Verify These perspectives are not allowed to edit toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "These perspectives are not allowed to edit",
+            "expression": "getByText(\"These perspectives are not allowed to edit\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <p> · name: \"These perspectives are not allowed to edit\" · class: \"StyledProps--font StyledProps--main StyledProps--padding-small\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 39,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Click Clone",
+          "action": "click",
+          "locatorHint": {
+            "testId": "clone-perspective-uPXL2dw8T9-urS_HyzNc7w",
+            "name": "Clone"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <a data-testid=\"clone-perspective-uPXL2dw8T9-urS_HyzNc7w\"> · name: \"Clone\" · text: \"duplicateClone\" · class: \"bp3-menu-item bp3-disabled\" · path: <div data-testid=\"menuItem\"> > <li> > <a data-testid=\"clone-perspective-uPXL2dw8T9-urS_HyzNc7w\"> · near: \"Edit\" (semantic), \"Delete\" (semantic), \"Move to\" (semantic)"
+        },
+        {
+          "index": 40,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Verify You are not authorized to Create / Edit Perspectives. toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "You are not authorized to Create / Edit Perspectives.",
+            "expression": "getByText(\"You are not authorized to Create / Edit Perspectives.\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <p> · name: \"You are not authorized to Create / Edit Perspectives.\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 41,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Verify You are missing the following permission: toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "You are missing the following permission:",
+            "expression": "getByText(\"You are missing the following permission:\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <p> · name: \"You are missing the following permission:\" · class: \"StyledProps--font StyledProps--main StyledProps--font-size-small StyledProps--color StyledProps--color-grey800\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 42,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Verify \" Create / Edit Perspectives \" in Account scope toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "\" Create / Edit Perspectives \" in Account scope",
+            "expression": "getByText(\"\\\"Create / Edit Perspectives\\\" in Account scope\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <p> · name: \"\" Create / Edit Perspectives \" in Account scope\" · text: \"\"Create / Edit Perspectives\" in Account scope\" · class: \"StyledProps--font StyledProps--main StyledProps--font-size-small StyledProps--color StyledProps--color-grey800\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 43,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Verify Edit toBeDisabled",
+          "action": "assert",
+          "locatorHint": {
+            "name": "Edit",
+            "expression": "getByTestId(\"menuItem\").getByText(\"Edit\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeDisabled"
+          },
+          "confidence": "high",
+          "context": "element: <div> · name: \"Edit\" · class: \"bp3-text-overflow-ellipsis bp3-fill\" · path: <div data-testid=\"menuItem\"> > <li> > <a> > <div> · near: \"Clone\" (semantic), \"Delete\" (semantic), \"Move to\" (semantic)"
+        },
+        {
+          "index": 44,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Verify Clone toBeDisabled",
+          "action": "assert",
+          "locatorHint": {
+            "name": "Clone",
+            "expression": "getByTestId(\"clone-perspective-uPXL2dw8T9-urS_HyzNc7w\").getByText(\"Clone\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeDisabled"
+          },
+          "confidence": "high",
+          "context": "element: <div> · name: \"Clone\" · class: \"bp3-text-overflow-ellipsis bp3-fill\" · path: <a data-testid=\"clone-perspective-uPXL2dw8T9-urS_HyzNc7w\"> > <div> · near: \"Edit\" (semantic), \"Delete\" (semantic), \"Move to\" (semantic)"
+        },
+        {
+          "index": 45,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Verify Delete toBeDisabled",
+          "action": "assert",
+          "locatorHint": {
+            "name": "Delete",
+            "expression": "getByTestId(\"menuItem\").getByText(\"Delete\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeDisabled"
+          },
+          "confidence": "high",
+          "context": "element: <div> · name: \"Delete\" · class: \"bp3-text-overflow-ellipsis bp3-fill\" · path: <div data-testid=\"menuItem\"> > <li> > <a> > <div> · near: \"Edit\" (semantic), \"Clone\" (semantic), \"Move to\" (semantic)"
+        },
+        {
+          "index": 46,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Verify Move to toBeDisabled",
+          "action": "assert",
+          "locatorHint": {
+            "name": "Move to",
+            "expression": "getByTestId(\"menuItem\").getByText(\"Move to\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeDisabled"
+          },
+          "confidence": "high",
+          "context": "element: <div> · name: \"Move to\" · class: \"bp3-text-overflow-ellipsis bp3-fill\" · path: <div data-testid=\"menuItem\"> > <li> > <a> > <div> · near: \"Edit\" (semantic), \"Clone\" (semantic), \"Delete\" (semantic)"
+        },
+        {
+          "index": 47,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Click Delete",
+          "action": "click",
+          "locatorHint": {
+            "name": "Delete",
+            "expression": "getByTestId(\"menuItem\").getByText(\"trashDelete\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <a> · name: \"Delete\" · text: \"trashDelete\" · class: \"bp3-menu-item bp3-disabled\" · path: <div data-testid=\"menuItem\"> > <li> > <a> · near: \"Edit\" (semantic), \"Clone\" (semantic), \"Move to\" (semantic)"
+        },
+        {
+          "index": 48,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Click Delete",
+          "action": "click",
+          "locatorHint": {
+            "name": "Delete",
+            "expression": "getByTestId(\"menuItem\").getByText(\"trashDelete\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <a> · name: \"Delete\" · text: \"trashDelete\" · class: \"bp3-menu-item bp3-disabled\" · path: <div data-testid=\"menuItem\"> > <li> > <a> · near: \"Edit\" (semantic), \"Clone\" (semantic), \"Move to\" (semantic)"
+        },
+        {
+          "index": 49,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Verify These perspectives are not allowed to delete toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "These perspectives are not allowed to delete",
+            "expression": "getByText(\"These perspectives are not allowed to delete\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <p> · name: \"These perspectives are not allowed to delete\" · class: \"StyledProps--font StyledProps--main StyledProps--padding-small\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 50,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Verify Move to toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "Move to",
+            "expression": "getByTestId(\"menuItem\").getByText(\"add-to-folderMove to\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "high",
+          "context": "element: <a> · name: \"Move to\" · text: \"add-to-folderMove to\" · class: \"bp3-menu-item bp3-disabled\" · path: <div data-testid=\"menuItem\"> > <li> > <a> · near: \"Edit\" (semantic), \"Clone\" (semantic), \"Delete\" (semantic)"
+        },
+        {
+          "index": 51,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Verify These perspectives are not allowed to edit toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "These perspectives are not allowed to edit",
+            "expression": "getByText(\"These perspectives are not allowed to edit\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <p> · name: \"These perspectives are not allowed to edit\" · class: \"StyledProps--font StyledProps--main StyledProps--padding-small\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 52,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Verify New folder toBeDisabled",
+          "action": "assert",
+          "locatorHint": {
+            "name": "New folder",
+            "expression": "getByText(\"New folder\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeDisabled"
+          },
+          "confidence": "medium",
+          "context": "element: <span> · name: \"New folder\" · class: \"bp3-button-text\" · path: <div> > <div> > <span> > <span> > <a> > <span>"
+        },
+        {
+          "index": 53,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Hover over New folder",
+          "action": "hover",
+          "locatorHint": {
+            "name": "New folder",
+            "expression": "getByText(\"New folder\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "confidence": "medium",
+          "context": "element: <span> · name: \"New folder\" · class: \"bp3-button-text\" · path: <div> > <div> > <span> > <span> > <a> > <span>"
+        },
+        {
+          "index": 54,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Hover over New folder",
+          "action": "hover",
+          "locatorHint": {
+            "name": "New folder",
+            "expression": "getByText(\"New folder\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "confidence": "medium",
+          "context": "element: <span> · name: \"New folder\" · class: \"bp3-button-text\" · path: <div> > <div> > <span> > <span> > <a> > <span>"
+        },
+        {
+          "index": 55,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Click Folders New folder",
+          "action": "click",
+          "locatorHint": {
+            "name": "Folders New folder",
+            "expression": "getByTestId(\"page-body\").getByText(\"FoldersplusNew folder\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <div> · name: \"Folders New folder\" · text: \"FoldersplusNew folder\" · class: \"StyledProps--font StyledProps--main ccmui_PerspectiveFoldersSideNav-module_customFoldersNav_dK2CMu\" · path: <div data-testid=\"page-body\"> > <div> > <div> > <div>"
+        },
+        {
+          "index": 56,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Click Folders New folder",
+          "action": "click",
+          "locatorHint": {
+            "name": "Folders New folder",
+            "expression": "getByTestId(\"page-body\").getByText(\"FoldersplusNew folder\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <div> · name: \"Folders New folder\" · text: \"FoldersplusNew folder\" · class: \"StyledProps--font StyledProps--main ccmui_PerspectiveFoldersSideNav-module_customFoldersNav_dK2CMu\" · path: <div data-testid=\"page-body\"> > <div> > <div> > <div>"
+        },
+        {
+          "index": 57,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Click New folder",
+          "action": "click",
+          "locatorHint": {
+            "role": "button",
+            "name": "New folder"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <a> · role: button · name: \"New folder\" · text: \"plusNew folder\" · path: <div> > <div> > <div> > <span> > <span> > <a>"
+        },
+        {
+          "index": 58,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Verify You are not authorized to Create / Edit Folders. toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "You are not authorized to Create / Edit Folders.",
+            "expression": "getByText(\"You are not authorized to Create / Edit Folders.\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <p> · name: \"You are not authorized to Create / Edit Folders.\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 59,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Verify You are missing the following permission: toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "You are missing the following permission:",
+            "expression": "getByText(\"You are missing the following permission:\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <p> · name: \"You are missing the following permission:\" · class: \"StyledProps--font StyledProps--main StyledProps--font-size-small StyledProps--color StyledProps--color-grey800\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 60,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
+          "intent": "Verify \" Create / Edit Folders \" in Account scope toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "\" Create / Edit Folders \" in Account scope",
+            "expression": "getByText(\"\\\"Create / Edit Folders\\\" in Account scope\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "perspectives"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <p> · name: \"\" Create / Edit Folders \" in Account scope\" · text: \"\"Create / Edit Folders\" in Account scope\" · class: \"StyledProps--font StyledProps--main StyledProps--font-size-small StyledProps--color StyledProps--color-grey800\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 61,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/perspectives?search=%22Aws%22",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
           "intent": "Click Budgets",
           "action": "click",
@@ -230,10 +1146,10 @@
           },
           "skipInTest": false,
           "confidence": "high",
-          "context": "element: <a> · role: link · name: \"Budgets\" · href: \"/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets\" · class: \"vYVFb8\" · path: <div> > <div id=\"main-side-nav\"> > <div> > <div> > <div> > <a> · near: \"Overview\" (semantic), \"Cost Explorer\" (semantic), \"Cost Categories\" (semantic)"
+          "context": "element: <a> · role: link · name: \"Budgets\" · href: \"/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets\" · class: \"vYVFb8\" · path: <div> > <div id=\"main-side-nav\"> > <div> > <div> > <div> > <a> · near: \"Overview\" (semantic), \"Perspectives\" (semantic), \"Cost Categories\" (semantic)"
         },
         {
-          "index": 16,
+          "index": 62,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
           "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
@@ -247,11 +1163,11 @@
           "confidence": "high"
         },
         {
-          "index": 17,
+          "index": 63,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "intent": "Click New Budget",
-          "action": "click",
+          "intent": "Hover over New Budget",
+          "action": "hover",
           "locatorHint": {
             "role": "button",
             "name": "New Budget"
@@ -263,17 +1179,17 @@
           },
           "skipInTest": false,
           "confidence": "high",
-          "context": "element: <button> · role: button · name: \"New Budget\" · text: \"plusNew Budget\" · type: \"button\" · path: <div data-testid=\"page-subheader\"> > <button> · near: \"Search\" (control), \"Add Filter\" (control), \"Save\" (control)"
+          "context": "element: <a> · role: button · name: \"New Budget\" · text: \"plusNew Budget\" · path: <div data-testid=\"page-subheader\"> > <span> > <span> > <a>"
         },
         {
-          "index": 18,
+          "index": 64,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "intent": "Force click - Select -",
-          "action": "click",
+          "intent": "Verify New Budget toBeDisabled",
+          "action": "assert",
           "locatorHint": {
-            "role": "textbox",
-            "name": "- Select -"
+            "name": "New Budget",
+            "expression": "getByTestId(\"page-subheader\").getByText(\"New Budget\", { exact: true })"
           },
           "productHints": {
             "navModule": "ce",
@@ -281,184 +1197,1269 @@
             "pageHeading": "All Budgets"
           },
           "skipInTest": false,
-          "confidence": "medium",
-          "context": "element: <input name=\"perspective\"> · role: textbox · name: \"- Select -\" · type: \"text\" · placeholder: \"- Select -\" · class: \"bp3-input\" · path: <div> > <div> > <div> > <div> > <div> > <input name=\"perspective\"> · inside: <div> \"chevron-down\" (1 level up) · near: \"Select View\" (label), \"Budget Name\" (label), \"Specify name\" (control)"
-        },
-        {
-          "index": 19,
-          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "intent": "Click GCP",
-          "action": "click",
-          "locatorHint": {
-            "name": "GCP",
-            "expression": "locator(\"li\")"
-          },
-          "productHints": {
-            "navModule": "ce",
-            "feature": "budgets",
-            "pageHeading": "All Budgets"
-          },
-          "skipInTest": false,
-          "confidence": "unresolved",
-          "context": "element: <li> · name: \"GCP\" · class: \"Select--menuItem\" · path: <ul> > <li>"
-        },
-        {
-          "index": 20,
-          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "intent": "Click GCP",
-          "action": "click",
-          "locatorHint": {
-            "name": "GCP",
-            "expression": "getByText(\"GCP\", { exact: true })"
-          },
-          "productHints": {
-            "navModule": "ce",
-            "feature": "budgets",
-            "pageHeading": "All Budgets"
-          },
-          "skipInTest": false,
-          "confidence": "medium",
-          "context": "element: <p> · name: \"GCP\" · class: \"StyledProps--font Text--lineclamp StyledProps--main Select--menuItemLabel\" · path: <ul> > <li> > <p>"
-        },
-        {
-          "index": 21,
-          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "intent": "Enter \"sadfgfhgjh\" in Specify name",
-          "action": "fill",
-          "value": "sadfgfhgjh",
-          "locatorHint": {
-            "role": "textbox",
-            "name": "Specify name"
-          },
-          "productHints": {
-            "navModule": "ce",
-            "feature": "budgets",
-            "pageHeading": "All Budgets"
-          },
-          "skipInTest": false,
-          "valueKind": {
-            "unique": false,
-            "createsResource": false
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeDisabled"
           },
           "confidence": "high",
-          "context": "element: <input name=\"budgetName\"> · role: textbox · name: \"Specify name\" · type: \"text\" · placeholder: \"Specify name\" · class: \"bp3-input\" · path: <div> > <div> > <div> > <div> > <div> > <input name=\"budgetName\"> · inside: <div> \"Budget Name\" (3 levels up) · near: \"Select View\" (label), \"- Select -\" (control), \"Budget Name\" (label)"
+          "context": "element: <span> · name: \"New Budget\" · class: \"bp3-button-text\" · path: <div data-testid=\"page-subheader\"> > <span> > <span> > <a> > <span>"
         },
         {
-          "index": 22,
+          "index": 65,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "intent": "Click Continue",
+          "intent": "Click You are missing the following permission:",
+          "action": "click",
+          "locatorHint": {
+            "name": "You are missing the following permission:",
+            "expression": "getByText(\"You are missing the following permission:\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "budgets",
+            "pageHeading": "All Budgets"
+          },
+          "skipInTest": false,
+          "confidence": "medium",
+          "context": "element: <p> · name: \"You are missing the following permission:\" · class: \"StyledProps--font StyledProps--main StyledProps--font-size-small StyledProps--color StyledProps--color-grey800\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 66,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "intent": "Verify You are not authorized to Create / Edit Budgets. toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "You are not authorized to Create / Edit Budgets.",
+            "expression": "getByText(\"You are not authorized to Create / Edit Budgets.\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "budgets",
+            "pageHeading": "All Budgets"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <p> · name: \"You are not authorized to Create / Edit Budgets.\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 67,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "intent": "Verify You are missing the following permission: toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "You are missing the following permission:",
+            "expression": "getByText(\"You are missing the following permission:\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "budgets",
+            "pageHeading": "All Budgets"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <p> · name: \"You are missing the following permission:\" · class: \"StyledProps--font StyledProps--main StyledProps--font-size-small StyledProps--color StyledProps--color-grey800\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 68,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "intent": "Verify \" Create / Edit Budgets \" in Account scope toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "\" Create / Edit Budgets \" in Account scope",
+            "expression": "getByText(\"\\\"Create / Edit Budgets\\\" in Account scope\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "budgets",
+            "pageHeading": "All Budgets"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <p> · name: \"\" Create / Edit Budgets \" in Account scope\" · text: \"\"Create / Edit Budgets\" in Account scope\" · class: \"StyledProps--font StyledProps--main StyledProps--font-size-small StyledProps--color StyledProps--color-grey800\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 69,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection",
+          "intent": "Click Anomalies",
+          "action": "click",
+          "locatorHint": {
+            "role": "link",
+            "name": "Anomalies"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection",
+            "pageHeading": "All Budgets"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <a> · role: link · name: \"Anomalies\" · href: \"/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection\" · class: \"vYVFb8\" · path: <div> > <div id=\"main-side-nav\"> > <div> > <div> > <div> > <a> · near: \"Overview\" (semantic), \"Perspectives\" (semantic), \"Cost Categories\" (semantic)"
+        },
+        {
+          "index": 70,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-08&timeFilters%5Bfrom%5D=2026-08-09",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 71,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-08&timeFilters%5Bfrom%5D=2026-08-09",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-08&timeFilters%5Bfrom%5D=2026-08-09",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-08&timeFilters%5Bfrom%5D=2026-08-09",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-08&timeFilters%5Bfrom%5D=2026-08-09",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 72,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-08&timeFilters%5Bfrom%5D=2026-08-09",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-08&timeFilters%5Bfrom%5D=2026-08-09",
+          "intent": "Click Settings",
           "action": "click",
           "locatorHint": {
             "role": "button",
-            "name": "Continue"
+            "name": "Settings"
           },
           "productHints": {
             "navModule": "ce",
-            "feature": "budgets",
-            "pageHeading": "All Budgets"
+            "feature": "anomaly-detection"
           },
           "skipInTest": false,
           "confidence": "high",
-          "context": "element: <button> · role: button · name: \"Continue\" · text: \"Continuechevron-right\" · type: \"submit\" · path: <form> > <div> > <div> > <div> > <button> · near: \"Select View\" (label), \"- Select -\" (control), \"Budget Name\" (label)"
+          "context": "element: <button> · role: button · name: \"Settings\" · type: \"button\" · path: <div data-testid=\"page-header\"> > <div> > <button> · near: \"Export CSV\" (control)"
         },
         {
-          "index": 23,
-          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "intent": "Enter \"10\" in name=\"budgetAmount\"",
-          "action": "fill",
-          "value": "10",
+          "index": 73,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-08&timeFilters%5Bfrom%5D=2026-08-09",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-08&timeFilters%5Bfrom%5D=2026-08-09",
+          "intent": "Verify new Alert toBeDisabled",
+          "action": "assert",
           "locatorHint": {
-            "role": "textbox",
-            "expression": "locator(\"input[name=\\\"budgetAmount\\\"]\")"
+            "name": "new Alert",
+            "expression": "getByText(\"new Alert\", { exact: true })"
           },
           "productHints": {
             "navModule": "ce",
-            "feature": "budgets",
-            "pageHeading": "All Budgets"
+            "feature": "anomaly-detection"
           },
           "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeDisabled"
+          },
           "confidence": "medium",
-          "context": "element: <input name=\"budgetAmount\"> · role: textbox · type: \"number\" · class: \"bp3-input\" · path: <div> > <div> > <div> > <div> > <div> > <input name=\"budgetAmount\"> · inside: <div> \"Specify amount ($)\" (3 levels up) · near: \"Budget Period\" (label), \"- Select -\" (control), \"MM/DD/YYYY\" (control)"
+          "context": "element: <span> · name: \"new Alert\" · class: \"bp3-button-text\" · path: <div> > <div> > <span> > <span> > <a> > <span>"
         },
         {
-          "index": 24,
-          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "intent": "Click Last period's spend",
-          "action": "click",
-          "locatorHint": {
-            "name": "Last period's spend",
-            "expression": "locator(\"li\")"
-          },
-          "productHints": {
-            "navModule": "ce",
-            "feature": "budgets",
-            "pageHeading": "All Budgets"
-          },
-          "skipInTest": false,
-          "confidence": "unresolved",
-          "context": "element: <li> · name: \"Last period's spend\" · class: \"Select--menuItem\" · path: <ul> > <li>"
-        },
-        {
-          "index": 25,
-          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "intent": "Click Total cost last period$600.82Projected cost end of this period$570.27",
+          "index": 74,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-08&timeFilters%5Bfrom%5D=2026-08-09",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-08&timeFilters%5Bfrom%5D=2026-08-09",
+          "intent": "Click <div> in \"cross\"",
           "action": "click",
           "locatorHint": {
             "expression": "locator(\"div\")"
           },
           "productHints": {
             "navModule": "ce",
-            "feature": "budgets",
-            "pageHeading": "All Budgets"
+            "feature": "anomaly-detection"
           },
           "skipInTest": false,
           "confidence": "unresolved",
-          "context": "element: <div> · text: \"Total cost last period$600.82Projected cost end of this period$570.27\" · class: \"StyledProps--font StyledProps--main StyledProps--padding-left-medium\" · path: <form> > <div> > <div> > <div> > <div> · near: \"Budget Period\" (label), \"- Select -\" (control), \"MM/DD/YYYY\" (control)"
+          "context": "element: <div> · class: \"bp3-tabs\" · path: <html> > <body> > <div> > <div> > <div> > <div> · near: \"cross\" (control)"
         },
         {
-          "index": 26,
-          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "intent": "Click Continue",
+          "index": 75,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-08&timeFilters%5Bfrom%5D=2026-08-09",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-08&timeFilters%5Bfrom%5D=2026-08-09",
+          "intent": "Click new Alert",
           "action": "click",
           "locatorHint": {
             "role": "button",
-            "name": "Continue"
+            "name": "new Alert"
           },
           "productHints": {
             "navModule": "ce",
-            "feature": "budgets",
-            "pageHeading": "All Budgets"
+            "feature": "anomaly-detection"
           },
           "skipInTest": false,
           "confidence": "high",
-          "context": "element: <button> · role: button · name: \"Continue\" · text: \"Continuechevron-right\" · type: \"submit\" · path: <form> > <div> > <div> > <div> > <button> · near: \"Budget Period\" (label), \"- Select -\" (control), \"MM/DD/YYYY\" (control)"
+          "context": "element: <a> · role: button · name: \"new Alert\" · text: \"plusnew Alert\" · path: <div id=\"bp3-tab-panel_anomaliesAlertTabs_alerts\"> > <div> > <div> > <span> > <span> > <a> · inside: <div id=\"bp3-tab-panel_anomaliesAlertTabs_alerts\"> \"Alerts\" (5 levels up)"
         },
         {
-          "index": 27,
-          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "intent": "Click Save",
-          "action": "click",
+          "index": 76,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-08&timeFilters%5Bfrom%5D=2026-08-09",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-08&timeFilters%5Bfrom%5D=2026-08-09",
+          "intent": "Verify You are not authorized to Manage Anomalies. toBeVisible",
+          "action": "assert",
           "locatorHint": {
-            "role": "button",
-            "name": "Save"
+            "name": "You are not authorized to Manage Anomalies.",
+            "expression": "getByText(\"You are not authorized to Manage Anomalies.\", { exact: true })"
           },
           "productHints": {
             "navModule": "ce",
-            "feature": "budgets",
-            "pageHeading": "All Budgets"
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <p> · name: \"You are not authorized to Manage Anomalies.\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 77,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-08&timeFilters%5Bfrom%5D=2026-08-09",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-08&timeFilters%5Bfrom%5D=2026-08-09",
+          "intent": "Verify You are missing the following permission: toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "You are missing the following permission:",
+            "expression": "getByText(\"You are missing the following permission:\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <p> · name: \"You are missing the following permission:\" · class: \"StyledProps--font StyledProps--main StyledProps--font-size-small StyledProps--color StyledProps--color-grey800\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 78,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-08&timeFilters%5Bfrom%5D=2026-08-09",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-08&timeFilters%5Bfrom%5D=2026-08-09",
+          "intent": "Verify \" Manage Anomalies \" in Account scope toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "\" Manage Anomalies \" in Account scope",
+            "expression": "getByText(\"\\\"Manage Anomalies\\\" in Account scope\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <p> · name: \"\" Manage Anomalies \" in Account scope\" · text: \"\"Manage Anomalies\" in Account scope\" · class: \"StyledProps--font StyledProps--main StyledProps--font-size-small StyledProps--color StyledProps--color-grey800\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 79,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-08&timeFilters%5Bfrom%5D=2026-08-09",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/autostopping-rules",
+          "intent": "Click AutoStopping Rules",
+          "action": "click",
+          "locatorHint": {
+            "role": "link",
+            "name": "AutoStopping Rules"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "autostopping-rules"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <a> · role: link · name: \"AutoStopping Rules\" · href: \"/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/autostopping-rules\" · class: \"vYVFb8\" · path: <div> > <div id=\"main-side-nav\"> > <div> > <div> > <div> > <a> · near: \"Overview\" (semantic), \"Perspectives\" (semantic), \"Cost Categories\" (semantic)"
+        },
+        {
+          "index": 80,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/autostopping-rules",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/autostopping-rules",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/autostopping-rules",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/autostopping-rules",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "autostopping-rules"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 81,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/autostopping-rules",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/autostopping-rules",
+          "intent": "Click New AutoStopping Rule",
+          "action": "click",
+          "locatorHint": {
+            "role": "button",
+            "name": "New AutoStopping Rule"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "autostopping-rules",
+            "pageHeading": "AutoStopping Rules"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <a> · role: button · name: \"New AutoStopping Rule\" · text: \"plusNew AutoStopping Rule\" · path: <div data-testid=\"page-subheader\"> > <div> > <div> > <span> > <span> > <a>"
+        },
+        {
+          "index": 82,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/autostopping-rules",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/autostopping-rules",
+          "intent": "Click <p>",
+          "action": "click",
+          "locatorHint": {
+            "expression": "locator(\"p\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "autostopping-rules",
+            "pageHeading": "AutoStopping Rules"
+          },
+          "skipInTest": false,
+          "confidence": "unresolved",
+          "context": "element: <p> · class: \"StyledProps--font StyledProps--main StyledProps--padding-medium StyledProps--font-variation-body\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 83,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/autostopping-rules",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/autostopping-rules",
+          "intent": "Verify New AutoStopping Rule toBeDisabled",
+          "action": "assert",
+          "locatorHint": {
+            "name": "New AutoStopping Rule",
+            "expression": "getByText(\"New AutoStopping Rule\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "autostopping-rules",
+            "pageHeading": "AutoStopping Rules"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeDisabled"
+          },
+          "confidence": "medium",
+          "context": "element: <span> · name: \"New AutoStopping Rule\" · class: \"bp3-button-text\" · path: <div> > <div> > <span> > <span> > <a> > <span>"
+        },
+        {
+          "index": 84,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/autostopping-rules",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/autostopping-rules",
+          "intent": "Verify <p> toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "expression": "locator(\"p\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "autostopping-rules",
+            "pageHeading": "AutoStopping Rules"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "unresolved",
+          "context": "element: <p> · class: \"StyledProps--font StyledProps--main StyledProps--padding-medium StyledProps--font-variation-body\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 85,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/autostopping-rules",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/",
+          "intent": "Verify <p> toHaveText \"You are not authorized to create auto stopping rules. You might not have autostopping create/edit permissions on any connector.\"",
+          "action": "assert",
+          "locatorHint": {
+            "expression": "locator(\"p\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance",
+            "pageHeading": "AutoStopping Rules"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toHaveText",
+            "value": "You are not authorized to create auto stopping rules. You might not have autostopping create/edit permissions on any connector."
+          },
+          "confidence": "unresolved",
+          "context": "element: <p> · class: \"StyledProps--font StyledProps--main StyledProps--padding-medium StyledProps--font-variation-body\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 86,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 87,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "intent": "Click Rules",
+          "action": "click",
+          "locatorHint": {
+            "role": "tab",
+            "name": "Rules"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <div id=\"bp3-tab-title_GovernanceHeaderTabs_Rules\"> · role: tab · name: \"Rules\" · class: \"bp3-tab\" · path: <div> > <div> > <div> > <div> > <div> > <div id=\"bp3-tab-title_GovernanceHeaderTabs_Rules\"> · near: \"Overview\" (semantic), \"Enforcements\" (semantic), \"Evaluations\" (semantic)"
+        },
+        {
+          "index": 88,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 89,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "intent": "Click New Rule/Rule Set",
+          "action": "click",
+          "locatorHint": {
+            "role": "button",
+            "name": "New Rule/Rule Set"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <button> · role: button · name: \"New Rule/Rule Set\" · text: \"plusNew Rule/Rule Setchevron-down\" · type: \"button\" · path: <div data-testid=\"page-subheader\"> > <span> > <span> > <button>"
+        },
+        {
+          "index": 90,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "intent": "Verify New Rule/Rule Set toBeDisabled",
+          "action": "assert",
+          "locatorHint": {
+            "name": "New Rule/Rule Set",
+            "expression": "getByTestId(\"page-subheader\").getByText(\"New Rule/Rule Set\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeDisabled"
+          },
+          "confidence": "high",
+          "context": "element: <span> · name: \"New Rule/Rule Set\" · class: \"bp3-button-text\" · path: <div data-testid=\"page-subheader\"> > <span> > <span> > <button> > <span>"
+        },
+        {
+          "index": 91,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "intent": "Verify Create a new Rule toBeDisabled",
+          "action": "assert",
+          "locatorHint": {
+            "name": "Create a new Rule",
+            "expression": "getByText(\"Create a new Rule\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeDisabled"
+          },
+          "confidence": "medium",
+          "context": "element: <span> · name: \"Create a new Rule\" · class: \"bp3-popover-target Text--targetClass\" · path: <div> > <div> > <div> > <div> > <span> > <span>"
+        },
+        {
+          "index": 92,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "intent": "Verify Create a new Rule Set toBeDisabled",
+          "action": "assert",
+          "locatorHint": {
+            "name": "Create a new Rule Set",
+            "expression": "getByText(\"Create a new Rule Set\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeDisabled"
+          },
+          "confidence": "medium",
+          "context": "element: <span> · name: \"Create a new Rule Set\" · class: \"bp3-popover-target Text--targetClass\" · path: <div> > <div> > <div> > <div> > <span> > <span>"
+        },
+        {
+          "index": 93,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "intent": "Click New Rule/Rule Set",
+          "action": "click",
+          "locatorHint": {
+            "role": "button",
+            "name": "New Rule/Rule Set"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <button> · role: button · name: \"New Rule/Rule Set\" · text: \"plusNew Rule/Rule Setchevron-down\" · type: \"button\" · path: <div data-testid=\"page-subheader\"> > <span> > <span> > <button>"
+        },
+        {
+          "index": 94,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "intent": "Click New Rule/Rule Set",
+          "action": "click",
+          "locatorHint": {
+            "role": "button",
+            "name": "New Rule/Rule Set"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <button> · role: button · name: \"New Rule/Rule Set\" · text: \"plusNew Rule/Rule Setchevron-down\" · type: \"button\" · path: <div data-testid=\"page-subheader\"> > <span> > <span> > <button>"
+        },
+        {
+          "index": 95,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "intent": "Click Create a new Rule",
+          "action": "click",
+          "locatorHint": {
+            "name": "Create a new Rule",
+            "expression": "getByText(\"Create a new Rule\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
           },
           "skipInTest": false,
           "confidence": "medium",
-          "context": "element: <button> · role: button · name: \"Save\" · text: \"Savechevron-right\" · type: \"button\" · path: <form> > <div> > <div> > <div> > <button> · near: \"Add new alert\" (control), \"Previous\" (control)"
+          "context": "element: <span> · name: \"Create a new Rule\" · class: \"bp3-popover-target bp3-popover-open Text--targetClass\" · path: <div> > <div> > <div> > <div> > <span> > <span>"
+        },
+        {
+          "index": 96,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "intent": "Verify You are not authorized to Create / Edit Cloud Asset Governance Rules. toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "expression": "locator(\"p\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "unresolved",
+          "context": "element: <p> · text: \"You are not authorized to Create / Edit Cloud Asset Governance Rules.\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 97,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "intent": "Verify You are missing the following permission: toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "You are missing the following permission:",
+            "expression": "getByText(\"You are missing the following permission:\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <p> · name: \"You are missing the following permission:\" · class: \"StyledProps--font StyledProps--main StyledProps--font-size-small StyledProps--color StyledProps--color-grey800\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 98,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "intent": "Verify \"Create / Edit Cloud Asset Governance Rules\" in Account scope toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "expression": "locator(\"p\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "unresolved",
+          "context": "element: <p> · text: \"\"Create / Edit Cloud Asset Governance Rules\" in Account scope\" · class: \"StyledProps--font StyledProps--main StyledProps--font-size-small StyledProps--color StyledProps--color-grey800\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 99,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "intent": "Verify Create a new Rule Set toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "Create a new Rule Set",
+            "expression": "getByText(\"Create a new Rule Set\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <span> · name: \"Create a new Rule Set\" · class: \"bp3-popover-target bp3-popover-open Text--targetClass\" · path: <div> > <div> > <div> > <div> > <span> > <span>"
+        },
+        {
+          "index": 100,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "intent": "Verify <div> toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "expression": "locator(\"div\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "unresolved",
+          "context": "element: <div> · class: \"Layout--vertical Layout--layout-spacing-small StyledProps--main Yq3kiG StyledProps--padding-small\" · path: <div> > <div> > <div> > <div> > <div> > <div>"
+        },
+        {
+          "index": 101,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "intent": "Verify You are missing the following permission: toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "You are missing the following permission:",
+            "expression": "getByText(\"You are missing the following permission:\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <p> · name: \"You are missing the following permission:\" · class: \"StyledProps--font StyledProps--main StyledProps--font-size-small StyledProps--color StyledProps--color-grey800\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 102,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "intent": "Verify You are not authorized to Create / Edit Cloud Asset Governance Rule Sets. toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "expression": "locator(\"p\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "unresolved",
+          "context": "element: <p> · text: \"You are not authorized to Create / Edit Cloud Asset Governance Rule Sets.\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 103,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "intent": "Verify You are missing the following permission: toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "You are missing the following permission:",
+            "expression": "getByText(\"You are missing the following permission:\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <p> · name: \"You are missing the following permission:\" · class: \"StyledProps--font StyledProps--main StyledProps--font-size-small StyledProps--color StyledProps--color-grey800\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 104,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "intent": "Verify \"Create / Edit Cloud Asset Governance Rule Sets\" in Account scope toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "expression": "locator(\"p\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "unresolved",
+          "context": "element: <p> · text: \"\"Create / Edit Cloud Asset Governance Rule Sets\" in Account scope\" · class: \"StyledProps--font StyledProps--main StyledProps--font-size-small StyledProps--color StyledProps--color-grey800\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 105,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/rules",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/enforcements",
+          "intent": "Click Enforcements",
+          "action": "click",
+          "locatorHint": {
+            "role": "tab",
+            "name": "Enforcements"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <div id=\"bp3-tab-title_GovernanceHeaderTabs_Enforcements\"> · role: tab · name: \"Enforcements\" · class: \"bp3-tab\" · path: <div> > <div> > <div> > <div> > <div> > <div id=\"bp3-tab-title_GovernanceHeaderTabs_Enforcements\"> · near: \"Overview\" (semantic), \"Rules\" (semantic), \"Evaluations\" (semantic)"
+        },
+        {
+          "index": 106,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/enforcements",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/enforcements",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/enforcements",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/enforcements",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 107,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/enforcements",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/enforcements",
+          "intent": "Verify New Enforcement toBeDisabled",
+          "action": "assert",
+          "locatorHint": {
+            "name": "New Enforcement",
+            "expression": "getByTestId(\"page-subheader\").getByText(\"New Enforcement\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeDisabled"
+          },
+          "confidence": "high",
+          "context": "element: <span> · name: \"New Enforcement\" · class: \"bp3-button-text\" · path: <div data-testid=\"page-subheader\"> > <span> > <span> > <a> > <span>"
+        },
+        {
+          "index": 108,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/enforcements",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance",
+          "intent": "Click Overview",
+          "action": "click",
+          "locatorHint": {
+            "role": "tab",
+            "name": "Overview"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <div id=\"bp3-tab-title_GovernanceHeaderTabs_Overview\"> · role: tab · name: \"Overview\" · class: \"bp3-tab\" · path: <div> > <div> > <div> > <div> > <div> > <div id=\"bp3-tab-title_GovernanceHeaderTabs_Overview\"> · near: \"Rules\" (semantic), \"Enforcements\" (semantic), \"Evaluations\" (semantic)"
+        },
+        {
+          "index": 109,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 110,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/enforcements",
+          "intent": "Click Enforcements",
+          "action": "click",
+          "locatorHint": {
+            "role": "tab",
+            "name": "Enforcements"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <div id=\"bp3-tab-title_GovernanceHeaderTabs_Enforcements\"> · role: tab · name: \"Enforcements\" · class: \"bp3-tab\" · path: <div> > <div> > <div> > <div> > <div> > <div id=\"bp3-tab-title_GovernanceHeaderTabs_Enforcements\"> · near: \"Overview\" (semantic), \"Rules\" (semantic), \"Evaluations\" (semantic)"
+        },
+        {
+          "index": 111,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/enforcements",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/enforcements",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/enforcements",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/enforcements",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 112,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/enforcements",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/enforcements",
+          "intent": "Click New Enforcement",
+          "action": "click",
+          "locatorHint": {
+            "role": "button",
+            "name": "New Enforcement"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <a> · role: button · name: \"New Enforcement\" · text: \"plusNew Enforcement\" · path: <div data-testid=\"page-subheader\"> > <span> > <span> > <a>"
+        },
+        {
+          "index": 113,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/enforcements",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/enforcements",
+          "intent": "Verify You are not authorized to Create / Edit Cloud Asset Governance Enforcements. toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "expression": "locator(\"p\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "unresolved",
+          "context": "element: <p> · text: \"You are not authorized to Create / Edit Cloud Asset Governance Enforcements.\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 114,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/enforcements",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/enforcements",
+          "intent": "Verify You are missing the following permission: toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "You are missing the following permission:",
+            "expression": "getByText(\"You are missing the following permission:\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <p> · name: \"You are missing the following permission:\" · class: \"StyledProps--font StyledProps--main StyledProps--font-size-small StyledProps--color StyledProps--color-grey800\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 115,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/enforcements",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/enforcements",
+          "intent": "Verify \"Create / Edit Cloud Asset Governance Enforcements\" in Account scope toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "expression": "locator(\"p\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "governance"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "unresolved",
+          "context": "element: <p> · text: \"\"Create / Edit Cloud Asset Governance Enforcements\" in Account scope\" · class: \"StyledProps--font StyledProps--main StyledProps--font-size-small StyledProps--color StyledProps--color-grey800\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 116,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/governance/enforcements",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings",
+          "intent": "Click Account Settings",
+          "action": "click",
+          "locatorHint": {
+            "role": "link",
+            "name": "Account Settings"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "settings"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <a> · role: link · name: \"Account Settings\" · href: \"/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings\" · class: \"vYVFb8\" · path: <div> > <div> > <div> > <span> > <span> > <a>"
+        },
+        {
+          "index": 117,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "settings"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 118,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/",
+          "intent": "Click Integration for cloud & AI cost (General Settings)",
+          "action": "click",
+          "locatorHint": {
+            "role": "link",
+            "name": "Integration for cloud & AI cost (General Settings)"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "settings",
+            "pageHeading": "Account Settings"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <a> · role: link · name: \"Integration for cloud & AI cost (General Settings)\" · text: \"Integration for cloud & AI cost(General Settings)\" · href: \"/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/\" · path: <div> > <div> > <div> > <div> > <div> > <a> · near: \"Default Settings (General Settings)\" (semantic), \"Currency for cloud & AI cost (General Settings)\" (semantic), \"Cloud & AI Cost Data Jobs (General Settings)\" (semantic)"
+        },
+        {
+          "index": 119,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "settings"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 120,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=CloudAccounts",
+          "intent": "Click Cloud Accounts",
+          "action": "click",
+          "locatorHint": {
+            "name": "Cloud Accounts",
+            "expression": "getByTestId(\"page-body\").getByText(\"Cloud Accounts\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "settings"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <p> · name: \"Cloud Accounts\" · class: \"StyledProps--font StyledProps--main ccmui_CloudIntegrationPage-module_tabTitle_wTwElD StyledProps--font-variation-h6\" · path: <div data-testid=\"page-body\"> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 121,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=CloudAccounts",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=CloudAccounts",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=CloudAccounts",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=CloudAccounts",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "settings"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 122,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=CloudAccounts",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=CloudAccounts",
+          "intent": "Verify New Cloud Account toBeDisabled",
+          "action": "assert",
+          "locatorHint": {
+            "name": "New Cloud Account",
+            "expression": "locator(\"[data-test=\\\"newConnectorButton\\\"]\").getByText(\"New Cloud Account\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "settings"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeDisabled"
+          },
+          "confidence": "high",
+          "context": "element: <span> · name: \"New Cloud Account\" · class: \"bp3-button-text\" · path: <a id=\"newConnectorBtn\"> > <span>"
+        },
+        {
+          "index": 123,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=CloudAccounts",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=KubernetesClusters",
+          "intent": "Click Kubernetes Clusters",
+          "action": "click",
+          "locatorHint": {
+            "name": "Kubernetes Clusters",
+            "expression": "getByTestId(\"page-body\").getByText(\"Kubernetes Clusters\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "settings"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <p> · name: \"Kubernetes Clusters\" · class: \"StyledProps--font StyledProps--main ccmui_CloudIntegrationPage-module_tabTitle_wTwElD StyledProps--font-variation-h6\" · path: <div data-testid=\"page-body\"> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 124,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=KubernetesClusters",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=KubernetesClusters",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=KubernetesClusters",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=KubernetesClusters",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "settings"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 125,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=KubernetesClusters",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=CloudAccounts",
+          "intent": "Click <span> in \"Cloud Accounts\"",
+          "action": "click",
+          "locatorHint": {
+            "expression": "locator(\"span\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "settings"
+          },
+          "skipInTest": false,
+          "confidence": "unresolved",
+          "context": "element: <span> · class: \"ccmui_CloudIntegrationPage-module_tabIconStackItem_qYAcZm\" · path: <div data-testid=\"page-body\"> > <div> > <div> > <div> > <div> > <span> · inside: <div> \"Cloud Accounts\" (2 levels up)"
+        },
+        {
+          "index": 126,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=CloudAccounts",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=CloudAccounts",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=CloudAccounts",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=CloudAccounts",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "settings"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 127,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=CloudAccounts",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=CloudAccounts",
+          "intent": "Click New Cloud Account",
+          "action": "click",
+          "locatorHint": {
+            "testId": "newConnectorButton",
+            "role": "button",
+            "name": "New Cloud Account"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "settings"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element: <a id=\"newConnectorBtn\"> · role: button · name: \"New Cloud Account\" · text: \"plusNew Cloud Account\" · path: <div data-testid=\"page-subheader\"> > <div> > <div> > <span> > <span> > <a id=\"newConnectorBtn\">"
+        },
+        {
+          "index": 128,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=CloudAccounts",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=CloudAccounts",
+          "intent": "Verify You are not authorized to Create / Edit Connectors. toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "You are not authorized to Create / Edit Connectors.",
+            "expression": "getByText(\"You are not authorized to Create / Edit Connectors.\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "settings"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <p> · name: \"You are not authorized to Create / Edit Connectors.\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 129,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=CloudAccounts",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=CloudAccounts",
+          "intent": "Verify You are missing the following permission: toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "You are missing the following permission:",
+            "expression": "getByText(\"You are missing the following permission:\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "settings"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <p> · name: \"You are missing the following permission:\" · class: \"StyledProps--font StyledProps--main StyledProps--font-size-small StyledProps--color StyledProps--color-grey800\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
+        },
+        {
+          "index": 130,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=CloudAccounts",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/settings/cloud-integrations/?tab=CloudAccounts",
+          "intent": "Verify \" Create / Edit Connectors \" in Account scope toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "\" Create / Edit Connectors \" in Account scope",
+            "expression": "getByText(\"\\\"Create / Edit Connectors\\\" in Account scope\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "settings"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible"
+          },
+          "confidence": "medium",
+          "context": "element: <p> · name: \"\" Create / Edit Connectors \" in Account scope\" · text: \"\"Create / Edit Connectors\" in Account scope\" · class: \"StyledProps--font StyledProps--main StyledProps--font-size-small StyledProps--color StyledProps--color-grey800\" · path: <div> > <div> > <div> > <div> > <div> > <p>"
         }
       ]
     }
@@ -466,9 +2467,20 @@
   "unresolvedStepIndexes": [
     6,
     10,
-    11,
-    19,
+    22,
     24,
-    25
+    28,
+    74,
+    82,
+    84,
+    85,
+    96,
+    98,
+    100,
+    102,
+    104,
+    113,
+    115,
+    125
   ]
 }

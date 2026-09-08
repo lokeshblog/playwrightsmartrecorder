@@ -387,6 +387,115 @@ describe("scenario recording", () => {
     await isolated.close();
   });
 
+  const tooltipPage = `
+    <span id="target" style="display:inline-block;padding:14px">
+      <button type="button" disabled style="pointer-events:none">New Perspective</button>
+    </span>
+    <script>
+      const target = document.querySelector("#target");
+      const clear = () => {
+        for (const tip of document.querySelectorAll(".tip")) tip.remove();
+      };
+      target.addEventListener("mouseenter", () => {
+        clear();
+        const tip = document.createElement("div");
+        tip.className = "tip";
+        tip.textContent = "You are not authorized to create Perspectives";
+        document.body.append(tip);
+      });
+      target.addEventListener("mouseleave", clear);
+    </script>
+  `;
+
+  it("freezes the application from the keyboard so a tooltip stays open", async () => {
+    const isolated = await browser.newPage();
+    await isolated.setContent(tooltipPage);
+    const recording = recordScenario(isolated, config);
+    const control = await recorderControl(isolated);
+    await isolated.locator("#target").hover();
+    await expect.poll(() => isolated.locator(".tip").count()).toBe(1);
+
+    await isolated.keyboard.press("Control+Shift+F");
+    await expect
+      .poll(() => control.locator("[data-hold]").isVisible())
+      .toBe(true);
+    // The pointer leaving the control is what normally takes the tooltip away.
+    await isolated.mouse.move(5, 400);
+    expect(await isolated.locator(".tip").count()).toBe(1);
+
+    // Held UI can be picked against by choosing a mode, as on a platform
+    // where the browser keeps Ctrl+Shift+A for itself.
+    const panel = control.locator("[data-pw-codegen-smart-controls]");
+    await panel.locator("[data-mode]").selectOption("assert:toContainText");
+    await waitForPicker(panel);
+    await isolated.locator(".tip").click();
+    const modal = control.locator("[data-pw-codegen-smart-modal]");
+    await modal.waitFor();
+    await modal.locator("[data-modal-confirm]").click();
+    await expect
+      .poll(() => panel.locator("[data-count]").textContent())
+      .toBe("1");
+    await panel.locator("[data-mode]").selectOption("auto");
+
+    await control.locator("[data-release-hold]").click();
+    await expect
+      .poll(() => control.locator("[data-hold]").isVisible())
+      .toBe(false);
+    // Resumed: the application handles the pointer again.
+    await isolated.locator("#target").hover();
+    await isolated.mouse.move(5, 400);
+    await expect.poll(() => isolated.locator(".tip").count()).toBe(0);
+
+    await control.locator("[data-stop]").click();
+    const result = await recording;
+    expect(result.steps).toHaveLength(1);
+    expect(result.steps[0]?.action.assertion?.expected).toContain(
+      "not authorized",
+    );
+    await isolated.close();
+  });
+
+  it("records the hover and asserts the frozen tooltip from one shortcut", async () => {
+    const isolated = await browser.newPage();
+    await isolated.setContent(tooltipPage);
+    const recording = recordScenario(isolated, config);
+    const control = await recorderControl(isolated);
+    await isolated.locator("#target").hover();
+    await expect.poll(() => isolated.locator(".tip").count()).toBe(1);
+
+    await isolated.keyboard.press("Control+Shift+A");
+    await expect
+      .poll(() => control.locator("[data-count]").textContent())
+      .toBe("1");
+    await waitForPicker(control.locator("[data-pw-codegen-smart-controls]"));
+    await isolated.locator(".tip").click();
+
+    const modal = control.locator("[data-pw-codegen-smart-modal]");
+    await modal.waitFor();
+    expect(await modal.locator("input").inputValue()).toContain(
+      "not authorized",
+    );
+    await modal.locator("[data-modal-confirm]").click();
+    await expect
+      .poll(() => control.locator("[data-count]").textContent())
+      .toBe("2");
+    // The assertion ends the hold, so the application is usable again.
+    await expect
+      .poll(() => control.locator("[data-hold]").isVisible())
+      .toBe(false);
+
+    await control.locator("[data-stop]").click();
+    const result = await recording;
+    const [hover, assertion] = result.steps;
+    // The pointer sits on the wrapper that owns the tooltip, not the button
+    // inside it that refuses pointer events.
+    expect(hover?.action.type).toBe("hover");
+    expect(hover?.code).toContain(".hover(");
+    expect(assertion?.action.assertion?.matcher).toBe("toContainText");
+    expect(assertion?.action.assertion?.expected).toContain("not authorized");
+    await isolated.close();
+  });
+
   it("asks for a manual locator in the external controller, not a native dialog", async () => {
     const isolated = await browser.newPage();
     await isolated.setContent(

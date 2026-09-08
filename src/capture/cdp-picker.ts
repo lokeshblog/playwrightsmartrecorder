@@ -21,6 +21,17 @@ export interface PickerCapabilities {
   freezeAnimations: boolean;
   /** `DOM.setAttributeValue` is usable, so markers attach without page script. */
   domMutation: boolean;
+  /** `CSS.forcePseudoState` is usable, so `:hover` styling can be pinned. */
+  forcePseudoState: boolean;
+}
+
+export interface HoldOptions {
+  /**
+   * Elements whose `:hover` state is pinned for the duration of the hold, so
+   * CSS-driven tooltips survive the pointer leaving them. Normally the hovered
+   * element and its ancestors, since `:hover` styling can sit on either.
+   */
+  hoverSelector?: string | undefined;
 }
 
 export interface PickedElement {
@@ -65,6 +76,19 @@ export interface ElementPicker {
   readonly strategy: PickStrategy;
   /** True while an overlay is open and waiting for the user. */
   readonly picking: boolean;
+  /** True while the application is held frozen by {@link ElementPicker.hold}. */
+  readonly holding: boolean;
+  /**
+   * Freezes the application until {@link ElementPicker.releaseHold}, so
+   * hover-only UI such as a tooltip stays on screen while it is inspected,
+   * picked, and asserted. Resolves `false` when the target cannot be frozen,
+   * leaving the application untouched.
+   *
+   * Picking during a hold is safe: a pick releases only what it froze itself.
+   */
+  hold(options?: HoldOptions): Promise<boolean>;
+  /** Resumes an application held by {@link ElementPicker.hold}. */
+  releaseHold(): Promise<void>;
   /**
    * Opens the picker and resolves the marked element, or `null` when the pick
    * was cancelled, timed out, or the page closed. A successful CDP pick stays
@@ -289,12 +313,15 @@ async function detectCapabilities(
     (await probe(() =>
       session.send("Animation.setPlaybackRate", { playbackRate: 1 }),
     ));
+  const forcePseudoState =
+    domMutation && (await probe(() => session.send("CSS.enable")));
   return {
     cdp: true,
     inspectMode,
     freezeScripts,
     freezeAnimations,
     domMutation,
+    forcePseudoState,
   };
 }
 
@@ -339,6 +366,7 @@ export async function createElementPicker(
         freezeScripts: false,
         freezeAnimations: false,
         domMutation: false,
+        forcePseudoState: false,
       };
   const canUseCdp = Boolean(
     session && capabilities.inspectMode && capabilities.domMutation,
@@ -347,7 +375,43 @@ export async function createElementPicker(
   const bridge = await ensureDomBridge(page, markerAttribute);
 
   let picking = false;
+  let holding = false;
   let cancelCurrent: (() => void) | undefined;
+  const pinnedHover: number[] = [];
+
+  /**
+   * Pins `:hover` on the matched elements. Best effort throughout: a tooltip
+   * rendered by script is already kept by the freeze, and this only adds the
+   * CSS-only case, so a target without `CSS.forcePseudoState` still holds.
+   */
+  const pinHover = async (
+    active: CDPSession,
+    selector: string,
+  ): Promise<void> => {
+    if (!capabilities.forcePseudoState) return;
+    try {
+      const { root } = await active.send("DOM.getDocument", { depth: 0 });
+      const { nodeIds } = await active.send("DOM.querySelectorAll", {
+        nodeId: root.nodeId,
+        selector,
+      });
+      for (const nodeId of nodeIds) {
+        await active.send("CSS.forcePseudoState", {
+          nodeId,
+          forcedPseudoClasses: ["hover"],
+        });
+        pinnedHover.push(nodeId);
+      }
+    } catch {
+      // Leaves whatever was pinned to be cleared on release.
+    }
+  };
+  const unpinHover = async (active: CDPSession): Promise<void> => {
+    for (const nodeId of pinnedHover.splice(0))
+      await active
+        .send("CSS.forcePseudoState", { nodeId, forcedPseudoClasses: [] })
+        .catch(() => undefined);
+  };
 
   const freeze = async (active: CDPSession): Promise<void> => {
     if (wantsScriptFreeze && capabilities.freezeScripts)
@@ -362,10 +426,14 @@ export async function createElementPicker(
   /**
    * Never throws, and is safe to repeat: a frozen page or a live inspect
    * overlay left behind would make the application unusable.
+   *
+   * The overlay always goes away; the freeze only does when the caller is not
+   * holding the application on purpose.
    */
   const resume = async (active: CDPSession): Promise<void> => {
     await stopInspectMode(active);
     await active.send("Overlay.disable").catch(() => undefined);
+    if (holding) return;
     if (wantsScriptFreeze && capabilities.freezeScripts)
       await active
         .send("Emulation.setScriptExecutionDisabled", { value: false })
@@ -537,6 +605,23 @@ export async function createElementPicker(
     get picking(): boolean {
       return picking;
     },
+    get holding(): boolean {
+      return holding;
+    },
+    async hold(holdOptions: HoldOptions = {}): Promise<boolean> {
+      if (!session || !capabilities.freezeScripts) return false;
+      if (holdOptions.hoverSelector)
+        await pinHover(session, holdOptions.hoverSelector);
+      holding = true;
+      await freeze(session);
+      return true;
+    },
+    async releaseHold(): Promise<void> {
+      holding = false;
+      if (!session) return;
+      await unpinHover(session);
+      await resume(session);
+    },
     async pick(pickOptions: PickOptions = {}): Promise<PickedElement | null> {
       if (picking) throw new Error("A pick is already in progress.");
       picking = true;
@@ -584,7 +669,10 @@ export async function createElementPicker(
     async dispose(): Promise<void> {
       cancelCurrent?.();
       cancelCurrent = undefined;
+      // A hold must never outlive the picker: the application would stay dead.
+      holding = false;
       if (!session) return;
+      await unpinHover(session);
       await stopInspectMode(session);
       await resume(session);
       await session.detach().catch(() => undefined);

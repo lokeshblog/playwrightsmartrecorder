@@ -39,7 +39,7 @@ participates in locator scoring.
 | `src/config/schema.ts`              | Zod schemas and `defaultConfig`                                                        |
 | `src/config/load.ts`                | Repository-root discovery, `init` scaffolding                                          |
 | `src/capture/capture.ts`            | Browser lifecycle (`withPage`), single-element picker                                  |
-| `src/capture/cdp-picker.ts`         | Chromium application freeze and CDP element inspection                                 |
+| `src/capture/cdp-picker.ts`         | Chromium application freeze, held freeze for hover-only UI, CDP element inspection     |
 | `src/context/extract.ts`            | In-page DOM walk: target, ancestors, siblings, nearby, container HTML, redaction       |
 | `src/locator/candidates.ts`         | Candidate generation; `candidateToLocator` parses an expression into a live `Locator`  |
 | `src/locator/score.ts`              | Deterministic scoring with evidence and penalties                                      |
@@ -87,6 +87,15 @@ Normal actions are still captured by the lightweight listeners installed by
 script execution and pauses animations only in the application target, then
 uses Chromium's native element inspector. The control window remains
 responsive while dropdowns, prompts, and timer-based toasts stay frozen.
+
+A pick freezes the application only for as long as the pick lasts. Hover-only
+UI needs longer, so `picker.hold()` freezes it until the user says otherwise:
+`Ctrl+Shift+F` and `Ctrl+Shift+A` in the application call the
+`__pwCodegenSmartHold` binding, which pins `:hover` on the pointed-at chain via
+`CSS.forcePseudoState` and then freezes. While a hold is active, `resume()`
+leaves the freeze in place, so picking inside a hold releases only the overlay.
+A frozen application runs none of its own script, which is why only the control
+window can resume it — through the hold banner, `Esc`, stopping, or teardown.
 
 Control state that must survive navigation (click mode, negate, and
 ask-on-weak-locator) is owned by Node, not either page. Freeze cancellation,

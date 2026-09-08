@@ -1,4 +1,4 @@
-import type { Frame, Page } from "playwright";
+import type { Frame, Locator, Page } from "playwright";
 import { createElementPicker } from "../capture/cdp-picker.js";
 import { extractDomContext } from "../context/extract.js";
 import { analyzeContext } from "../locator/analyze.js";
@@ -19,6 +19,25 @@ import type {
 } from "../types.js";
 
 const actionMarker = "data-pw-codegen-smart-action";
+/** Marks the hovered chain whose `:hover` state a freeze keeps alive. */
+const holdHoverMarker = "data-pw-codegen-smart-hold-hover";
+/** Marks the hovered control itself, which the held hover step is recorded on. */
+const holdTargetMarker = "data-pw-codegen-smart-hold-target";
+
+/**
+ * Whether replaying a hover on this element needs `force`. A disabled control
+ * commonly refuses the pointer, which fails Playwright's hit-target check on a
+ * step the user really did perform.
+ */
+const refusesPointer = (target: Locator): Promise<boolean> =>
+  target
+    .evaluate(
+      (element) =>
+        element.matches(":disabled") ||
+        element.closest('[disabled],[aria-disabled="true"]') !== null ||
+        getComputedStyle(element).pointerEvents === "none",
+    )
+    .catch(() => false);
 
 interface RecordedEvent {
   id: string;
@@ -105,7 +124,7 @@ export function actionCode(action: ScenarioAction, locator: string): string {
     case "doubleClick":
       return `await ${target}.dblclick();`;
     case "hover":
-      return `await ${target}.hover();`;
+      return `await ${target}.hover(${action.force ? "{ force: true }" : ""});`;
     case "fill":
       return `await ${target}.fill(${JSON.stringify(action.value ?? "")});`;
     case "selectOption":
@@ -894,7 +913,11 @@ export async function recordScenario(
         };
       if (mode === "forceClick") return { type: "click", force: true };
       if (mode === "doubleClick") return { type: "doubleClick" };
-      if (mode === "hover") return { type: "hover" };
+      if (mode === "hover")
+        return {
+          type: "hover",
+          ...(unreachable(target) ? { force: true } : {}),
+        };
       if (mode === "check") return { type: "check" };
       if (mode === "uncheck") return { type: "uncheck" };
       if (mode === "press") {
@@ -910,6 +933,15 @@ export async function recordScenario(
       }
       return null;
     };
+    /**
+     * A disabled control usually refuses the pointer, so Playwright's hit
+     * target check would fail on a step the user really did perform. Hovering
+     * such an element is only reproducible with `force`.
+     */
+    const unreachable = (element: Element): boolean =>
+      element.matches(":disabled") ||
+      element.closest('[disabled],[aria-disabled="true"]') !== null ||
+      getComputedStyle(element).pointerEvents === "none";
     const controls =
       'button,a,input,[role="button"],[role="link"],[role="checkbox"],[role="menuitem"],[role="menuitemcheckbox"],[role="option"],[role="tab"]';
     const ownText = (node: Element): string =>
@@ -937,6 +969,45 @@ export async function recordScenario(
       return item;
     };
 
+    /** What the pointer is over, so a hotkey can act on it without a click. */
+    let hoveredElement: Element | null = null;
+    document.addEventListener(
+      "pointermove",
+      (event) => {
+        const origin = event.composedPath()[0];
+        if (!(origin instanceof Element)) return;
+        if (origin.closest("[data-pw-codegen-smart-controls]")) return;
+        hoveredElement = origin;
+      },
+      true,
+    );
+    /**
+     * Freezes the application from the keyboard, leaving the pointer where it
+     * is. Transient UI — a tooltip on a disabled control, an open menu — is
+     * gone the moment the pointer travels to the recorder, so the freeze has
+     * to be reachable without moving the mouse at all.
+     *
+     * The chain above the pointer is marked so the freeze can pin `:hover`,
+     * and the element itself so the recorder can log the hover that opened
+     * whatever is now on screen. Node removes both markers on release.
+     */
+    const holdApplication = (assert: boolean): void => {
+      const hold = (
+        window as unknown as Record<
+          string,
+          ((payload: { assert: boolean }) => Promise<void>) | undefined
+        >
+      ).__pwCodegenSmartHold;
+      if (!hold || !recorderActive) return;
+      const origin = hoveredElement;
+      if (origin) {
+        for (let node: Element | null = origin; node; node = node.parentElement)
+          node.setAttribute("data-pw-codegen-smart-hold-hover", "");
+        clicked(origin).setAttribute("data-pw-codegen-smart-hold-target", "");
+      }
+      // Never awaited: no page script runs once the application is frozen.
+      void hold({ assert });
+    };
     document.addEventListener(
       "click",
       (event) => {
@@ -1071,17 +1142,19 @@ export async function recordScenario(
             flushFill(event.target);
           void send(event.target, { type: "press", value: "Enter" });
         }
-        if (
-          event.key.toLowerCase() === "s" &&
-          event.ctrlKey &&
-          event.shiftKey
-        ) {
+        if (!event.ctrlKey || !event.shiftKey) return;
+        const shortcut = event.key.toLowerCase();
+        if (shortcut === "s") {
           event.preventDefault();
           flushAllFills();
           recorderActive = false;
           (
             window as unknown as Record<string, () => void>
           ).__pwCodegenSmartStop?.();
+        }
+        if (shortcut === "f" || shortcut === "a") {
+          event.preventDefault();
+          holdApplication(shortcut === "a");
         }
       },
       true,
@@ -1375,7 +1448,10 @@ export async function recordScenario(
   ): Promise<ScenarioAction | null> => {
     if (selectedMode === "forceClick") return { type: "click", force: true };
     if (selectedMode === "doubleClick") return { type: "doubleClick" };
-    if (selectedMode === "hover") return { type: "hover" };
+    if (selectedMode === "hover") {
+      const force = await refusesPointer(target.locator);
+      return { type: "hover", ...(force ? { force: true } : {}) };
+    }
     if (selectedMode === "check") return { type: "check" };
     if (selectedMode === "uncheck") return { type: "uncheck" };
     if (selectedMode === "press") {
@@ -1537,6 +1613,108 @@ export async function recordScenario(
       await picked.release();
     }
   };
+  /**
+   * Records the hover that put the frozen UI on screen, so the generated test
+   * reproduces it before asserting what it revealed.
+   */
+  const recordHeldHover = async (frame: Frame): Promise<void> => {
+    const target = frame.locator(`[${holdTargetMarker}]`).first();
+    if ((await target.count().catch(() => 0)) !== 1) return;
+    const force = await refusesPointer(target);
+    const markerId = `hold-${Date.now().toString(36)}`;
+    await target.evaluate(
+      (element, value) =>
+        element.setAttribute("data-pw-codegen-smart-action", value),
+      markerId,
+    );
+    await frame.evaluate(
+      (payload) =>
+        (
+          window as unknown as Record<
+            string,
+            (value: unknown) => Promise<RecordResponse>
+          >
+        ).__pwCodegenSmartRecord?.(payload),
+      {
+        id: markerId,
+        action: { type: "hover", ...(force ? { force: true } : {}) },
+      },
+    );
+  };
+  const clearHoldMarkers = async (): Promise<void> => {
+    await Promise.all(
+      page.frames().map((frame) =>
+        frame
+          .evaluate(
+            (markers) => {
+              for (const marker of markers)
+                for (const element of document.querySelectorAll(`[${marker}]`))
+                  element.removeAttribute(marker);
+            },
+            [holdHoverMarker, holdTargetMarker],
+          )
+          .catch(() => undefined),
+      ),
+    );
+  };
+  const releaseApplication = async (message: string): Promise<void> => {
+    if (!picker.holding) return;
+    await picker.releaseHold();
+    await clearHoldMarkers();
+    await control.setHold(false, message);
+  };
+  /**
+   * Freezes the application on request from the page, and — when the user
+   * asked to assert — records the hover and picks what appeared, all while the
+   * application cannot take the tooltip or menu away again.
+   */
+  const holdApplication = async (
+    frame: Frame,
+    assert: boolean,
+  ): Promise<void> => {
+    if (!settings.active || picker.holding) return;
+    if (!(await picker.hold({ hoverSelector: `[${holdHoverMarker}]` }))) {
+      await clearHoldMarkers();
+      await control.setStatus(
+        "This browser cannot be frozen, so transient UI cannot be held open.",
+      );
+      return;
+    }
+    await control.setHold(
+      true,
+      assert
+        ? "Frozen: click the message you want to assert."
+        : "Frozen: pick a mode and click what you want to record.",
+    );
+    if (!assert) return;
+    try {
+      await recordHeldHover(frame);
+      const mode = settings.mode.startsWith("assert:")
+        ? settings.mode
+        : "assert:toContainText";
+      await control.setPicking(
+        true,
+        `Frozen: click the element to record expect.${mode.slice("assert:".length)}.`,
+      );
+      try {
+        await recordPick(mode);
+      } finally {
+        await control.setPicking(false);
+      }
+    } catch (error) {
+      warnings.push(`Held assertion: ${String(error)}`);
+    } finally {
+      await releaseApplication("Application resumed.");
+    }
+  };
+  await page.exposeBinding(
+    "__pwCodegenSmartHold",
+    ({ frame }, payload: unknown) => {
+      const { assert } = payload as { assert: boolean };
+      // The page freezes mid-call, so it is never told when this finishes.
+      void holdApplication(frame, assert).catch(() => undefined);
+    },
+  );
   const runPickLoop = async (selectedMode: string): Promise<void> => {
     while (
       settings.active &&
@@ -1572,6 +1750,11 @@ export async function recordScenario(
       refresh: async () => {
         await queue;
         return panelUpdate("");
+      },
+      releaseHold: async () => {
+        await releaseApplication("Application resumed.");
+        await queue;
+        return panelUpdate("Application resumed");
       },
       pick: async (selectedMode) => {
         if (pickLoop) return;
@@ -1633,11 +1816,13 @@ export async function recordScenario(
       },
       stop: () => {
         settings.active = false;
+        void picker.releaseHold();
         void picker.cancel();
         resolveStop?.();
       },
       onClose: () => {
         settings.active = false;
+        void picker.releaseHold();
         void picker.cancel();
         resolveStop?.();
       },
@@ -1668,6 +1853,8 @@ export async function recordScenario(
     picker.capabilities.freezeScripts && picker.capabilities.inspectMode,
   );
   await stopped;
+  await picker.releaseHold();
+  await clearHoldMarkers();
   await picker.cancel();
   await pickLoop?.catch(() => undefined);
   await queue;

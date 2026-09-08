@@ -258,7 +258,10 @@ async function executeStep(
       await locator.dblclick({ timeout: timeoutMs });
       break;
     case "hover":
-      await locator.hover({ timeout: timeoutMs });
+      await locator.hover({
+        ...(action.force === undefined ? {} : { force: action.force }),
+        timeout: timeoutMs,
+      });
       break;
     case "fill":
       if (action.value === "[REDACTED]")

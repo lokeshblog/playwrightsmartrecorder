@@ -9,10 +9,8 @@ function routeHints(url: string): ScenarioStep["productHints"] {
   try {
     const parts = new URL(url).pathname.split("/").filter(Boolean);
     const moduleIndex = parts.indexOf("module");
-    const navModule =
-      moduleIndex >= 0 ? parts[moduleIndex + 1] : undefined;
-    const feature =
-      moduleIndex >= 0 ? parts[moduleIndex + 2] : undefined;
+    const navModule = moduleIndex >= 0 ? parts[moduleIndex + 1] : undefined;
+    const feature = moduleIndex >= 0 ? parts[moduleIndex + 2] : undefined;
     return {
       ...(navModule ? { navModule } : {}),
       ...(feature && feature !== "overview" ? { feature } : {}),
@@ -43,7 +41,8 @@ function locatorHint(
 }
 
 function valueKind(step: ScenarioStep): ScenarioStep["valueKind"] {
-  if (!step.action.value || step.action.value === "[REDACTED]") return undefined;
+  if (!step.action.value || step.action.value === "[REDACTED]")
+    return undefined;
   const identity = [
     step.locatorContext?.target.accessibleName,
     step.locatorContext?.target.attributes.name,
@@ -59,8 +58,7 @@ function valueKind(step: ScenarioStep): ScenarioStep["valueKind"] {
     .filter(Boolean)
     .join(" ");
   return {
-    unique:
-      /\d{4,}|[0-9a-f]{8}-[0-9a-f-]{27,}/i.test(step.action.value),
+    unique: /\d{4,}|[0-9a-f]{8}-[0-9a-f-]{27,}/i.test(step.action.value),
     createsResource: /\b(new|create|add)\b/i.test(creationEvidence),
   };
 }
@@ -81,9 +79,7 @@ function expectation(step: ScenarioStep): ScenarioStep["expect"] {
   return {
     kind,
     matcher: assertion.matcher,
-    ...(assertion.expected === undefined
-      ? {}
-      : { value: assertion.expected }),
+    ...(assertion.expected === undefined ? {} : { value: assertion.expected }),
   };
 }
 
@@ -107,8 +103,7 @@ export function enrichScenario(scenario: ScenarioContext): ScenarioContext {
     if (hint) step.locatorHint = hint;
     // Navigation rows are observed consequences, not user actions to paste.
     step.skipInTest =
-      step.action.type === "navigate" ||
-      /\/auth(?:\/|#|$)/i.test(step.pageUrl);
+      step.action.type === "navigate" || /\/auth(?:\/|#|$)/i.test(step.pageUrl);
     const lifecycle = valueKind(step);
     if (lifecycle) step.valueKind = lifecycle;
     const expect = expectation(step);
@@ -180,8 +175,7 @@ export function scenarioToIntent(scenario: ScenarioContext): ScenarioIntent {
     })),
     unresolvedStepIndexes: enriched.steps
       .filter(
-        ({ confidence }) =>
-          confidence === "low" || confidence === "unresolved",
+        ({ confidence }) => confidence === "low" || confidence === "unresolved",
       )
       .map(({ index }) => index),
   };

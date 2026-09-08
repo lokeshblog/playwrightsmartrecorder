@@ -177,6 +177,8 @@ export async function extractDomContext(
             key.startsWith("data-") ||
             options.applicationAttributes.includes(key);
           if (!permitted || options.avoidAttributes.includes(key)) continue;
+          // Recorder markers describe the recorder, not the application.
+          if (key.startsWith("data-pw-codegen-")) continue;
           if (
             key === "value" &&
             ["password", "hidden"].includes(node.getAttribute("type") ?? "")

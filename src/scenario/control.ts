@@ -95,15 +95,19 @@ export interface RecorderControlHandlers {
    * picker keeps recording; the panel shows a picking state until it settles.
    */
   pick?: ((mode: string) => void | Promise<void>) | undefined;
+  /** Resumes an application the user froze from the recorded page. */
+  releaseHold?:
+    (() => ControlPanelUpdate | Promise<ControlPanelUpdate>) | undefined;
   newTest: () => ControlPanelUpdate | Promise<ControlPanelUpdate>;
   deleteLine: () => ControlPanelUpdate | Promise<ControlPanelUpdate>;
   deleteTest: () => ControlPanelUpdate | Promise<ControlPanelUpdate>;
   deleteStep: (
     index: number,
   ) => ControlPanelUpdate | Promise<ControlPanelUpdate>;
-  testMetadata: (
-    patch: { jiraId?: string; zephyrId?: string },
-  ) => ControlPanelUpdate | Promise<ControlPanelUpdate>;
+  testMetadata: (patch: {
+    jiraId?: string;
+    zephyrId?: string;
+  }) => ControlPanelUpdate | Promise<ControlPanelUpdate>;
   stop: () => void | Promise<void>;
   /** The user closed the control window or tab. */
   onClose?: (() => void) | undefined;
@@ -138,6 +142,8 @@ export interface RecorderControl {
   setCapability(message: string, available: boolean): Promise<void>;
   /** Reflects an in-flight pick and enables the cancel control. */
   setPicking(active: boolean, message?: string): Promise<void>;
+  /** Shows that the application is frozen, with the control that resumes it. */
+  setHold(active: boolean, message?: string): Promise<void>;
   /** Resolves with the entered value, or `null` when skipped or closed. */
   prompt(request: ControlPromptRequest): Promise<string | null>;
   setPrettyHtml(formatter: PrettyHtmlFormatter | null): void;
@@ -234,6 +240,7 @@ type ControlEvent =
   | { kind: "settings"; patch: Partial<ControlSettings> }
   | { kind: "refresh" }
   | { kind: "pick"; mode: string }
+  | { kind: "releaseHold" }
   | { kind: "newTest" }
   | { kind: "deleteLine" }
   | { kind: "deleteTest" }
@@ -255,6 +262,7 @@ type BridgeCall =
   | { kind: "status"; message: string }
   | { kind: "capability"; message: string; available: boolean }
   | { kind: "picking"; active: boolean; message: string | null }
+  | { kind: "hold"; active: boolean; message: string | null }
   | { kind: "prompt"; request: ControlPromptRequest };
 
 interface ControlBridge {
@@ -263,6 +271,7 @@ interface ControlBridge {
   status: (message: string) => void;
   capability: (message: string, available: boolean) => void;
   picking: (active: boolean, message: string | null) => void;
+  hold: (active: boolean, message: string | null) => void;
   prompt: (request: ControlPromptRequest) => Promise<string | null>;
 }
 
@@ -303,6 +312,10 @@ function installControlPanel(config: ControlPanelConfig): void {
         <span data-test-name style="font-size:11px;font-weight:600;color:#6d28d9;background:#f3e8ff;border-radius:99px;padding:2px 8px">Test 1</span>
       </div>
       <div data-capability style="display:none;padding:7px 12px;font-size:11px;border-bottom:1px solid #f3f4f6"></div>
+      <div data-hold style="display:none;padding:8px 12px;background:#fffbeb;border-bottom:1px solid #fde68a;color:#92400e;font-size:11px">
+        <div data-hold-message style="margin-bottom:6px"></div>
+        <button data-release-hold style="width:100%">Resume the application (Esc)</button>
+      </div>
       <div style="padding:10px 12px">
         <label data-label style="display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:#6b7280;margin-bottom:4px">Click mode <span style="font-weight:500;text-transform:none;letter-spacing:0">(stays active)</span></label>
         <select data-mode style="width:100%;box-sizing:border-box;padding:7px 8px;border:1px solid #d1d5db;border-radius:6px;background:#fff;font:inherit;color:inherit"></select>
@@ -322,6 +335,11 @@ function installControlPanel(config: ControlPanelConfig): void {
           <button data-stop data-primary>Stop recording</button>
         </div>
         <button data-cancel-pick style="display:none;width:100%;margin-top:6px">Cancel pick (back to Auto)</button>
+        <div data-shortcuts style="margin-top:9px;font-size:11px;color:#6b7280;line-height:1.6">
+          In the application: <b>Ctrl+Shift+F</b> freezes it so a tooltip or menu stays open ·
+          <b>Ctrl+Shift+A</b> freezes and asserts what appeared ·
+          <b>Ctrl+Shift+S</b> stops recording
+        </div>
       </div>
       <div style="border-top:1px solid #f3f4f6">
         <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 12px;background:#f9fafb">
@@ -354,10 +372,16 @@ function installControlPanel(config: ControlPanelConfig): void {
     const capability = panel.querySelector<HTMLElement>("[data-capability]")!;
     const cancelPick =
       panel.querySelector<HTMLButtonElement>("[data-cancel-pick]")!;
+    const hold = panel.querySelector<HTMLElement>("[data-hold]")!;
+    const holdMessage = panel.querySelector<HTMLElement>(
+      "[data-hold-message]",
+    )!;
+    const releaseHold = panel.querySelector<HTMLButtonElement>(
+      "[data-release-hold]",
+    )!;
     const stopButton = panel.querySelector<HTMLButtonElement>("[data-stop]")!;
     const jiraInput = panel.querySelector<HTMLInputElement>("[data-jira]")!;
-    const zephyrInput =
-      panel.querySelector<HTMLInputElement>("[data-zephyr]")!;
+    const zephyrInput = panel.querySelector<HTMLInputElement>("[data-zephyr]")!;
 
     for (const group of config.modeGroups) {
       const parent = group.label
@@ -473,6 +497,17 @@ function installControlPanel(config: ControlPanelConfig): void {
       select.style.outline = active ? "2px solid #ddd6fe" : "none";
       if (message !== null) status.textContent = message;
     };
+    // The panel is watched by a ResizeObserver, so showing the banner refits.
+    let held = false;
+    const setHold = (active: boolean, message: string | null): void => {
+      held = active;
+      hold.style.display = active ? "block" : "none";
+      if (active)
+        holdMessage.textContent =
+          message ??
+          "The application is frozen; what is on screen stays there.";
+      else if (message !== null) status.textContent = message;
+    };
     const apply = (response: ControlResponse | null): void => {
       if (!response) return;
       if (response.settings) applySettings(response.settings);
@@ -510,6 +545,19 @@ function installControlPanel(config: ControlPanelConfig): void {
       cancelPick.disabled = true;
       renderMode("auto");
       dispatch({ kind: "settings", patch: { mode: "auto" } });
+    });
+    const resumeApplication = (): void => {
+      setHold(false, "Resuming the application…");
+      dispatch({ kind: "releaseHold" });
+    };
+    releaseHold.addEventListener("click", resumeApplication);
+    // The frozen application runs no script, so only the panel can resume it.
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape" || !held) return;
+      // A prompt owns Escape while it is open.
+      if (document.querySelector("[data-pw-codegen-smart-modal]")) return;
+      event.preventDefault();
+      resumeApplication();
     });
     panel.querySelector("[data-new]")?.addEventListener("click", () => {
       dispatch({ kind: "newTest" });
@@ -743,6 +791,7 @@ function installControlPanel(config: ControlPanelConfig): void {
         capability.textContent = message;
       },
       picking: setPicking,
+      hold: setHold,
       prompt,
     };
     scope.__pwCodegenSmartControlBridge = bridge;
@@ -780,6 +829,9 @@ function callBridge(call: BridgeCall): Promise<string | null> {
       return Promise.resolve(null);
     case "picking":
       bridge.picking(call.active, call.message);
+      return Promise.resolve(null);
+    case "hold":
+      bridge.hold(call.active, call.message);
       return Promise.resolve(null);
     case "prompt":
       return bridge.prompt(call.request);
@@ -937,6 +989,12 @@ export async function createRecorderControl(
         await handlers.pick?.(event.mode);
         return {};
       }
+      case "releaseHold": {
+        const update = await handlers.releaseHold?.();
+        if (!update) return {};
+        lastUpdate = update;
+        return { update };
+      }
       case "fit":
         await fit(event.height);
         return {};
@@ -1018,6 +1076,9 @@ export async function createRecorderControl(
     },
     async setPicking(active: boolean, message?: string): Promise<void> {
       await call({ kind: "picking", active, message: message ?? null });
+    },
+    async setHold(active: boolean, message?: string): Promise<void> {
+      await call({ kind: "hold", active, message: message ?? null });
     },
     async prompt(request: ControlPromptRequest): Promise<string | null> {
       const details =

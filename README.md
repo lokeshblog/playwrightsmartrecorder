@@ -143,6 +143,7 @@ provides:
 - Frozen element picking for explicit actions and assertions. Application JavaScript, timers, and animations pause while Chromium's element picker is active, keeping dropdowns and short-lived toasts available for inspection
 - Explicit force click, double click, hover, check, uncheck, and arbitrary key-press modes, each staying active until you change it
 - Playwright locator assertions: attached, visible/hidden, enabled/disabled, editable, empty, focused, checked, viewport, accessible name/description/error, text, value(s), attribute, class, CSS, ID, JS property, role, screenshot, and count, including `.not`
+- Keyboard freeze of the application (`Ctrl+Shift+F`) and one-shortcut assertion of hover-only UI (`Ctrl+Shift+A`), so a tooltip never disappears on the way to the controls
 - **+ New testcase**, **Undo last line**, **Delete testcase**, and **Stop recording**
 - A live step list grouped by testcase, showing each step's business description and a locator-confidence dot (green high, amber medium, red low), with a `×` delete button on every line so any step can be removed, not only the last one
 
@@ -195,6 +196,37 @@ names the steps that still need a locator. A step whose locator is only a
 fallback such as `locator("span")` therefore still says what it did.
 
 Assertion values and key presses use the same controller dialog.
+
+### Capturing hover-only UI
+
+A tooltip on a disabled control, or any panel that closes when the pointer
+leaves, is gone before the pointer reaches the recorder window. Two shortcuts,
+pressed in the application itself, freeze it where it stands:
+
+| Shortcut       | In the application                                                                                                                         |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `Ctrl+Shift+F` | Freezes the application. Whatever is on screen stays there while you choose a mode and pick against it.                                    |
+| `Ctrl+Shift+A` | Freezes the application, records the hover that opened the transient UI, then asks you to click the element to assert. Resumes afterwards. |
+| `Ctrl+Shift+S` | Stops recording.                                                                                                                           |
+
+`Ctrl+Shift+A` records `expect.toContainText` unless an assertion mode is
+already selected, so a permission tooltip becomes a hover step plus an
+assertion on its message. `Ctrl+Shift+F` leaves the choice to you: while the
+application is frozen, selecting any assertion mode arms the element picker
+against the UI that is being held, which is also the route to use on Windows
+and Linux, where `Ctrl+Shift+A` belongs to the browser. A frozen application
+runs no script of its own, so
+the recorder window is what resumes it: use **Resume the application** in the
+hold banner, or `Esc` while the controls have focus. The banner is always
+visible while a hold is active, so a frozen application never looks like a
+hung one.
+
+Freezing pins `:hover` on the pointed-at element and its ancestors, so a
+CSS-only tooltip survives the pointer moving away as well as a scripted one.
+A hover recorded on a control that refuses pointer events — commonly a
+disabled button with `pointer-events: none` — is written as
+`hover({ force: true })`, because the plain hover would fail Playwright's
+hit-target check on replay.
 
 True application freeze and native element inspection use the Chrome DevTools
 Protocol and therefore require Chromium. In headless or unsupported launch

@@ -161,6 +161,59 @@ describe("scenario replay", () => {
     await page.close();
   });
 
+  it("hovers a control that refuses the pointer only when forced", async () => {
+    const page = await browser.newPage();
+    await page.setContent(`
+      <span id="wrap" style="display:inline-block;padding:14px">
+        <button type="button" disabled style="pointer-events:none">New Perspective</button>
+      </span>
+      <output>quiet</output>
+    `);
+    await page.locator("#wrap").evaluate((wrap) => {
+      wrap.addEventListener("mouseenter", () => {
+        document.querySelector("output")!.textContent =
+          "You are not authorized to create Perspectives";
+      });
+    });
+    const button =
+      'getByRole("button", { name: "New Perspective", exact: true })';
+    const hover = (force: boolean): ScenarioStep =>
+      step(1, {
+        action: { type: "hover", ...(force ? { force: true } : {}) },
+        locator: button,
+        businessStep: "Hover over New Perspective",
+      });
+
+    const plain = await replayScenario(page, scenario([hover(false)]), {
+      timeoutMs: 1_000,
+    });
+    expect(plain.report.status).toBe("failed");
+
+    const forced = await replayScenario(
+      page,
+      scenario([
+        hover(true),
+        step(2, {
+          action: {
+            type: "assert",
+            assertion: {
+              matcher: "toContainText",
+              expected: "not authorized",
+            },
+          },
+          locator: 'locator("output")',
+          businessStep: "Verify output toContainText",
+        }),
+      ]),
+      { timeoutMs: 2_000 },
+    );
+    expect(forced.report.results.map(({ status }) => status)).toEqual([
+      "passed",
+      "passed",
+    ]);
+    await page.close();
+  });
+
   it("repairs a failed locator and retries the same step", async () => {
     const page = await browser.newPage();
     await page.setContent('<button type="button">Save</button>');

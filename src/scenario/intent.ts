@@ -106,6 +106,7 @@ function locatorHint(
 }
 
 function valueKind(step: ScenarioStep): ScenarioStep["valueKind"] {
+  if (step.action.type !== "fill") return undefined;
   if (step.action.value === "[REDACTED]")
     return { kind: "secret", unique: false, createsResource: false };
   if (!step.action.value) return undefined;
@@ -244,6 +245,17 @@ function isGenericUnresolved(step: ScenarioStep): boolean {
   );
 }
 
+function isContainerWideAssertion(step: ScenarioStep): boolean {
+  if (step.action.type !== "assert") return false;
+  const target = step.locatorContext?.target;
+  if (!target) return false;
+  return (
+    ["div", "section", "main", "ul", "ol"].includes(target.tag) &&
+    (target.childElementCount ?? 0) > 1 &&
+    (target.text?.length ?? 0) > 120
+  );
+}
+
 function deriveIntent(
   step: ScenarioStep,
   state: DisabledState | undefined,
@@ -325,13 +337,16 @@ export function enrichScenario(scenario: ScenarioContext): ScenarioContext {
             ].join(" "),
           ))) ||
       isGenericUnresolved(step) ||
+      isContainerWideAssertion(step) ||
       /mode-selector-panel|nine.?dot|app launcher/i.test(
         [step.locator, step.targetSummary].join(" "),
       );
     const lifecycle = valueKind(step);
     if (lifecycle) step.valueKind = lifecycle;
+    else delete step.valueKind;
     const expect = expectation(step, state);
     if (expect) step.expect = expect;
+    else delete step.expect;
   }
 
   // The unnamed icon immediately before a module link is the app launcher.
@@ -438,9 +453,15 @@ export function scenarioToIntent(scenario: ScenarioContext): ScenarioIntent {
       pageHeadings.add(step.productHints.pageHeading);
     if (step.productHints?.feature) features.add(step.productHints.feature);
   }
+  const primaryModule = [...navModules][0];
+  const primaryFeature = [...features][0];
+  const intentName = [primaryModule?.toUpperCase(), primaryFeature]
+    .filter(Boolean)
+    .join(" ")
+    .replace(/-/g, " ");
   const intent: ScenarioIntent = {
-    version: "1.0",
-    name: enriched.name,
+    version: "1.4",
+    name: intentName || enriched.name,
     startUrl: enriched.startUrl,
     endUrl: enriched.endUrl,
     productHints: {
@@ -477,7 +498,10 @@ export function scenarioToIntent(scenario: ScenarioContext): ScenarioIntent {
     })),
     unresolvedStepIndexes: enriched.steps
       .filter(
-        ({ confidence }) => confidence === "low" || confidence === "unresolved",
+        (step) =>
+          !step.skipInTest &&
+          (intentConfidence(step) === "low" ||
+            intentConfidence(step) === "unresolved"),
       )
       .map(({ index }) => index),
   };

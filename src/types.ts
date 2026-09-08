@@ -265,7 +265,7 @@ export interface ScenarioTestCase {
 
 /** Compact handoff consumed before the detailed scenario context. */
 export interface ScenarioIntent {
-  version: "1.0";
+  version: "1.4";
   name: string;
   startUrl: string;
   endUrl: string;

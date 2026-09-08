@@ -68,7 +68,7 @@ async function waitForPicker(
 describe("scenario recording", () => {
   it("rejects unsafe non-skipped intent rows", () => {
     const intent: ScenarioIntent = {
-      version: "1.0",
+      version: "1.4",
       name: "Checkout",
       startUrl: "https://example.test/module/ce/perspectives",
       endUrl: "https://example.test/module/ce/perspectives",
@@ -215,6 +215,7 @@ describe("scenario recording", () => {
       jiraId: "QPE-1234",
       zephyrId: "ZEP-42",
     });
+    expect(intent.testCases[0]?.steps[0]?.valueKind).toBeUndefined();
     expect(JSON.stringify(intent)).not.toContain("containerHtml");
     await isolated.close();
   });
@@ -309,7 +310,10 @@ describe("scenario recording", () => {
     const result = await recording;
     expect(result.testCases[0]?.zephyrId).toBe("CCM-T2225");
     const intent = scenarioToIntent(result);
-    expect(intent.name).not.toBe("ce");
+    expect(intent).toMatchObject({
+      version: "1.4",
+      name: "CE budgets",
+    });
     expect(intent.productHints.navModules).toEqual(["ce"]);
     expect(intent.productHints.features).toContain("budgets");
     expect(intent.testCases[0]?.steps[0]?.productHints).toMatchObject({

@@ -255,6 +255,9 @@ can include `jiraId` and `zephyrId`.
 Every capture also writes compact
 [`scenario-intent.json`](schemas/scenario-intent.schema.json). This excludes
 raw HTML and candidate dumps, and is the first file the conversion skill reads.
+Its envelope version is `1.4`, and its display name is derived from the
+recorded module and feature (`CE budgets`) rather than inheriting a generic
+session label such as `Checkout`.
 Generated entity suffixes are removed from locator hints, icon prefixes are
 removed from names, generic tag locators are skipped, and unresolved product
 steps fail intent validation instead of being handed to the conversion skill.

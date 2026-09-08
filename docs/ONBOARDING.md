@@ -132,6 +132,9 @@ The mirrors at `.codegen/*` are the stable paths that the Cursor skill and the
 `analyze` / `validate` defaults read.
 
 `scenario-intent.json` is deliberately stricter than the forensic context.
+Its independent contract starts at version `1.4`; `scenario-context.json`
+retains its own `1.0` forensic schema. The intent name is derived from route
+ownership instead of the recorder's display name.
 `intent.ts` derives ownership from `/module/<module>/<feature>` (including
 direct `/ce/` paths), strips generated test-ID suffixes and decorative icon
 names, and marks login, launcher, redirect, duplicate assertion, and generic

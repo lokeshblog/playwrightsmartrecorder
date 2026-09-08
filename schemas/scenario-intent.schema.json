@@ -13,7 +13,7 @@
     "unresolvedStepIndexes"
   ],
   "properties": {
-    "version": { "const": "1.0" },
+    "version": { "const": "1.4" },
     "name": { "type": "string" },
     "startUrl": { "type": "string" },
     "endUrl": { "type": "string" },

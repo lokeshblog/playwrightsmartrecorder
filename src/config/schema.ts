@@ -331,7 +331,7 @@ export const scenarioContextSchema = z.object({
 });
 
 export const scenarioIntentSchema = z.object({
-  version: z.literal("1.0"),
+  version: z.literal("1.4"),
   name: z.string(),
   startUrl: z.string(),
   endUrl: z.string(),

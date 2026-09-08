@@ -1,10 +1,10 @@
 {
   "version": "1.0",
   "scenarioName": "Checkout",
-  "startedAt": "2026-09-08T06:11:23.786Z",
-  "finishedAt": "2026-09-08T06:11:23.786Z",
+  "startedAt": "2026-09-08T07:48:13.025Z",
+  "finishedAt": "2026-09-08T07:48:13.025Z",
   "status": "aborted",
-  "startUrl": "https://qa.harness.io/#/",
+  "startUrl": "https://qa.harness.io/auth/#/signin",
   "results": [],
   "repairedStepIndexes": [],
   "skippedStepIndexes": []

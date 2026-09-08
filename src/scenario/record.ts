@@ -1814,7 +1814,28 @@ export async function recordScenario(
         else delete activeTestCase.zephyrId;
         return panelUpdate(`Updated metadata for ${activeTestCase.name}`);
       },
-      stop: () => {
+      stop: async () => {
+        await queue;
+        for (const testCase of testCases) {
+          const ownsCeStep = testCase.steps.some((step) =>
+            /\/(?:module\/ce|ce)\//.test(step.pageUrl),
+          );
+          if (!ownsCeStep || testCase.zephyrId) continue;
+          const zephyrId = await control.prompt({
+            title: `Zephyr ID for ${testCase.name}`,
+            message:
+              "This testcase contains a CE workflow. Enter its Zephyr testcase ID for conversion, or skip if no ID exists.",
+            label: "Zephyr ID",
+            value: "",
+            confirmLabel: "Save ID",
+            cancelLabel: "No Zephyr ID",
+          });
+          if (zephyrId?.trim()) testCase.zephyrId = zephyrId.trim();
+          else
+            warnings.push(
+              `${testCase.name} contains CE steps but has no Zephyr ID.`,
+            );
+        }
         settings.active = false;
         void picker.releaseHold();
         void picker.cancel();

@@ -142,17 +142,22 @@
             "type": "object",
             "properties": {
               "testId": { "type": "string" },
+              "nameHint": { "type": "string" },
               "role": { "type": "string" },
               "name": { "type": "string" },
+              "tagName": { "type": "string" },
+              "scope": { "type": "string" },
               "expression": { "type": "string" }
             },
             "additionalProperties": false
           },
+          "disabledState": { "$ref": "#/$defs/disabledState" },
           "skipInTest": { "type": "boolean" },
           "valueKind": {
             "type": "object",
             "required": ["unique", "createsResource"],
             "properties": {
+              "kind": { "enum": ["secret", "unique", "literal"] },
               "unique": { "type": "boolean" },
               "createsResource": { "type": "boolean" }
             },
@@ -169,6 +174,27 @@
               "value": {
                 "type": ["string", "number", "boolean", "array"],
                 "items": { "type": "string" }
+              },
+              "name": { "type": "string" },
+              "signals": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "disabled-attribute",
+                    "aria-disabled",
+                    "native-disabled",
+                    "bp3-disabled"
+                  ]
+                }
+              },
+              "group": {
+                "type": "object",
+                "properties": {
+                  "notAuthorized": { "type": "string" },
+                  "missingPermission": { "type": "string" },
+                  "permissionInScope": { "type": "string" }
+                },
+                "additionalProperties": false
               }
             },
             "additionalProperties": false
@@ -204,6 +230,30 @@
     "warnings": {
       "type": "array",
       "items": { "type": "string" }
+    }
+  },
+  "$defs": {
+    "disabledState": {
+      "type": "object",
+      "required": [
+        "hasDisabledAttribute",
+        "ariaDisabled",
+        "nativeDisabled",
+        "blueprintDisabledClass",
+        "tabIndex",
+        "tagName",
+        "role"
+      ],
+      "properties": {
+        "hasDisabledAttribute": { "type": "boolean" },
+        "ariaDisabled": { "enum": ["true", null] },
+        "nativeDisabled": { "type": "boolean" },
+        "blueprintDisabledClass": { "type": "boolean" },
+        "tabIndex": { "type": ["integer", "null"] },
+        "tagName": { "type": "string" },
+        "role": { "type": ["string", "null"] }
+      },
+      "additionalProperties": false
     }
   },
   "additionalProperties": false

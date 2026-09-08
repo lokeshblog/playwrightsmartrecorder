@@ -21,7 +21,11 @@ export {
 export { actionCode, recordScenario } from "./scenario/record.js";
 export { describeTarget, summarizeTarget } from "./scenario/describe.js";
 export { suggestLocators } from "./locator/suggest.js";
-export { enrichScenario, scenarioToIntent } from "./scenario/intent.js";
+export {
+  enrichScenario,
+  scenarioToIntent,
+  validateScenarioIntent,
+} from "./scenario/intent.js";
 export { prettyFormatHtml } from "./ui/format-html.js";
 export {
   DEFAULT_REPLAY_TIMEOUT_MS,

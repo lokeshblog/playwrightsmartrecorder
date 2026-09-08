@@ -17,7 +17,10 @@ import {
 import { scoreCandidate } from "../locator/score.js";
 import { repairLocator } from "../repair/repair.js";
 import { scenarioToCsv } from "../scenario/export.js";
-import { scenarioToIntent } from "../scenario/intent.js";
+import {
+  scenarioToIntent,
+  validateScenarioIntent,
+} from "../scenario/intent.js";
 import { recordScenario } from "../scenario/record.js";
 import { replayScenario } from "../scenario/replay.js";
 import { reviewScenario } from "../scenario/review.js";
@@ -26,6 +29,7 @@ import type {
   ReplayReport,
   ReplayStepStatus,
   ScenarioContext,
+  ScenarioIntent,
 } from "../types.js";
 
 function confidenceMark(confidence: string): string {
@@ -510,6 +514,7 @@ program
     const locator = locatorContextSchema.safeParse(input);
     const replay = replayReportSchema.safeParse(input);
     const intent = scenarioIntentSchema.safeParse(input);
+    if (intent.success) validateScenarioIntent(intent.data as ScenarioIntent);
     if (
       !scenario.success &&
       !locator.success &&

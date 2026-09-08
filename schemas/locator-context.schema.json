@@ -97,8 +97,31 @@
         "attributes": {
           "type": "object",
           "additionalProperties": { "type": "string" }
-        }
+        },
+        "disabledState": { "$ref": "#/$defs/disabledState" }
       }
+    },
+    "disabledState": {
+      "type": "object",
+      "required": [
+        "hasDisabledAttribute",
+        "ariaDisabled",
+        "nativeDisabled",
+        "blueprintDisabledClass",
+        "tabIndex",
+        "tagName",
+        "role"
+      ],
+      "properties": {
+        "hasDisabledAttribute": { "type": "boolean" },
+        "ariaDisabled": { "enum": ["true", null] },
+        "nativeDisabled": { "type": "boolean" },
+        "blueprintDisabledClass": { "type": "boolean" },
+        "tabIndex": { "type": ["integer", "null"] },
+        "tagName": { "type": "string" },
+        "role": { "type": ["string", "null"] }
+      },
+      "additionalProperties": false
     },
     "candidate": {
       "type": "object",

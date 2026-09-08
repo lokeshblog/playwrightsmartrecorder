@@ -336,6 +336,48 @@ describe("live uniqueness and DOM context", () => {
     expect(result.recommended?.locator).toContain("GCP");
   });
 
+  it("captures Blueprint restriction and menuitem semantics", async () => {
+    await page.setContent(
+      '<ul class="bp3-menu"><li><a class="bp3-menu-item bp3-disabled" tabindex="-1">' +
+        '<span class="bp3-icon">edit</span><span class="bp3-text-overflow-ellipsis">Edit</span>' +
+        "</a></li></ul>",
+    );
+    const raw = await extractDomContext(page.locator("a"), config);
+    expect(raw.target).toMatchObject({
+      role: "menuitem",
+      accessibleName: "Edit",
+      disabledState: {
+        hasDisabledAttribute: false,
+        ariaDisabled: null,
+        nativeDisabled: false,
+        blueprintDisabledClass: true,
+        tabIndex: -1,
+        tagName: "A",
+        role: "menuitem",
+      },
+    });
+    const analyzed = await analyzeContext(page, raw, config);
+    expect(analyzed.recommended?.locator).toContain('"Edit"');
+    expect(analyzed.recommended?.locator).not.toContain("editEdit");
+  });
+
+  it("rejects test IDs containing generated entity suffixes", async () => {
+    await page.setContent(
+      '<button data-testid="menu-uPXL2dw8T9-urS_HyzNc7w" aria-label="Options"></button>',
+    );
+    const raw = await extractDomContext(page.getByRole("button"), config);
+    const analyzed = await analyzeContext(page, raw, config);
+    expect(analyzed.candidates.some(({ kind }) => kind === "testId")).toBe(
+      false,
+    );
+    expect(
+      analyzed.rejected.some(({ reason }) =>
+        reason.includes("stable prefix: menu"),
+      ),
+    ).toBe(true);
+    expect(analyzed.recommended?.kind).toBe("role");
+  });
+
   it("separates wrappers of the target from other controls inside it", async () => {
     await page.setContent(
       '<ul><li><p>AWS</p></li><li data-mark="yes"><p>GCP</p></li></ul>' +

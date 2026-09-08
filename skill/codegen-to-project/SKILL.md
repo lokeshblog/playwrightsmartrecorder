@@ -36,7 +36,8 @@ URL, classes, package names, or recording date.
   authentication and secret-data mechanism.
 - Apply each testcase's `jiraId` and `zephyrId` using the nearest test's tag
   convention. If `jiraId` is absent, use `QPE-PENDING` only where existing
-  tests call `withTags`; never invent a Zephyr ID.
+  tests call `withTags`; never invent a Zephyr ID. For UI-2.0 CE, a missing
+  Zephyr ID is blocking: ask for it before editing.
 - Do not call an aborted, skipped, or unexecuted replay verified.
 - Do not edit until module ownership, feature placement, and reuse decisions
   have evidence. Ask one focused question if ownership remains tied.
@@ -66,6 +67,11 @@ For each testcase:
   success based only on clicks.
 - Record replay status. `passed` is verified; `failed`, `skipped`, `aborted`,
   and absent results require repair or explicit reporting.
+- Treat `expect.matcher: "toBeRestricted"` as a composite RBAC assertion. Use
+  `disabledState` and `expect.signals`: native controls may use
+  `toBeDisabled`; anchors and Blueprint menu items must assert the captured
+  `disabled`, `aria-disabled`, or `bp3-disabled` signal used by the owning
+  repository. Keep `expect.group` tooltip lines in one assertion group.
 
 Do not use the recording name as ownership evidence unless routes and page
 terms independently agree with it.
@@ -157,6 +163,9 @@ Unresolved: <none or one blocking choice>
 - Preserve meaningful navigation and ordered business actions.
 - Remove duplicate clicks only when they are recorder noise and not required
   state transitions.
+- Drop `skipInTest` login, redirect, launcher, duplicate-tooltip, and unresolved
+  generic-tag rows. A non-skipped `unresolved` row is an invalid export, not an
+  invitation to invent a locator.
 - Parameterize recorded data using existing builders/constants.
 - Add outcome assertions consistent with neighbouring tests; do not invent a
   product assertion unsupported by the flow.
@@ -169,6 +178,14 @@ For locators, prefer in order:
 3. Unique role + accessible name.
 4. Unique label/placeholder.
 5. Text scoped through a stable row, card, dialog, form, or table.
+
+Use `locatorHint.nameHint` only to search for an existing repository
+abstraction; it is not a selector. Never restore the generated suffix that the
+recorder removed. For Blueprint menus, `role: menuitem` plus the cleaned
+`name` describes the semantic target even when product markup omits the native
+role; use the repository's established menu helper to implement it. Strip
+decorative icon words from names and never copy `plusNew Perspective`,
+`editEdit`, `trashDelete`, or similar concatenations.
 
 For `low` or `unresolved` steps, explain the target from `targetSummary` and
 HTML before constructing a locator. If no stable locator exists, report the

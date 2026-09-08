@@ -1,6 +1,6 @@
 {
   "name": "playwright-codegen-smart",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Record, replay, repair, and convert Playwright scenarios with deterministic locator context.",
   "type": "module",
   "bin": {

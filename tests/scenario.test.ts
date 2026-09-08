@@ -8,8 +8,9 @@ import {
   scenarioContextSchema,
   scenarioIntentSchema,
   smartConfigSchema,
+  validateScenarioIntent,
 } from "../src/index.js";
-import type { SmartConfig } from "../src/types.js";
+import type { ScenarioIntent, SmartConfig } from "../src/types.js";
 
 const config: SmartConfig = smartConfigSchema.parse(defaultConfig);
 let browser: Browser;
@@ -65,6 +66,43 @@ async function waitForPicker(
 }
 
 describe("scenario recording", () => {
+  it("rejects unsafe non-skipped intent rows", () => {
+    const intent: ScenarioIntent = {
+      version: "1.0",
+      name: "Checkout",
+      startUrl: "https://example.test/module/ce/perspectives",
+      endUrl: "https://example.test/module/ce/perspectives",
+      productHints: {
+        navModules: ["ce"],
+        pageHeadings: [],
+        features: ["perspectives"],
+      },
+      testCases: [
+        {
+          id: "test-1",
+          name: "Test 1",
+          steps: [
+            {
+              index: 1,
+              startUrl: "https://example.test/module/ce/perspectives",
+              urlAfter: "https://example.test/module/ce/perspectives",
+              intent: "Click <div>",
+              action: "click",
+              locatorHint: { expression: 'locator("div")' },
+              productHints: { navModule: "ce", feature: "perspectives" },
+              skipInTest: false,
+              confidence: "unresolved",
+            },
+          ],
+        },
+      ],
+      unresolvedStepIndexes: [1],
+    };
+    expect(() => validateScenarioIntent(intent)).toThrow(
+      /generic locator expression[\s\S]*unresolved workflow step/,
+    );
+  });
+
   it("records an ordered flow with locator context and generated code", async () => {
     await page.setContent(`
       <main>
@@ -167,6 +205,7 @@ describe("scenario recording", () => {
       testId: "new-budget",
       role: "button",
       name: "New Budget",
+      tagName: "BUTTON",
     });
     const intent = scenarioToIntent(result);
     expect(scenarioIntentSchema.parse(intent)).toEqual(intent);
@@ -177,6 +216,106 @@ describe("scenario recording", () => {
       zephyrId: "ZEP-42",
     });
     expect(JSON.stringify(intent)).not.toContain("containerHtml");
+    await isolated.close();
+  });
+
+  it("emits restricted-control evidence instead of non-native toBeDisabled", async () => {
+    const isolated = await browser.newPage();
+    await isolated.setContent(`
+      <main>
+        <h1>Perspectives</h1>
+        <a role="button" aria-label="New Perspective" disabled tabindex="-1"
+           data-testid="clone-perspective-Tiu8pUk-SUmjkJTFPROmvQ">
+          <svg aria-hidden="true"><title>plus</title></svg>
+          <span>plusNew Perspective</span>
+        </a>
+        <ul class="bp3-menu">
+          <li><a class="bp3-menu-item bp3-disabled"><span class="bp3-text-overflow-ellipsis">Edit</span></a></li>
+        </ul>
+      </main>
+    `);
+    const recording = recordScenario(isolated, config, { name: "Checkout" });
+    const control = await recorderControl(isolated);
+    const panel = control.locator("[data-pw-codegen-smart-controls]");
+    await panel.locator("[data-jira]").fill("QPE-3247");
+    await panel.locator("[data-jira]").blur();
+    await panel.locator("[data-zephyr]").fill("CCM-T2225");
+    await panel.locator("[data-zephyr]").blur();
+    await panel.locator("[data-mode]").selectOption("assert:toBeDisabled");
+    await waitForPicker(panel);
+    await isolated.getByRole("button", { name: "New Perspective" }).click({
+      force: true,
+    });
+    await expect
+      .poll(() => panel.locator("[data-count]").textContent())
+      .toBe("1");
+    await panel.locator("[data-mode]").selectOption("auto");
+    await panel.locator("[data-stop]").click();
+
+    const intent = scenarioToIntent(await recording);
+    const testCase = intent.testCases[0]!;
+    expect(testCase).toMatchObject({
+      jiraId: "QPE-3247",
+      zephyrId: "CCM-T2225",
+    });
+    expect(testCase.steps[0]).toMatchObject({
+      intent: "Verify New Perspective is restricted for read-only user",
+      locatorHint: {
+        nameHint: "clone-perspective",
+        role: "button",
+        name: "New Perspective",
+        tagName: "A",
+      },
+      disabledState: {
+        hasDisabledAttribute: true,
+        nativeDisabled: false,
+        tagName: "A",
+        role: "button",
+      },
+      expect: {
+        matcher: "toBeRestricted",
+        name: "New Perspective",
+        signals: ["disabled-attribute"],
+      },
+      skipInTest: false,
+      confidence: "high",
+    });
+    expect(scenarioIntentSchema.parse(intent)).toEqual(intent);
+    await isolated.close();
+  });
+
+  it("asks for a missing Zephyr ID before exporting a CE testcase", async () => {
+    const isolated = await browser.newPage();
+    await isolated.route("https://example.test/**", async (route) => {
+      await route.fulfill({
+        contentType: "text/html",
+        body: "<h1>Budgets</h1><a href='#'>New Budget</a>",
+      });
+    });
+    await isolated.goto(
+      "https://example.test/ng/account/account-id/module/ce/budgets",
+    );
+    const recording = recordScenario(isolated, config);
+    const control = await recorderControl(isolated);
+    await isolated.getByRole("link", { name: "New Budget" }).click();
+    await control.locator("[data-stop]").click();
+
+    const modal = control.locator("[data-pw-codegen-smart-modal]");
+    await modal.waitFor();
+    expect(await modal.textContent()).toContain("Zephyr ID for Test 1");
+    await modal.locator("input").fill("CCM-T2225");
+    await modal.locator("[data-modal-confirm]").click();
+
+    const result = await recording;
+    expect(result.testCases[0]?.zephyrId).toBe("CCM-T2225");
+    const intent = scenarioToIntent(result);
+    expect(intent.name).not.toBe("ce");
+    expect(intent.productHints.navModules).toEqual(["ce"]);
+    expect(intent.productHints.features).toContain("budgets");
+    expect(intent.testCases[0]?.steps[0]?.productHints).toMatchObject({
+      navModule: "ce",
+      feature: "budgets",
+    });
     await isolated.close();
   });
 
@@ -493,6 +632,7 @@ describe("scenario recording", () => {
     expect(hover?.code).toContain(".hover(");
     expect(assertion?.action.assertion?.matcher).toBe("toContainText");
     expect(assertion?.action.assertion?.expected).toContain("not authorized");
+    expect(assertion?.expect?.group?.notAuthorized).toContain("not authorized");
     await isolated.close();
   });
 

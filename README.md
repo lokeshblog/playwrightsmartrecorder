@@ -168,7 +168,9 @@ navigations and apply inside iframes.
 
 Testcases are automatically named `Test 1`, `Test 2`, and so on. The control
 window accepts an optional Jira ID and Zephyr ID for each active testcase;
-switching to a new testcase gives it independent IDs. Each action's DOM walk
+switching to a new testcase gives it independent IDs. When a CE testcase has
+no Zephyr ID, stopping asks for one before export and records an explicit
+warning if no ID exists. Each action's DOM walk
 stops at a configured semantic boundary or maximum depth. Sensitive values are
 replaced with `[REDACTED]`.
 
@@ -243,11 +245,19 @@ The detailed scenario format is defined by
 [`schemas/scenario-context.schema.json`](schemas/scenario-context.schema.json).
 Each step now includes `urlAfter`, English `intent`, structured `locatorHint`,
 `productHints`, `skipInTest`, optional `valueKind`, and explicit `expect`
-evidence. Each testcase can include `jiraId` and `zephyrId`.
+evidence. Restricted controls additionally carry `disabledState`, including
+native, ARIA, raw `disabled`, Blueprint-class, tab-index, tag, and role
+signals. Non-native restrictions become `expect.matcher: "toBeRestricted"`
+rather than the misleading `toBeDisabled`. RBAC tooltip text can be grouped as
+`notAuthorized`, `missingPermission`, and `permissionInScope`. Each testcase
+can include `jiraId` and `zephyrId`.
 
 Every capture also writes compact
 [`scenario-intent.json`](schemas/scenario-intent.schema.json). This excludes
 raw HTML and candidate dumps, and is the first file the conversion skill reads.
+Generated entity suffixes are removed from locator hints, icon prefixes are
+removed from names, generic tag locators are skipped, and unresolved product
+steps fail intent validation instead of being handed to the conversion skill.
 The detailed file remains available for weak-locator repair. Each step embeds
 the locator format in
 [`schemas/locator-context.schema.json`](schemas/locator-context.schema.json),

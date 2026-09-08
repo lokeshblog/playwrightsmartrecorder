@@ -41,6 +41,12 @@ export async function extractDomContext(
       const role = (node: Element): string | undefined => {
         const explicit = node.getAttribute("role");
         if (explicit) return explicit;
+        if (
+          node.matches(
+            "a.bp3-menu-item, a[class*='bp3-menu-item'], li.Select--menuItem",
+          )
+        )
+          return "menuitem";
         const roles: Record<string, string> = {
           BUTTON: "button",
           A: node.hasAttribute("href") ? "link" : "",
@@ -112,8 +118,51 @@ export async function extractDomContext(
           for (const child of [...node.childNodes]) walk(child);
         };
         walk(control);
-        const value = parts.join(" ").replace(/\s+/g, " ").trim().slice(0, 300);
+        const value = parts
+          .join(" ")
+          .replace(/\s+/g, " ")
+          .trim()
+          .replace(
+            /^(?:plus|edit|trash|duplicate|add[- ]to[- ]folder|chevron[- ]right|cross)(?=[A-Z])/,
+            "",
+          )
+          .slice(0, 300);
         return value || undefined;
+      };
+      const disabledState = (
+        node: Element,
+      ): ElementContext["disabledState"] => {
+        const nativeDisabled =
+          (node instanceof HTMLButtonElement ||
+            node instanceof HTMLInputElement ||
+            node instanceof HTMLSelectElement ||
+            node instanceof HTMLTextAreaElement) &&
+          node.disabled;
+        const ariaDisabled =
+          node.getAttribute("aria-disabled") === "true" ? "true" : null;
+        const blueprintDisabledClass = [...node.classList].some(
+          (name) => name === "bp3-disabled" || name.endsWith("-disabled"),
+        );
+        const hasDisabledAttribute = node.hasAttribute("disabled");
+        if (
+          !nativeDisabled &&
+          !hasDisabledAttribute &&
+          ariaDisabled === null &&
+          !blueprintDisabledClass
+        )
+          return undefined;
+        return {
+          hasDisabledAttribute,
+          ariaDisabled,
+          nativeDisabled,
+          blueprintDisabledClass,
+          tabIndex:
+            node.hasAttribute("tabindex") && node instanceof HTMLElement
+              ? node.tabIndex
+              : null,
+          tagName: node.tagName,
+          role: role(node) ?? null,
+        };
       };
       const accessibleName = (node: Element): string | undefined => {
         const labelledBy = node.getAttribute("aria-labelledby");
@@ -231,6 +280,8 @@ export async function extractDomContext(
         if (nodeText) result.text = nodeText;
         if (name) result.accessibleName = name;
         if (nodeRole) result.role = nodeRole;
+        const disabled = disabledState(node);
+        if (disabled) result.disabledState = disabled;
         if (includeHtml) result.html = serialize(node, 2_000).html;
         return result;
       };

@@ -131,6 +131,22 @@ overwrites an earlier one:
 The mirrors at `.codegen/*` are the stable paths that the Cursor skill and the
 `analyze` / `validate` defaults read.
 
+`scenario-intent.json` is deliberately stricter than the forensic context.
+`intent.ts` derives ownership from `/module/<module>/<feature>` (including
+direct `/ce/` paths), strips generated test-ID suffixes and decorative icon
+names, and marks login, launcher, redirect, duplicate assertion, and generic
+tag noise as `skipInTest`. Its final validator rejects any non-skipped
+unresolved step, generic expression, generated test ID, contaminated name, CE
+step without CE product hints, or `toBeDisabled` assertion against a
+non-native control.
+
+Restriction evidence is captured on every element as `disabledState`.
+`disabled`, `aria-disabled`, native form-control state, Blueprint
+`bp3-disabled`, tab index, tag, and role remain distinct because Playwright's
+native `toBeDisabled` semantics do not describe every RBAC control. The intent
+layer emits `toBeRestricted` plus the exact observed signals and preserves the
+three common permission-tooltip lines as one structured assertion group.
+
 ## 3. Setup
 
 ### Consuming the package

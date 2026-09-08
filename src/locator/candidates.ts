@@ -12,6 +12,13 @@ type Draft = Pick<LocatorCandidate, "locator" | "kind" | "evidence"> & {
 };
 
 const quote = (value: string): string => JSON.stringify(value);
+const cleanVisibleName = (value: string): string =>
+  value
+    .replace(
+      /^(?:plus|edit|trash|duplicate|add[- ]to[- ]folder|chevron[- ]right|cross)(?=[A-Z])/,
+      "",
+    )
+    .trim();
 
 export function isGeneratedValue(value: string, config: SmartConfig): boolean {
   return config.generatedValuePatterns.some((pattern) => {
@@ -21,6 +28,27 @@ export function isGeneratedValue(value: string, config: SmartConfig): boolean {
       return false;
     }
   });
+}
+
+/** Dynamic entity identifiers commonly embedded after an otherwise useful prefix. */
+export function generatedTestIdPrefix(
+  value: string,
+  config: SmartConfig,
+): string | undefined {
+  if (isGeneratedValue(value, config)) return value.split(/[-_:]/)[0];
+  const prefixed = value.match(
+    /^(menuItem|menu|clone-perspective|perspective|budget|connector)[-_:](.+)$/i,
+  );
+  if (!prefixed) return undefined;
+  const suffix = prefixed[2]!;
+  if (
+    suffix.length >= 10 ||
+    /[A-Z].*[A-Z]/.test(suffix) ||
+    /\d{4,}/.test(suffix) ||
+    /^[0-9a-f-]{8,}$/i.test(suffix)
+  )
+    return prefixed[1];
+  return undefined;
 }
 
 export function generateCandidates(
@@ -38,6 +66,17 @@ export function generateCandidates(
   for (const attribute of config.preferredAttributes) {
     const value = target.attributes[attribute];
     if (!value) continue;
+    const generatedPrefix = generatedTestIdPrefix(value, config);
+    if (generatedPrefix) {
+      rejected.push({
+        locator:
+          attribute === "data-testid"
+            ? `getByTestId(${quote(value)})`
+            : `locator(${quote(`[${attribute}="${CSS_ESCAPE(value)}"]`)})`,
+        reason: `generated-looking ${attribute}; stable prefix: ${generatedPrefix}`,
+      });
+      continue;
+    }
     if (attribute === "data-testid")
       add({
         locator: `getByTestId(${quote(value)})`,
@@ -111,9 +150,13 @@ export function generateCandidates(
     (leafLike || target.text.length <= 60)
   )
     add({
-      locator: `getByText(${quote(target.text)}, { exact: true })`,
+      locator: `getByText(${quote(cleanVisibleName(target.text))}, { exact: true })`,
       kind: "text",
-      evidence: ["visible text"],
+      evidence: [
+        cleanVisibleName(target.text) === target.text
+          ? "visible text"
+          : "visible text with decorative icon prefix removed",
+      ],
     });
   const name = target.attributes.name;
   if (name && !isGeneratedValue(name, config))

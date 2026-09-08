@@ -21,6 +21,18 @@ export interface ElementContext {
   role?: string | undefined;
   html?: string | undefined;
   attributes: Record<string, string>;
+  disabledState?: DisabledState | undefined;
+}
+
+/** Cross-library evidence that a control is unavailable to the current user. */
+export interface DisabledState {
+  hasDisabledAttribute: boolean;
+  ariaDisabled: "true" | null;
+  nativeDisabled: boolean;
+  blueprintDisabledClass: boolean;
+  tabIndex: number | null;
+  tagName: string;
+  role: string | null;
 }
 
 export interface AncestorContext extends ElementContext {
@@ -201,22 +213,42 @@ export interface ScenarioStep {
   /** Structured locator evidence; expression is a last hint, not test code. */
   locatorHint?: {
     testId?: string | undefined;
+    /** Stable part of an otherwise generated identifier; context, not selector. */
+    nameHint?: string | undefined;
     role?: string | undefined;
     name?: string | undefined;
+    tagName?: string | undefined;
+    scope?: string | undefined;
     expression?: string | undefined;
   };
+  /** Disabled/restricted evidence captured from the exact interacted element. */
+  disabledState?: DisabledState | undefined;
   /** Setup/navigation mechanics the converter should normally omit. */
   skipInTest?: boolean | undefined;
   /** Data lifecycle hints for unique names and cleanup. */
   valueKind?: {
+    kind?: "secret" | "unique" | "literal" | undefined;
     unique: boolean;
     createsResource: boolean;
   };
   /** Explicit outcome captured through assertion mode. */
   expect?: {
     kind: "heading" | "toast" | "row-visible" | "assertion";
-    matcher: AssertionMatcher;
+    matcher: AssertionMatcher | "toBeRestricted";
     value?: string | string[] | number | boolean | undefined;
+    name?: string | undefined;
+    signals?: Array<
+      | "disabled-attribute"
+      | "aria-disabled"
+      | "native-disabled"
+      | "bp3-disabled"
+    >;
+    /** Structured lines from one RBAC tooltip, kept as one assertion group. */
+    group?: {
+      notAuthorized?: string | undefined;
+      missingPermission?: string | undefined;
+      permissionInScope?: string | undefined;
+    };
   };
   testCaseId: string;
   businessStep: string;
@@ -255,6 +287,7 @@ export interface ScenarioIntent {
       action: ScenarioActionType;
       value?: string | undefined;
       locatorHint?: ScenarioStep["locatorHint"];
+      disabledState?: ScenarioStep["disabledState"];
       productHints?: ScenarioStep["productHints"];
       skipInTest: boolean;
       valueKind?: ScenarioStep["valueKind"];

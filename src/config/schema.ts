@@ -79,6 +79,26 @@ export const smartConfigSchema = z.object({
     .default(defaultConfig.maxContainerHtmlLength),
 });
 
+const disabledStateSchema = z.object({
+  hasDisabledAttribute: z.boolean(),
+  ariaDisabled: z.literal("true").nullable(),
+  nativeDisabled: z.boolean(),
+  blueprintDisabledClass: z.boolean(),
+  tabIndex: z.number().int().nullable(),
+  tagName: z.string(),
+  role: z.string().nullable(),
+});
+
+const locatorHintSchema = z.object({
+  testId: z.string().optional(),
+  nameHint: z.string().optional(),
+  role: z.string().optional(),
+  name: z.string().optional(),
+  tagName: z.string().optional(),
+  scope: z.string().optional(),
+  expression: z.string().optional(),
+});
+
 const elementSchema = z.object({
   tag: z.string(),
   childElementCount: z.number().int().min(0).optional(),
@@ -87,6 +107,7 @@ const elementSchema = z.object({
   role: z.string().optional(),
   html: z.string().optional(),
   attributes: z.record(z.string(), z.string()),
+  disabledState: disabledStateSchema.optional(),
 });
 
 const candidateSchema = z.object({
@@ -228,17 +249,12 @@ export const scenarioContextSchema = z.object({
           feature: z.string().optional(),
         })
         .optional(),
-      locatorHint: z
-        .object({
-          testId: z.string().optional(),
-          role: z.string().optional(),
-          name: z.string().optional(),
-          expression: z.string().optional(),
-        })
-        .optional(),
+      locatorHint: locatorHintSchema.optional(),
+      disabledState: disabledStateSchema.optional(),
       skipInTest: z.boolean().optional(),
       valueKind: z
         .object({
+          kind: z.enum(["secret", "unique", "literal"]).optional(),
           unique: z.boolean(),
           createsResource: z.boolean(),
         })
@@ -272,9 +288,28 @@ export const scenarioContextSchema = z.object({
             "toHaveRole",
             "toHaveScreenshot",
             "toHaveCount",
+            "toBeRestricted",
           ]),
           value: z
             .union([z.string(), z.array(z.string()), z.number(), z.boolean()])
+            .optional(),
+          name: z.string().optional(),
+          signals: z
+            .array(
+              z.enum([
+                "disabled-attribute",
+                "aria-disabled",
+                "native-disabled",
+                "bp3-disabled",
+              ]),
+            )
+            .optional(),
+          group: z
+            .object({
+              notAuthorized: z.string().optional(),
+              missingPermission: z.string().optional(),
+              permissionInScope: z.string().optional(),
+            })
             .optional(),
         })
         .optional(),
@@ -317,13 +352,30 @@ export const scenarioIntentSchema = z.object({
           startUrl: z.string(),
           urlAfter: z.string(),
           intent: z.string(),
-          action: z.string(),
+          action: z.enum([
+            "click",
+            "doubleClick",
+            "hover",
+            "fill",
+            "selectOption",
+            "setInputFiles",
+            "check",
+            "uncheck",
+            "press",
+            "navigate",
+            "assert",
+          ]),
           value: z.string().optional(),
-          locatorHint: z.record(z.string(), z.string()).optional(),
+          locatorHint: locatorHintSchema.optional(),
+          disabledState: disabledStateSchema.optional(),
           productHints: z.record(z.string(), z.string()).optional(),
           skipInTest: z.boolean(),
           valueKind: z
-            .object({ unique: z.boolean(), createsResource: z.boolean() })
+            .object({
+              kind: z.enum(["secret", "unique", "literal"]).optional(),
+              unique: z.boolean(),
+              createsResource: z.boolean(),
+            })
             .optional(),
           expect: z
             .object({
@@ -336,6 +388,24 @@ export const scenarioIntentSchema = z.object({
                   z.number(),
                   z.boolean(),
                 ])
+                .optional(),
+              name: z.string().optional(),
+              signals: z
+                .array(
+                  z.enum([
+                    "disabled-attribute",
+                    "aria-disabled",
+                    "native-disabled",
+                    "bp3-disabled",
+                  ]),
+                )
+                .optional(),
+              group: z
+                .object({
+                  notAuthorized: z.string().optional(),
+                  missingPermission: z.string().optional(),
+                  permissionInScope: z.string().optional(),
+                })
                 .optional(),
             })
             .optional(),

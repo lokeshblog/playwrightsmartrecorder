@@ -129,7 +129,8 @@ overwrites an earlier one:
 ```
 
 The mirrors at `.codegen/*` are the stable paths that the Cursor skill and the
-`analyze` / `validate` defaults read.
+`analyze` / `validate` defaults read. `capture --output` still writes those
+mirrors, even when the primary files go to a custom path.
 
 `scenario-intent.json` is deliberately stricter than the forensic context.
 Its independent contract starts at version `1.4`; `scenario-context.json`
@@ -196,6 +197,31 @@ npx playwright-codegen-smart capture https://app.example.com/checkout \
 ```
 
 Record the flow, then click **Stop recording** or press `Ctrl+Shift+S`.
+
+By default that writes a timestamped folder under `.codegen/recordings/`. To
+write the recording to a custom path instead, pass `--output` as the
+`scenario-context.json` file (not a directory). Intent and CSV are written
+beside it:
+
+```bash
+npx playwright-codegen-smart capture https://qa.harness.io/#/ \
+  --name "CE budgets" \
+  --output .cursor/skills/recorder-to-playwright/recordings/scenario-context.json
+```
+
+That produces:
+
+```
+.cursor/skills/recorder-to-playwright/recordings/
+  scenario-context.json
+  scenario-intent.json
+  scenario-context.csv
+```
+
+`--output` is only on `capture`. `session` always saves under
+`.codegen/recordings/<timestamp>-<name>/`. Copy the two JSON files into the
+skill recordings folder, or use `capture` when the conversion skill must read
+a fixed path.
 
 ### Record, replay, and repair in one browser session
 

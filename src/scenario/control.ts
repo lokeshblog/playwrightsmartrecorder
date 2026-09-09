@@ -39,6 +39,7 @@ export interface ControlPanelUpdate {
   activeTestCase: string;
   jiraId?: string | undefined;
   zephyrId?: string | undefined;
+  conversionInstructions?: string | undefined;
 }
 
 export interface ControlModeOption {
@@ -107,6 +108,7 @@ export interface RecorderControlHandlers {
   testMetadata: (patch: {
     jiraId?: string;
     zephyrId?: string;
+    conversionInstructions?: string;
   }) => ControlPanelUpdate | Promise<ControlPanelUpdate>;
   stop: () => void | Promise<void>;
   /** The user closed the control window or tab. */
@@ -245,7 +247,14 @@ type ControlEvent =
   | { kind: "deleteLine" }
   | { kind: "deleteTest" }
   | { kind: "deleteStep"; index: number }
-  | { kind: "testMetadata"; patch: { jiraId?: string; zephyrId?: string } }
+  | {
+      kind: "testMetadata";
+      patch: {
+        jiraId?: string;
+        zephyrId?: string;
+        conversionInstructions?: string;
+      };
+    }
   | { kind: "fit"; height: number }
   | { kind: "stop" };
 
@@ -316,6 +325,11 @@ function installControlPanel(config: ControlPanelConfig): void {
         <div data-hold-message style="margin-bottom:6px"></div>
         <button data-release-hold style="width:100%">Resume the application (Esc)</button>
       </div>
+      <div style="padding:10px 12px;background:#eff6ff;border-bottom:1px solid #bfdbfe">
+        <label for="conversion-instructions" style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:#1d4ed8;margin-bottom:4px">Instructions for Cursor</label>
+        <textarea id="conversion-instructions" data-conversion-instructions rows="3" placeholder="Example: Step 21 is a dropdown; strict closing is not required. Reuse the existing budget helper." style="display:block;width:100%;box-sizing:border-box;resize:vertical;padding:7px 8px;border:1px solid #93c5fd;border-radius:6px;background:#fff;font:12px/1.4 system-ui,-apple-system,Segoe UI,sans-serif;color:#1e3a8a"></textarea>
+        <div style="margin-top:3px;font-size:10px;color:#3b82f6">Saved for this testcase and read before its recorded steps.</div>
+      </div>
       <div style="padding:10px 12px">
         <label data-label style="display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:#6b7280;margin-bottom:4px">Click mode <span style="font-weight:500;text-transform:none;letter-spacing:0">(stays active)</span></label>
         <select data-mode style="width:100%;box-sizing:border-box;padding:7px 8px;border:1px solid #d1d5db;border-radius:6px;background:#fff;font:inherit;color:inherit"></select>
@@ -382,6 +396,9 @@ function installControlPanel(config: ControlPanelConfig): void {
     const stopButton = panel.querySelector<HTMLButtonElement>("[data-stop]")!;
     const jiraInput = panel.querySelector<HTMLInputElement>("[data-jira]")!;
     const zephyrInput = panel.querySelector<HTMLInputElement>("[data-zephyr]")!;
+    const conversionInstructions = panel.querySelector<HTMLTextAreaElement>(
+      "[data-conversion-instructions]",
+    )!;
 
     for (const group of config.modeGroups) {
       const parent = group.label
@@ -439,6 +456,8 @@ function installControlPanel(config: ControlPanelConfig): void {
         jiraInput.value = update.jiraId ?? "";
       if (document.activeElement !== zephyrInput)
         zephyrInput.value = update.zephyrId ?? "";
+      if (document.activeElement !== conversionInstructions)
+        conversionInstructions.value = update.conversionInstructions ?? "";
       const next = update.steps
         .map(({ index, businessStep, confidence }) =>
           [index, businessStep, confidence].join("\u0001"),
@@ -571,11 +590,22 @@ function installControlPanel(config: ControlPanelConfig): void {
     const updateMetadata = (): void => {
       dispatch({
         kind: "testMetadata",
-        patch: { jiraId: jiraInput.value, zephyrId: zephyrInput.value },
+        patch: {
+          jiraId: jiraInput.value,
+          zephyrId: zephyrInput.value,
+          conversionInstructions: conversionInstructions.value,
+        },
       });
     };
     jiraInput.addEventListener("change", updateMetadata);
     zephyrInput.addEventListener("change", updateMetadata);
+    let instructionsTimer: number | undefined;
+    conversionInstructions.addEventListener("input", () => {
+      if (instructionsTimer !== undefined)
+        window.clearTimeout(instructionsTimer);
+      instructionsTimer = window.setTimeout(updateMetadata, 400);
+    });
+    conversionInstructions.addEventListener("change", updateMetadata);
     stopButton.addEventListener("click", () => {
       stopButton.disabled = true;
       status.textContent = "Stopping the recorder…";

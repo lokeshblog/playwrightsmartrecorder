@@ -50,6 +50,11 @@ validate` when available.
 
 For each testcase:
 
+- Read `conversionInstructions` before reading or converting its steps. Treat
+  it as operator intent: resolve referenced step numbers against that same
+  testcase and use it for behavior that DOM capture cannot express (for
+  example, “step 21 is a dropdown; strict closing is not required”). Preserve
+  repository conventions and safety constraints if an instruction conflicts.
 - Follow `stepIndexes`; do not assume every scenario step belongs to it.
 - Separate setup/authentication, user actions, assertions, and redirect noise.
 - Collect route signatures, especially `/module/<key>/<feature>`.

@@ -143,6 +143,13 @@ unresolved step, generic expression, generated test ID, contaminated name, CE
 step without CE product hints, or `toBeDisabled` assertion against a
 non-native control.
 
+Each testcase may carry `conversionInstructions`, entered in the prominent
+blue recorder field. It is deliberately testcase-scoped so references such as
+“step 21” resolve against the correct flow. The compact intent keeps it before
+the `steps` array, and the conversion skill must read it first. It remains
+operator guidance rather than generated code and cannot override repository
+or safety constraints.
+
 Restriction evidence is captured on every element as `disabledState`.
 `disabled`, `aria-disabled`, native form-control state, Blueprint
 `bp3-disabled`, tab index, tag, and role remain distinct because Playwright's

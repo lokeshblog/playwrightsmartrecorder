@@ -189,6 +189,10 @@ describe("scenario recording", () => {
     await control.locator("[data-jira]").blur();
     await control.locator("[data-zephyr]").fill("ZEP-42");
     await control.locator("[data-zephyr]").blur();
+    await control
+      .locator("[data-conversion-instructions]")
+      .fill("Step 1 opens a dropdown. Strict close behavior is not required.");
+    await control.locator("[data-conversion-instructions]").blur();
     await isolated.getByTestId("new-budget").click();
     await control.locator("[data-stop]").click();
 
@@ -196,6 +200,8 @@ describe("scenario recording", () => {
     expect(result.testCases[0]).toMatchObject({
       jiraId: "QPE-1234",
       zephyrId: "ZEP-42",
+      conversionInstructions:
+        "Step 1 opens a dropdown. Strict close behavior is not required.",
     });
     const step = result.steps.find(({ action }) => action.type === "click")!;
     expect(step.intent).toBe("Click New Budget");
@@ -214,6 +220,8 @@ describe("scenario recording", () => {
     expect(intent.testCases[0]).toMatchObject({
       jiraId: "QPE-1234",
       zephyrId: "ZEP-42",
+      conversionInstructions:
+        "Step 1 opens a dropdown. Strict close behavior is not required.",
     });
     expect(intent.testCases[0]?.steps[0]?.valueKind).toBeUndefined();
     expect(JSON.stringify(intent)).not.toContain("containerHtml");
@@ -380,6 +388,10 @@ describe("scenario recording", () => {
     });
     const control = await recorderControl(isolated);
     const panel = control.locator("[data-pw-codegen-smart-controls]");
+    await panel
+      .locator("[data-conversion-instructions]")
+      .fill("First testcase guidance");
+    await panel.locator("[data-conversion-instructions]").blur();
 
     await panel.locator("[data-mode]").selectOption("assert:toBeVisible");
     await waitForPicker(panel);
@@ -395,6 +407,13 @@ describe("scenario recording", () => {
     await expect
       .poll(() => panel.locator("[data-test-name]").textContent())
       .toBe("Test 2");
+    await expect
+      .poll(() => panel.locator("[data-conversion-instructions]").inputValue())
+      .toBe("");
+    await panel
+      .locator("[data-conversion-instructions]")
+      .fill("Second testcase guidance");
+    await panel.locator("[data-conversion-instructions]").blur();
     await isolated.getByRole("button", { name: "Continue" }).click();
     await expect.poll(() => recordedSteps).toBe(2);
     await panel.locator("[data-delete-line]").click();
@@ -428,6 +447,11 @@ describe("scenario recording", () => {
       "Test 1",
       "Test 2",
     ]);
+    expect(
+      result.testCases.map(
+        ({ conversionInstructions }) => conversionInstructions,
+      ),
+    ).toEqual(["First testcase guidance", "Second testcase guidance"]);
     const firstTestSteps = result.steps.filter(
       ({ testCaseId }) => testCaseId === "test-1",
     );

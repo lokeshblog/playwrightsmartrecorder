@@ -64,6 +64,7 @@ interface RecordingTestCase {
   name: string;
   jiraId?: string;
   zephyrId?: string;
+  conversionInstructions?: string;
   steps: ScenarioStep[];
 }
 
@@ -80,6 +81,7 @@ interface PanelUpdate {
   activeTestCase: string;
   jiraId?: string;
   zephyrId?: string;
+  conversionInstructions?: string;
 }
 
 /** Panel state owned by Node so it survives page navigations and applies in every frame. */
@@ -234,6 +236,9 @@ export async function recordScenario(
     activeTestCase: activeTestCase.name,
     ...(activeTestCase.jiraId ? { jiraId: activeTestCase.jiraId } : {}),
     ...(activeTestCase.zephyrId ? { zephyrId: activeTestCase.zephyrId } : {}),
+    ...(activeTestCase.conversionInstructions
+      ? { conversionInstructions: activeTestCase.conversionInstructions }
+      : {}),
   });
   const addNavigationStep = (url: string): void => {
     if (!url || url === "about:blank") return;
@@ -1808,10 +1813,14 @@ export async function recordScenario(
       testMetadata: (patch) => {
         const jiraId = patch.jiraId?.trim();
         const zephyrId = patch.zephyrId?.trim();
+        const conversionInstructions = patch.conversionInstructions?.trim();
         if (jiraId) activeTestCase.jiraId = jiraId;
         else delete activeTestCase.jiraId;
         if (zephyrId) activeTestCase.zephyrId = zephyrId;
         else delete activeTestCase.zephyrId;
+        if (conversionInstructions)
+          activeTestCase.conversionInstructions = conversionInstructions;
+        else delete activeTestCase.conversionInstructions;
         return panelUpdate(`Updated metadata for ${activeTestCase.name}`);
       },
       stop: async () => {
@@ -1905,11 +1914,19 @@ export async function recordScenario(
     endUrl: page.url(),
     steps,
     testCases: testCases.map(
-      ({ id, name, jiraId, zephyrId, steps: testSteps }) => ({
+      ({
+        id,
+        name,
+        jiraId,
+        zephyrId,
+        conversionInstructions,
+        steps: testSteps,
+      }) => ({
         id,
         name,
         ...(jiraId ? { jiraId } : {}),
         ...(zephyrId ? { zephyrId } : {}),
+        ...(conversionInstructions ? { conversionInstructions } : {}),
         stepIndexes: testSteps.map(({ index }) => index),
       }),
     ),

@@ -144,6 +144,7 @@ provides:
 - Explicit force click, double click, hover, check, uncheck, and arbitrary key-press modes, each staying active until you change it
 - Playwright locator assertions: attached, visible/hidden, enabled/disabled, editable, empty, focused, checked, viewport, accessible name/description/error, text, value(s), attribute, class, CSS, ID, JS property, role, screenshot, and count, including `.not`
 - Keyboard freeze of the application (`Ctrl+Shift+F`) and one-shortcut assertion of hover-only UI (`Ctrl+Shift+A`), so a tooltip never disappears on the way to the controls
+- A prominent **Instructions for Cursor** box for testcase-specific conversion guidance, including references to recorded step numbers
 - **+ New testcase**, **Undo last line**, **Delete testcase**, and **Stop recording**
 - A live step list grouped by testcase, showing each step's business description and a locator-confidence dot (green high, amber medium, red low), with a `×` delete button on every line so any step can be removed, not only the last one
 
@@ -173,6 +174,13 @@ no Zephyr ID, stopping asks for one before export and records an explicit
 warning if no ID exists. Each action's DOM walk
 stops at a configured semantic boundary or maximum depth. Sensitive values are
 replaced with `[REDACTED]`.
+
+The blue **Instructions for Cursor** box is also scoped to the active
+testcase. Use it for information the DOM cannot prove, such as “step 21 opens a
+dropdown; strict closing is not required,” “reuse the existing budget helper,”
+or “this click only reveals the RBAC tooltip.” It is saved as
+`conversionInstructions` in both scenario files. The conversion skill reads
+it before the testcase steps; it is guidance, not executable Playwright code.
 
 If no candidate meets the recommendation threshold, recording marks the step
 unresolved. Tick **Ask when locator is weak** to be asked for a locator; a
@@ -251,6 +259,8 @@ signals. Non-native restrictions become `expect.matcher: "toBeRestricted"`
 rather than the misleading `toBeDisabled`. RBAC tooltip text can be grouped as
 `notAuthorized`, `missingPermission`, and `permissionInScope`. Each testcase
 can include `jiraId` and `zephyrId`.
+Each testcase can also include `conversionInstructions`, copied exactly from
+the recorder's operator guidance box.
 
 Every capture also writes compact
 [`scenario-intent.json`](schemas/scenario-intent.schema.json). This excludes

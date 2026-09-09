@@ -323,6 +323,7 @@ export const scenarioContextSchema = z.object({
       name: z.string(),
       jiraId: z.string().optional(),
       zephyrId: z.string().optional(),
+      conversionInstructions: z.string().optional(),
       stepIndexes: z.array(z.number().int().positive()),
     }),
   ),
@@ -346,6 +347,7 @@ export const scenarioIntentSchema = z.object({
       name: z.string(),
       jiraId: z.string().optional(),
       zephyrId: z.string().optional(),
+      conversionInstructions: z.string().optional(),
       steps: z.array(
         z.object({
           index: z.number().int().positive(),

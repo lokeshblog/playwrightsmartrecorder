@@ -260,6 +260,8 @@ export interface ScenarioTestCase {
   /** Optional work-item IDs entered by the recorder user. */
   jiraId?: string | undefined;
   zephyrId?: string | undefined;
+  /** Operator guidance that the conversion agent must read before the steps. */
+  conversionInstructions?: string | undefined;
   stepIndexes: number[];
 }
 
@@ -279,6 +281,7 @@ export interface ScenarioIntent {
     name: string;
     jiraId?: string | undefined;
     zephyrId?: string | undefined;
+    conversionInstructions?: string | undefined;
     steps: Array<{
       index: number;
       startUrl: string;

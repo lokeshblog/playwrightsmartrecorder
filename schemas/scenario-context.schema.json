@@ -215,6 +215,7 @@
           "name": { "type": "string" },
           "jiraId": { "type": "string" },
           "zephyrId": { "type": "string" },
+          "conversionInstructions": { "type": "string" },
           "stepIndexes": {
             "type": "array",
             "items": { "type": "integer", "minimum": 1 }

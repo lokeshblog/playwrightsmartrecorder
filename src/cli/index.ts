@@ -111,7 +111,7 @@ async function saveSessionArtifacts(
   );
   const cursorPrompt = [
     "Use the codegen-to-project skill.",
-    `Read the compact intent at ${relativeIntent}, then use detailed evidence from ${relative} only where needed.`,
+    `Read each testcase's conversionInstructions first in ${relativeIntent}, then read its compact steps. Use detailed evidence from ${relative} only where needed.`,
     "Convert the recording into repository-standard Playwright tests.",
     report.status === "passed"
       ? "The replay passed; still revalidate repository-specific assumptions."
@@ -158,7 +158,7 @@ async function saveSessionArtifacts(
 const program = new Command()
   .name("playwright-codegen-smart")
   .description("Capture DOM context and generate robust Playwright locators")
-  .version("1.4.0");
+  .version("1.8.0");
 
 program
   .command("init")

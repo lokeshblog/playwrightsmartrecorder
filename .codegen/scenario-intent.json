@@ -1,7 +1,7 @@
 {
-  "version": "1.0",
-  "name": "Checkout",
-  "startUrl": "https://qa.harness.io/auth/#/signin",
+  "version": "1.4",
+  "name": "CE budgets",
+  "startUrl": "https://qa.harness.io/#/",
   "endUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
   "productHints": {
     "navModules": [
@@ -18,9 +18,45 @@
     {
       "id": "test-1",
       "name": "Test 1",
+      "jiraId": "QPE-1234",
+      "zephyrId": "QPE-T1234",
+      "conversionInstructions": "Step 18 actuially a dropdown where you click on select then you can see the dropdown so from that dropdown you can select this peerspectibe",
       "steps": [
         {
           "index": 1,
+          "startUrl": "https://qa.harness.io/#/",
+          "urlAfter": "https://qa.harness.io/auth/",
+          "intent": "Navigate to https://qa.harness.io/#/",
+          "action": "navigate",
+          "value": "https://qa.harness.io/#/",
+          "productHints": {},
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 2,
+          "startUrl": "https://qa.harness.io/auth/",
+          "urlAfter": "https://qa.harness.io/auth/#/",
+          "intent": "Navigate to https://qa.harness.io/auth/",
+          "action": "navigate",
+          "value": "https://qa.harness.io/auth/",
+          "productHints": {},
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 3,
+          "startUrl": "https://qa.harness.io/auth/#/",
+          "urlAfter": "https://qa.harness.io/auth/#/signin",
+          "intent": "Navigate to https://qa.harness.io/auth/#/",
+          "action": "navigate",
+          "value": "https://qa.harness.io/auth/#/",
+          "productHints": {},
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 4,
           "startUrl": "https://qa.harness.io/auth/#/signin",
           "urlAfter": "https://qa.harness.io/auth/#/signin",
           "intent": "Navigate to https://qa.harness.io/auth/#/signin",
@@ -28,15 +64,10 @@
           "value": "https://qa.harness.io/auth/#/signin",
           "productHints": {},
           "skipInTest": true,
-          "valueKind": {
-            "kind": "literal",
-            "unique": false,
-            "createsResource": false
-          },
           "confidence": "high"
         },
         {
-          "index": 2,
+          "index": 5,
           "startUrl": "https://qa.harness.io/auth/#/signin",
           "urlAfter": "https://qa.harness.io/auth/#/signin",
           "intent": "Enter \"ccm_playwright@harnessioteam.testinator.com\" in email@work.com",
@@ -60,7 +91,7 @@
           "context": "element input, role textbox, name \"email@work.com\", on \"or login with\""
         },
         {
-          "index": 3,
+          "index": 6,
           "startUrl": "https://qa.harness.io/auth/#/signin",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ",
           "intent": "Enter a protected value in [REDACTED]",
@@ -84,7 +115,7 @@
           "context": "element input, role textbox, name \"[REDACTED]\", on \"or login with\""
         },
         {
-          "index": 4,
+          "index": 7,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/main-dashboard",
           "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ",
@@ -92,15 +123,10 @@
           "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ",
           "productHints": {},
           "skipInTest": true,
-          "valueKind": {
-            "kind": "literal",
-            "unique": false,
-            "createsResource": false
-          },
           "confidence": "high"
         },
         {
-          "index": 5,
+          "index": 8,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/main-dashboard",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
           "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/main-dashboard",
@@ -108,15 +134,10 @@
           "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/main-dashboard",
           "productHints": {},
           "skipInTest": true,
-          "valueKind": {
-            "kind": "literal",
-            "unique": false,
-            "createsResource": false
-          },
           "confidence": "high"
         },
         {
-          "index": 6,
+          "index": 9,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
           "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
@@ -124,20 +145,16 @@
           "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
           "productHints": {},
           "skipInTest": true,
-          "valueKind": {
-            "kind": "literal",
-            "unique": false,
-            "createsResource": false
-          },
           "confidence": "high"
         },
         {
-          "index": 7,
+          "index": 10,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
           "intent": "Click <div>",
           "action": "click",
           "locatorHint": {
+            "name": "Work more productivelyHave all the modules you work with in one viewCreate ProjectOr select an existing project",
             "tagName": "DIV"
           },
           "productHints": {
@@ -145,10 +162,27 @@
           },
           "skipInTest": true,
           "confidence": "unresolved",
-          "context": "element div, on \"Work more productively\""
+          "context": "element div, name \"Work more productivelyHave all the modules you work with in one viewCreate ProjectOr select an existing project\", on \"Work more productively\""
         },
         {
-          "index": 8,
+          "index": 11,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
+          "intent": "Click <path>",
+          "action": "click",
+          "locatorHint": {
+            "tagName": "PATH",
+            "expression": "locator(\"path\")"
+          },
+          "productHints": {
+            "pageHeading": "Work more productively"
+          },
+          "skipInTest": true,
+          "confidence": "unresolved",
+          "context": "element path, on \"Work more productively\""
+        },
+        {
+          "index": 12,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
           "intent": "Click Cloud & AI Cost Management",
@@ -167,7 +201,7 @@
           "context": "element a, role link, name \"Cloud & AI Cost Management\", on \"Work more productively\""
         },
         {
-          "index": 9,
+          "index": 13,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
           "intent": "Click id=\"mode-selector-panel\"",
@@ -185,7 +219,7 @@
           "context": "element div, name \"Unified ViewDevOps ModernizationContinuous Delivery & GitOpsContinuous IntegrationCode CoverageNEWFeature FlagsFeature Management & ExperimentationNEWResilience TestingInfrastructure as Code ManagementContinuous Error TrackingDatabase DevOpsArtifact RegistryAI Test AutomationNEWAI EvalsNEWDeveloper\""
         },
         {
-          "index": 10,
+          "index": 14,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
           "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
@@ -195,15 +229,10 @@
             "navModule": "ce"
           },
           "skipInTest": true,
-          "valueKind": {
-            "kind": "literal",
-            "unique": false,
-            "createsResource": false
-          },
           "confidence": "high"
         },
         {
-          "index": 11,
+          "index": 15,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
           "intent": "Click Budgets",
@@ -222,7 +251,7 @@
           "context": "element a, role link, name \"Budgets\""
         },
         {
-          "index": 12,
+          "index": 16,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
           "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
@@ -233,15 +262,10 @@
             "feature": "budgets"
           },
           "skipInTest": true,
-          "valueKind": {
-            "kind": "literal",
-            "unique": false,
-            "createsResource": false
-          },
           "confidence": "high"
         },
         {
-          "index": 13,
+          "index": 17,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
           "intent": "Click New Budget",
@@ -261,60 +285,14 @@
           "context": "element button, role button, name \"New Budget\", on \"All Budgets\""
         },
         {
-          "index": 14,
+          "index": 18,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "intent": "Force click - Select -",
-          "action": "click",
-          "locatorHint": {
-            "role": "textbox",
-            "name": "- Select -",
-            "tagName": "INPUT"
-          },
-          "productHints": {
-            "navModule": "ce",
-            "feature": "budgets",
-            "pageHeading": "All Budgets"
-          },
-          "skipInTest": false,
-          "confidence": "high",
-          "context": "element input, role textbox, name \"- Select -\", on \"All Budgets\""
-        },
-        {
-          "index": 15,
-          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "intent": "Verify <ul> toBeVisible",
-          "action": "assert",
-          "locatorHint": {
-            "name": "AnthropicOpenAIGenAI CostAll CostsGCPAzureAWSClusterDraft-Perspective-WN2BVWall_cloud_provider_persbudgetPerspective535622220QA0_CE_DoNotDelete_static_zero_spend_perspectiveQA0_CE_DoNotDelete_static_ccm_budget_perspectiveTestAz123_Azure_copyTest12345_copyDraft-Perspective-PZGNWW............-lkjhgfds",
-            "tagName": "UL",
-            "expression": "locator(\"ul[class~=\\\"bp3-menu\\\"]\")"
-          },
-          "productHints": {
-            "navModule": "ce",
-            "feature": "budgets",
-            "pageHeading": "All Budgets"
-          },
-          "skipInTest": false,
-          "expect": {
-            "kind": "assertion",
-            "matcher": "toBeVisible",
-            "value": "AnthropicOpenAIGenAI CostAll CostsGCPAzureAWSClusterDraft-Perspective-WN2BVWall_cloud_provider_persbudgetPerspective535622220QA0_CE_DoNotDelete_static_zero_spend_perspectiveQA0_CE_DoNotDelete_static_ccm_budget_perspectiveTestAz123_Azure_copyTest12345_copyDraft-Perspective-PZGNWW............-lkjhgfds",
-            "name": "AnthropicOpenAIGenAI CostAll CostsGCPAzureAWSClusterDraft-Perspective-WN2BVWall_cloud_provider_persbudgetPerspective535622220QA0_CE_DoNotDelete_static_zero_spend_perspectiveQA0_CE_DoNotDelete_static_ccm_budget_perspectiveTestAz123_Azure_copyTest12345_copyDraft-Perspective-PZGNWW............-lkjhgfds"
-          },
-          "confidence": "medium",
-          "context": "element ul, name \"AnthropicOpenAIGenAI CostAll CostsGCPAzureAWSClusterDraft-Perspective-WN2BVWall_cloud_provider_persbudgetPerspective535622220QA0_CE_DoNotDelete_static_zero_spend_perspectiveQA0_CE_DoNotDelete_static_ccm_budget_perspectiveTestAz123_Azure_copyTest12345_copyDraft-Perspective-PZGNWW............-lkjhgfds\", on \"All Budgets\""
-        },
-        {
-          "index": 16,
-          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "intent": "Click GCP",
+          "intent": "Click GenAI Cost",
           "action": "click",
           "locatorHint": {
             "role": "menuitem",
-            "name": "GCP",
+            "name": "GenAI Cost",
             "tagName": "LI",
             "scope": "bp3-menu"
           },
@@ -325,15 +303,15 @@
           },
           "skipInTest": false,
           "confidence": "high",
-          "context": "element li, role menuitem, name \"GCP\", on \"All Budgets\", inside bp3-menu"
+          "context": "element li, role menuitem, name \"GenAI Cost\", on \"All Budgets\", inside bp3-menu"
         },
         {
-          "index": 17,
+          "index": 19,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "intent": "Enter \"hbsicbasui\" in Specify name",
+          "intent": "Enter \"ghjkl\" in Specify name",
           "action": "fill",
-          "value": "hbsicbasui",
+          "value": "ghjkl",
           "locatorHint": {
             "role": "textbox",
             "name": "Specify name",
@@ -352,52 +330,6 @@
           },
           "confidence": "high",
           "context": "element input, role textbox, name \"Specify name\", on \"All Budgets\""
-        },
-        {
-          "index": 18,
-          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "intent": "Click Continue",
-          "action": "click",
-          "locatorHint": {
-            "role": "button",
-            "name": "Continue",
-            "tagName": "BUTTON"
-          },
-          "productHints": {
-            "navModule": "ce",
-            "feature": "budgets",
-            "pageHeading": "All Budgets"
-          },
-          "skipInTest": false,
-          "confidence": "high",
-          "context": "element button, role button, name \"Continue\", on \"All Budgets\""
-        },
-        {
-          "index": 19,
-          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "intent": "Enter \"10\" in name=\"budgetAmount\"",
-          "action": "fill",
-          "value": "10",
-          "locatorHint": {
-            "role": "textbox",
-            "tagName": "INPUT",
-            "expression": "locator(\"input[name=\\\"budgetAmount\\\"]\")"
-          },
-          "productHints": {
-            "navModule": "ce",
-            "feature": "budgets",
-            "pageHeading": "All Budgets"
-          },
-          "skipInTest": false,
-          "valueKind": {
-            "kind": "literal",
-            "unique": false,
-            "createsResource": false
-          },
-          "confidence": "medium",
-          "context": "element input, role textbox, on \"All Budgets\""
         },
         {
           "index": 20,
@@ -423,6 +355,92 @@
           "index": 21,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "intent": "Enter \"100\" in name=\"budgetAmount\"",
+          "action": "fill",
+          "value": "100",
+          "locatorHint": {
+            "role": "textbox",
+            "tagName": "INPUT",
+            "expression": "locator(\"input[name=\\\"budgetAmount\\\"]\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "budgets",
+            "pageHeading": "All Budgets"
+          },
+          "skipInTest": false,
+          "valueKind": {
+            "kind": "literal",
+            "unique": false,
+            "createsResource": false
+          },
+          "confidence": "low",
+          "context": "element input, role textbox, on \"All Budgets\""
+        },
+        {
+          "index": 22,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "intent": "Click Continue",
+          "action": "click",
+          "locatorHint": {
+            "role": "button",
+            "name": "Continue",
+            "tagName": "BUTTON"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "budgets",
+            "pageHeading": "All Budgets"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element button, role button, name \"Continue\", on \"All Budgets\""
+        },
+        {
+          "index": 23,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "intent": "Click <div>",
+          "action": "click",
+          "locatorHint": {
+            "name": "Configure AlertsSend an alert to Harness User Groups when the actual or forecasted cost exceeds a percentage of your Budget amount created in the previous step.Add a custom message to the alert (Optional)Budget Amount$100.00No alerts definedplusAdd new alertchevron-leftPreviousSavechevron-right",
+            "tagName": "DIV",
+            "expression": "locator(\"div[class~=\\\"StepWizard--stepDetails\\\"]\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "budgets",
+            "pageHeading": "All Budgets"
+          },
+          "skipInTest": true,
+          "confidence": "medium",
+          "context": "element div, name \"Configure AlertsSend an alert to Harness User Groups when the actual or forecasted cost exceeds a percentage of your Budget amount created in the previous step.Add a custom message to the alert (Optional)Budget Amount$100.00No alerts definedplusAdd new alertchevron-leftPreviousSavechevron-right\", on \"All Budgets\""
+        },
+        {
+          "index": 24,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "intent": "Click <div>",
+          "action": "click",
+          "locatorHint": {
+            "name": "Configure AlertsSend an alert to Harness User Groups when the actual or forecasted cost exceeds a percentage of your Budget amount created in the previous step.Add a custom message to the alert (Optional)Budget Amount$100.00No alerts definedplusAdd new alertchevron-leftPreviousSavechevron-right",
+            "tagName": "DIV",
+            "expression": "locator(\"div[class~=\\\"StepWizard--stepDetails\\\"]\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "budgets",
+            "pageHeading": "All Budgets"
+          },
+          "skipInTest": true,
+          "confidence": "medium",
+          "context": "element div, name \"Configure AlertsSend an alert to Harness User Groups when the actual or forecasted cost exceeds a percentage of your Budget amount created in the previous step.Add a custom message to the alert (Optional)Budget Amount$100.00No alerts definedplusAdd new alertchevron-leftPreviousSavechevron-right\", on \"All Budgets\""
+        },
+        {
+          "index": 25,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
           "intent": "Click Save",
           "action": "click",
           "locatorHint": {
@@ -443,8 +461,6 @@
     }
   ],
   "unresolvedStepIndexes": [
-    3,
-    7,
-    14
+    21
   ]
 }

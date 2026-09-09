@@ -474,6 +474,9 @@ export function scenarioToIntent(scenario: ScenarioContext): ScenarioIntent {
       name: testCase.name,
       ...(testCase.jiraId ? { jiraId: testCase.jiraId } : {}),
       ...(testCase.zephyrId ? { zephyrId: testCase.zephyrId } : {}),
+      ...(testCase.conversionInstructions
+        ? { conversionInstructions: testCase.conversionInstructions }
+        : {}),
       steps: testCase.stepIndexes
         .map((stepIndex) =>
           enriched.steps.find(({ index }) => index === stepIndex),

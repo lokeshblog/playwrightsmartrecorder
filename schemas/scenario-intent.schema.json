@@ -37,6 +37,7 @@
           "name": { "type": "string" },
           "jiraId": { "type": "string" },
           "zephyrId": { "type": "string" },
+          "conversionInstructions": { "type": "string" },
           "steps": {
             "type": "array",
             "items": {

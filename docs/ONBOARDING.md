@@ -139,10 +139,17 @@ ownership instead of the recorder's display name.
 `intent.ts` derives ownership from `/module/<module>/<feature>` (including
 direct `/ce/` paths), strips generated test-ID suffixes and decorative icon
 names, and marks login, launcher, redirect, duplicate assertion, and generic
-tag noise as `skipInTest`. Its final validator rejects any non-skipped
-unresolved step, generic expression, generated test ID, contaminated name, CE
-step without CE product hints, or `toBeDisabled` assertion against a
-non-native control.
+tag noise as `skipInTest`. Its checks cover non-skipped unresolved steps,
+generic expressions, generated test IDs, contaminated names, CE steps without CE
+product hints, and `toBeDisabled` assertions against non-native controls.
+
+Saving never discards a recording because of those checks. The intent file is
+always written; the CLI then lists the offending steps and `validate` exits
+non-zero for them. A step is reported when the element had no accessible name,
+role, or stable attribute — an icon-only Blueprint button, a bare `<svg>`
+`<path>`, or a checkbox whose label sits outside it. Re-record those steps with
+**Ask when locator is weak** enabled and supply a locator, or ask for a
+`data-testid`, and the report clears.
 
 Each testcase may carry `conversionInstructions`, entered in the prominent
 blue recorder field. It is deliberately testcase-scoped so references such as
@@ -326,14 +333,31 @@ npx playwright-codegen-smart analyze .codegen/locator-context.json
 
 ### Convert with Cursor
 
-After **Finish & save**, the CLI prints the exact request, also saved to
-`cursor-prompt.txt` in the run folder. Paste it into Cursor, or ask:
+After recording, copy `scenario-intent.json` and `scenario-context.json` into
+the target UI 2.0 or UI 3.0 repository (or write them there with `capture
+--output`). Ask Cursor to convert using the skill installed in that repo.
+Change `UI-3.0` to `UI-2.0` when that is the generation. Use
+`codegen-to-project` only if that is the skill name in the repo.
 
-> Use the codegen-to-project skill with UI-2.0 or UI-3.0. Read
-> `.codegen/scenario-intent.json` first and use
-> `.codegen/scenario-context.json` for detailed evidence. Check
-> `.codegen/replay-report.json` and do not treat failed or skipped steps as
-> verified.
+```text
+Use the recorder-to-playwright skill with UI-3.0.
+
+Read each testcase's conversionInstructions first in
+.cursor/skills/recorder-to-playwright/recordings/scenario-intent.json,
+then convert its compact steps into repository-standard Playwright tests.
+Use .cursor/skills/recorder-to-playwright/recordings/scenario-context.json
+only for detailed locator and DOM evidence.
+
+Honor skipInTest. Replace login with the existing auth fixture. Reuse existing
+fixtures, page objects, navigation, unique-data builders, and naming. Apply
+jiraId and zephyrId with the nearest test's tag convention. Run the narrowest
+generated test and repair remaining locator failures.
+```
+
+The skill maps recorded locators onto current framework standards. Do not paste
+generated Playwright lines into the test. If `session` wrote
+`cursor-prompt.txt`, that file is a fallback; the prompt above is the one to
+use for conversion from the two JSON files.
 
 ## 6. Test
 

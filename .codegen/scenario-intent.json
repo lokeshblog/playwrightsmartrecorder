@@ -1,26 +1,25 @@
 {
   "version": "1.4",
-  "name": "CE budgets",
+  "name": "CE cost explorer",
   "startUrl": "https://qa.harness.io/#/",
-  "endUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+  "endUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
   "productHints": {
     "navModules": [
       "ce"
     ],
-    "pageHeadings": [
-      "All Budgets"
-    ],
+    "pageHeadings": [],
     "features": [
-      "budgets"
+      "cost-explorer",
+      "anomaly-detection"
     ]
   },
   "testCases": [
     {
       "id": "test-1",
       "name": "Test 1",
-      "jiraId": "QPE-1234",
-      "zephyrId": "QPE-T1234",
-      "conversionInstructions": "Step 18 actuially a dropdown where you click on select then you can see the dropdown so from that dropdown you can select this peerspectibe",
+      "jiraId": "QPE-2615",
+      "zephyrId": "CCM-T2286",
+      "conversionInstructions": "1) In Cost Explorer, select any view and check anomalies for the chosen time period. The anomaly count should match when you navigate from Cost Explorer to Anomalies.\n2) In Anomalies settings, create an ignore list and confirm the specified anomalies are hidden.\nsearh for aws view and check if anomalies are pressent if anomalies are 0 skip this tesctase\nand then navigate to anomalies and in list page a\ntake any account id and create the anomalie ignore list with that accountid rule is crreated and enabled then those shouldn t should nt show in the anomalies list page when you search. with the account \npick any random account availabl ein the anomalies list page and add anomalies ignore lits rule\nand disable and checl the account is abl eto view and\nalso delete the ignore list form cleanup\nupdate jira nd zephyr with propre steps\nAdd this tesctase into annomalies test file only",
       "steps": [
         {
           "index": 1,
@@ -59,17 +58,6 @@
           "index": 4,
           "startUrl": "https://qa.harness.io/auth/#/signin",
           "urlAfter": "https://qa.harness.io/auth/#/signin",
-          "intent": "Navigate to https://qa.harness.io/auth/#/signin",
-          "action": "navigate",
-          "value": "https://qa.harness.io/auth/#/signin",
-          "productHints": {},
-          "skipInTest": true,
-          "confidence": "high"
-        },
-        {
-          "index": 5,
-          "startUrl": "https://qa.harness.io/auth/#/signin",
-          "urlAfter": "https://qa.harness.io/auth/#/signin",
           "intent": "Enter \"ccm_playwright@harnessioteam.testinator.com\" in email@work.com",
           "action": "fill",
           "value": "ccm_playwright@harnessioteam.testinator.com",
@@ -91,7 +79,7 @@
           "context": "element input, role textbox, name \"email@work.com\", on \"or login with\""
         },
         {
-          "index": 6,
+          "index": 5,
           "startUrl": "https://qa.harness.io/auth/#/signin",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ",
           "intent": "Enter a protected value in [REDACTED]",
@@ -115,7 +103,7 @@
           "context": "element input, role textbox, name \"[REDACTED]\", on \"or login with\""
         },
         {
-          "index": 7,
+          "index": 6,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/main-dashboard",
           "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ",
@@ -126,7 +114,7 @@
           "confidence": "high"
         },
         {
-          "index": 8,
+          "index": 7,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/main-dashboard",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
           "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/main-dashboard",
@@ -137,7 +125,7 @@
           "confidence": "high"
         },
         {
-          "index": 9,
+          "index": 8,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
           "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
@@ -148,13 +136,12 @@
           "confidence": "high"
         },
         {
-          "index": 10,
+          "index": 9,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
           "intent": "Click <div>",
           "action": "click",
           "locatorHint": {
-            "name": "Work more productivelyHave all the modules you work with in one viewCreate ProjectOr select an existing project",
             "tagName": "DIV"
           },
           "productHints": {
@@ -162,27 +149,10 @@
           },
           "skipInTest": true,
           "confidence": "unresolved",
-          "context": "element div, name \"Work more productivelyHave all the modules you work with in one viewCreate ProjectOr select an existing project\", on \"Work more productively\""
+          "context": "element div, on \"Work more productively\""
         },
         {
-          "index": 11,
-          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
-          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
-          "intent": "Click <path>",
-          "action": "click",
-          "locatorHint": {
-            "tagName": "PATH",
-            "expression": "locator(\"path\")"
-          },
-          "productHints": {
-            "pageHeading": "Work more productively"
-          },
-          "skipInTest": true,
-          "confidence": "unresolved",
-          "context": "element path, on \"Work more productively\""
-        },
-        {
-          "index": 12,
+          "index": 10,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/all?noscope=true",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
           "intent": "Click Cloud & AI Cost Management",
@@ -201,7 +171,7 @@
           "context": "element a, role link, name \"Cloud & AI Cost Management\", on \"Work more productively\""
         },
         {
-          "index": 13,
+          "index": 11,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
           "intent": "Click id=\"mode-selector-panel\"",
@@ -219,7 +189,7 @@
           "context": "element div, name \"Unified ViewDevOps ModernizationContinuous Delivery & GitOpsContinuous IntegrationCode CoverageNEWFeature FlagsFeature Management & ExperimentationNEWResilience TestingInfrastructure as Code ManagementContinuous Error TrackingDatabase DevOpsArtifact RegistryAI Test AutomationNEWAI EvalsNEWDeveloper\""
         },
         {
-          "index": 14,
+          "index": 12,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
           "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
           "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
@@ -232,95 +202,119 @@
           "confidence": "high"
         },
         {
-          "index": 15,
+          "index": 13,
           "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/overview",
-          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "intent": "Click Budgets",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer",
+          "intent": "Click Cost Explorer",
           "action": "click",
           "locatorHint": {
             "role": "link",
-            "name": "Budgets",
+            "name": "Cost Explorer",
             "tagName": "A"
           },
           "productHints": {
             "navModule": "ce",
-            "feature": "budgets"
+            "feature": "cost-explorer"
           },
           "skipInTest": false,
           "confidence": "high",
-          "context": "element a, role link, name \"Budgets\""
+          "context": "element a, role link, name \"Cost Explorer\""
+        },
+        {
+          "index": 14,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/ObCEjUd7QSavY0AVcp6Rxw",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "cost-explorer"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 15,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/ObCEjUd7QSavY0AVcp6Rxw",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/ObCEjUd7QSavY0AVcp6Rxw?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3A%7B%22gcpCost%22%3A%22COST%22%2C%22includeDiscounts%22%3Afalse%2C%22includeTaxes%22%3Afalse%2C%22includePromotions%22%3Afalse%2C%22includeNegotiatedSavings%22%3Atrue%2C%22includeSubscriptionCredits%22%3Afalse%2C%22includeSustainedUseDiscounts%22%3Afalse%2C%22includeResourceBasedCudCredits%22%3Afalse%2C%22includeLegacyBasedCudCredits%22%3Afalse%2C%22includeSpendBasedCudDiscounts%22%3Afalse%7D%2C%22azureViewPreferences%22%3A%7B%22costType%22%3A%22ACTUAL%22%7D%2C%22showAnomalies%22%3Atrue%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22NOT_IN%22%2C%22values%22%3A%5B%22CLUSTER%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-10%22%2C%22from%22%3A%222026-08-11%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D&unitMetrics=%5B%5D",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/ObCEjUd7QSavY0AVcp6Rxw",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/ObCEjUd7QSavY0AVcp6Rxw",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "cost-explorer"
+          },
+          "skipInTest": true,
+          "confidence": "high"
         },
         {
           "index": 16,
-          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/ObCEjUd7QSavY0AVcp6Rxw?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3A%7B%22gcpCost%22%3A%22COST%22%2C%22includeDiscounts%22%3Afalse%2C%22includeTaxes%22%3Afalse%2C%22includePromotions%22%3Afalse%2C%22includeNegotiatedSavings%22%3Atrue%2C%22includeSubscriptionCredits%22%3Afalse%2C%22includeSustainedUseDiscounts%22%3Afalse%2C%22includeResourceBasedCudCredits%22%3Afalse%2C%22includeLegacyBasedCudCredits%22%3Afalse%2C%22includeSpendBasedCudDiscounts%22%3Afalse%7D%2C%22azureViewPreferences%22%3A%7B%22costType%22%3A%22ACTUAL%22%7D%2C%22showAnomalies%22%3Atrue%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22NOT_IN%22%2C%22values%22%3A%5B%22CLUSTER%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-10%22%2C%22from%22%3A%222026-08-11%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D&unitMetrics=%5B%5D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/ObCEjUd7QSavY0AVcp6Rxw?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3A%7B%22gcpCost%22%3A%22COST%22%2C%22includeDiscounts%22%3Afalse%2C%22includeTaxes%22%3Afalse%2C%22includePromotions%22%3Afalse%2C%22includeNegotiatedSavings%22%3Atrue%2C%22includeSubscriptionCredits%22%3Afalse%2C%22includeSustainedUseDiscounts%22%3Afalse%2C%22includeResourceBasedCudCredits%22%3Afalse%2C%22includeLegacyBasedCudCredits%22%3Afalse%2C%22includeSpendBasedCudDiscounts%22%3Afalse%7D%2C%22azureViewPreferences%22%3A%7B%22costType%22%3A%22ACTUAL%22%7D%2C%22showAnomalies%22%3Atrue%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22NOT_IN%22%2C%22values%22%3A%5B%22CLUSTER%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-10%22%2C%22from%22%3A%222026-08-11%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D&unitMetrics=%5B%5D",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/ObCEjUd7QSavY0AVcp6Rxw?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3A%7B%22gcpCost%22%3A%22COST%22%2C%22includeDiscounts%22%3Afalse%2C%22includeTaxes%22%3Afalse%2C%22includePromotions%22%3Afalse%2C%22includeNegotiatedSavings%22%3Atrue%2C%22includeSubscriptionCredits%22%3Afalse%2C%22includeSustainedUseDiscounts%22%3Afalse%2C%22includeResourceBasedCudCredits%22%3Afalse%2C%22includeLegacyBasedCudCredits%22%3Afalse%2C%22includeSpendBasedCudDiscounts%22%3Afalse%7D%2C%22azureViewPreferences%22%3A%7B%22costType%22%3A%22ACTUAL%22%7D%2C%22showAnomalies%22%3Atrue%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22NOT_IN%22%2C%22values%22%3A%5B%22CLUSTER%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-10%22%2C%22from%22%3A%222026-08-11%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D&unitMetrics=%5B%5D",
           "action": "navigate",
-          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/ObCEjUd7QSavY0AVcp6Rxw?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3A%7B%22gcpCost%22%3A%22COST%22%2C%22includeDiscounts%22%3Afalse%2C%22includeTaxes%22%3Afalse%2C%22includePromotions%22%3Afalse%2C%22includeNegotiatedSavings%22%3Atrue%2C%22includeSubscriptionCredits%22%3Afalse%2C%22includeSustainedUseDiscounts%22%3Afalse%2C%22includeResourceBasedCudCredits%22%3Afalse%2C%22includeLegacyBasedCudCredits%22%3Afalse%2C%22includeSpendBasedCudDiscounts%22%3Afalse%7D%2C%22azureViewPreferences%22%3A%7B%22costType%22%3A%22ACTUAL%22%7D%2C%22showAnomalies%22%3Atrue%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22NOT_IN%22%2C%22values%22%3A%5B%22CLUSTER%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-10%22%2C%22from%22%3A%222026-08-11%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D&unitMetrics=%5B%5D",
           "productHints": {
             "navModule": "ce",
-            "feature": "budgets"
+            "feature": "cost-explorer"
           },
           "skipInTest": true,
           "confidence": "high"
         },
         {
           "index": 17,
-          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "intent": "Click New Budget",
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/ObCEjUd7QSavY0AVcp6Rxw?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3A%7B%22gcpCost%22%3A%22COST%22%2C%22includeDiscounts%22%3Afalse%2C%22includeTaxes%22%3Afalse%2C%22includePromotions%22%3Afalse%2C%22includeNegotiatedSavings%22%3Atrue%2C%22includeSubscriptionCredits%22%3Afalse%2C%22includeSustainedUseDiscounts%22%3Afalse%2C%22includeResourceBasedCudCredits%22%3Afalse%2C%22includeLegacyBasedCudCredits%22%3Afalse%2C%22includeSpendBasedCudDiscounts%22%3Afalse%7D%2C%22azureViewPreferences%22%3A%7B%22costType%22%3A%22ACTUAL%22%7D%2C%22showAnomalies%22%3Atrue%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22NOT_IN%22%2C%22values%22%3A%5B%22CLUSTER%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-10%22%2C%22from%22%3A%222026-08-11%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D&unitMetrics=%5B%5D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/ObCEjUd7QSavY0AVcp6Rxw?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3A%7B%22gcpCost%22%3A%22COST%22%2C%22includeDiscounts%22%3Afalse%2C%22includeTaxes%22%3Afalse%2C%22includePromotions%22%3Afalse%2C%22includeNegotiatedSavings%22%3Atrue%2C%22includeSubscriptionCredits%22%3Afalse%2C%22includeSustainedUseDiscounts%22%3Afalse%2C%22includeResourceBasedCudCredits%22%3Afalse%2C%22includeLegacyBasedCudCredits%22%3Afalse%2C%22includeSpendBasedCudDiscounts%22%3Afalse%7D%2C%22azureViewPreferences%22%3A%7B%22costType%22%3A%22ACTUAL%22%7D%2C%22showAnomalies%22%3Atrue%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22NOT_IN%22%2C%22values%22%3A%5B%22CLUSTER%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-10%22%2C%22from%22%3A%222026-08-11%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D&unitMetrics=%5B%5D",
+          "intent": "Click Account: ccmqaautomation Cost Explorer",
+          "action": "click",
+          "locatorHint": {
+            "name": "Account: ccmqaautomation Cost Explorer",
+            "tagName": "UL",
+            "expression": "getByTestId(\"page-header\").getByText(\"Account: ccmqaautomationCost Explorer\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "cost-explorer"
+          },
+          "skipInTest": false,
+          "confidence": "medium",
+          "context": "element ul, name \"Account: ccmqaautomation Cost Explorer\""
+        },
+        {
+          "index": 18,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/ObCEjUd7QSavY0AVcp6Rxw?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3A%7B%22gcpCost%22%3A%22COST%22%2C%22includeDiscounts%22%3Afalse%2C%22includeTaxes%22%3Afalse%2C%22includePromotions%22%3Afalse%2C%22includeNegotiatedSavings%22%3Atrue%2C%22includeSubscriptionCredits%22%3Afalse%2C%22includeSustainedUseDiscounts%22%3Afalse%2C%22includeResourceBasedCudCredits%22%3Afalse%2C%22includeLegacyBasedCudCredits%22%3Afalse%2C%22includeSpendBasedCudDiscounts%22%3Afalse%7D%2C%22azureViewPreferences%22%3A%7B%22costType%22%3A%22ACTUAL%22%7D%2C%22showAnomalies%22%3Atrue%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22NOT_IN%22%2C%22values%22%3A%5B%22CLUSTER%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-10%22%2C%22from%22%3A%222026-08-11%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D&unitMetrics=%5B%5D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/ObCEjUd7QSavY0AVcp6Rxw?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3A%7B%22gcpCost%22%3A%22COST%22%2C%22includeDiscounts%22%3Afalse%2C%22includeTaxes%22%3Afalse%2C%22includePromotions%22%3Afalse%2C%22includeNegotiatedSavings%22%3Atrue%2C%22includeSubscriptionCredits%22%3Afalse%2C%22includeSustainedUseDiscounts%22%3Afalse%2C%22includeResourceBasedCudCredits%22%3Afalse%2C%22includeLegacyBasedCudCredits%22%3Afalse%2C%22includeSpendBasedCudDiscounts%22%3Afalse%7D%2C%22azureViewPreferences%22%3A%7B%22costType%22%3A%22ACTUAL%22%7D%2C%22showAnomalies%22%3Atrue%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22NOT_IN%22%2C%22values%22%3A%5B%22CLUSTER%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-10%22%2C%22from%22%3A%222026-08-11%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D&unitMetrics=%5B%5D",
+          "intent": "Click Switch Views",
           "action": "click",
           "locatorHint": {
             "role": "button",
-            "name": "New Budget",
+            "name": "Switch Views",
             "tagName": "BUTTON"
           },
           "productHints": {
             "navModule": "ce",
-            "feature": "budgets",
-            "pageHeading": "All Budgets"
+            "feature": "cost-explorer"
           },
           "skipInTest": false,
           "confidence": "high",
-          "context": "element button, role button, name \"New Budget\", on \"All Budgets\""
-        },
-        {
-          "index": 18,
-          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "intent": "Click GenAI Cost",
-          "action": "click",
-          "locatorHint": {
-            "role": "menuitem",
-            "name": "GenAI Cost",
-            "tagName": "LI",
-            "scope": "bp3-menu"
-          },
-          "productHints": {
-            "navModule": "ce",
-            "feature": "budgets",
-            "pageHeading": "All Budgets"
-          },
-          "skipInTest": false,
-          "confidence": "high",
-          "context": "element li, role menuitem, name \"GenAI Cost\", on \"All Budgets\", inside bp3-menu"
+          "context": "element button, role button, name \"Switch Views\""
         },
         {
           "index": 19,
-          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "intent": "Enter \"ghjkl\" in Specify name",
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/ObCEjUd7QSavY0AVcp6Rxw?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3A%7B%22gcpCost%22%3A%22COST%22%2C%22includeDiscounts%22%3Afalse%2C%22includeTaxes%22%3Afalse%2C%22includePromotions%22%3Afalse%2C%22includeNegotiatedSavings%22%3Atrue%2C%22includeSubscriptionCredits%22%3Afalse%2C%22includeSustainedUseDiscounts%22%3Afalse%2C%22includeResourceBasedCudCredits%22%3Afalse%2C%22includeLegacyBasedCudCredits%22%3Afalse%2C%22includeSpendBasedCudDiscounts%22%3Afalse%7D%2C%22azureViewPreferences%22%3A%7B%22costType%22%3A%22ACTUAL%22%7D%2C%22showAnomalies%22%3Atrue%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22NOT_IN%22%2C%22values%22%3A%5B%22CLUSTER%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-10%22%2C%22from%22%3A%222026-08-11%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D&unitMetrics=%5B%5D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/ObCEjUd7QSavY0AVcp6Rxw?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3A%7B%22gcpCost%22%3A%22COST%22%2C%22includeDiscounts%22%3Afalse%2C%22includeTaxes%22%3Afalse%2C%22includePromotions%22%3Afalse%2C%22includeNegotiatedSavings%22%3Atrue%2C%22includeSubscriptionCredits%22%3Afalse%2C%22includeSustainedUseDiscounts%22%3Afalse%2C%22includeResourceBasedCudCredits%22%3Afalse%2C%22includeLegacyBasedCudCredits%22%3Afalse%2C%22includeSpendBasedCudDiscounts%22%3Afalse%7D%2C%22azureViewPreferences%22%3A%7B%22costType%22%3A%22ACTUAL%22%7D%2C%22showAnomalies%22%3Atrue%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22NOT_IN%22%2C%22values%22%3A%5B%22CLUSTER%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-10%22%2C%22from%22%3A%222026-08-11%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D&unitMetrics=%5B%5D",
+          "intent": "Enter \"aws\" in Search Views",
           "action": "fill",
-          "value": "ghjkl",
+          "value": "aws",
           "locatorHint": {
             "role": "textbox",
-            "name": "Specify name",
+            "name": "Search Views",
             "tagName": "INPUT"
           },
           "productHints": {
             "navModule": "ce",
-            "feature": "budgets",
-            "pageHeading": "All Budgets"
+            "feature": "cost-explorer"
           },
           "skipInTest": false,
           "valueKind": {
@@ -329,44 +323,401 @@
             "createsResource": false
           },
           "confidence": "high",
-          "context": "element input, role textbox, name \"Specify name\", on \"All Budgets\""
+          "context": "element input, role textbox, name \"Search Views\""
         },
         {
           "index": 20,
-          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "intent": "Click Continue",
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/ObCEjUd7QSavY0AVcp6Rxw?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3A%7B%22gcpCost%22%3A%22COST%22%2C%22includeDiscounts%22%3Afalse%2C%22includeTaxes%22%3Afalse%2C%22includePromotions%22%3Afalse%2C%22includeNegotiatedSavings%22%3Atrue%2C%22includeSubscriptionCredits%22%3Afalse%2C%22includeSustainedUseDiscounts%22%3Afalse%2C%22includeResourceBasedCudCredits%22%3Afalse%2C%22includeLegacyBasedCudCredits%22%3Afalse%2C%22includeSpendBasedCudDiscounts%22%3Afalse%7D%2C%22azureViewPreferences%22%3A%7B%22costType%22%3A%22ACTUAL%22%7D%2C%22showAnomalies%22%3Atrue%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22NOT_IN%22%2C%22values%22%3A%5B%22CLUSTER%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-10%22%2C%22from%22%3A%222026-08-11%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D&unitMetrics=%5B%5D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/uPXL2dw8T9-urS_HyzNc7w",
+          "intent": "Click AWS By Harness",
+          "action": "click",
+          "locatorHint": {
+            "name": "AWS By Harness",
+            "tagName": "DIV",
+            "expression": "getByText(\"AWSBy Harness\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "cost-explorer"
+          },
+          "skipInTest": false,
+          "confidence": "medium",
+          "context": "element div, name \"AWS By Harness\""
+        },
+        {
+          "index": 21,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/uPXL2dw8T9-urS_HyzNc7w",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/uPXL2dw8T9-urS_HyzNc7w?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3Anull%2C%22azureViewPreferences%22%3Anull%2C%22showAnomalies%22%3Atrue%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-10%22%2C%22from%22%3A%222026-08-11%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22awsUsageAccountId%22%2C%22fieldName%22%3A%22Account%22%2C%22identifier%22%3A%22AWS%22%2C%22identifierName%22%3A%22AWS%22%7D&unitMetrics=%5B%5D",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/uPXL2dw8T9-urS_HyzNc7w",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/uPXL2dw8T9-urS_HyzNc7w",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "cost-explorer"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 22,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/uPXL2dw8T9-urS_HyzNc7w?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3Anull%2C%22azureViewPreferences%22%3Anull%2C%22showAnomalies%22%3Atrue%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-10%22%2C%22from%22%3A%222026-08-11%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22awsUsageAccountId%22%2C%22fieldName%22%3A%22Account%22%2C%22identifier%22%3A%22AWS%22%2C%22identifierName%22%3A%22AWS%22%7D&unitMetrics=%5B%5D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/uPXL2dw8T9-urS_HyzNc7w?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3Anull%2C%22azureViewPreferences%22%3Anull%2C%22showAnomalies%22%3Atrue%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-10%22%2C%22from%22%3A%222026-08-11%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22awsUsageAccountId%22%2C%22fieldName%22%3A%22Account%22%2C%22identifier%22%3A%22AWS%22%2C%22identifierName%22%3A%22AWS%22%7D&unitMetrics=%5B%5D",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/uPXL2dw8T9-urS_HyzNc7w?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3Anull%2C%22azureViewPreferences%22%3Anull%2C%22showAnomalies%22%3Atrue%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-10%22%2C%22from%22%3A%222026-08-11%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22awsUsageAccountId%22%2C%22fieldName%22%3A%22Account%22%2C%22identifier%22%3A%22AWS%22%2C%22identifierName%22%3A%22AWS%22%7D&unitMetrics=%5B%5D",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/uPXL2dw8T9-urS_HyzNc7w?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3Anull%2C%22azureViewPreferences%22%3Anull%2C%22showAnomalies%22%3Atrue%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-10%22%2C%22from%22%3A%222026-08-11%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22awsUsageAccountId%22%2C%22fieldName%22%3A%22Account%22%2C%22identifier%22%3A%22AWS%22%2C%22identifierName%22%3A%22AWS%22%7D&unitMetrics=%5B%5D",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "cost-explorer"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 23,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/uPXL2dw8T9-urS_HyzNc7w?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3Anull%2C%22azureViewPreferences%22%3Anull%2C%22showAnomalies%22%3Atrue%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-10%22%2C%22from%22%3A%222026-08-11%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22awsUsageAccountId%22%2C%22fieldName%22%3A%22Account%22%2C%22identifier%22%3A%22AWS%22%2C%22identifierName%22%3A%22AWS%22%7D&unitMetrics=%5B%5D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/uPXL2dw8T9-urS_HyzNc7w?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3Anull%2C%22azureViewPreferences%22%3Anull%2C%22showAnomalies%22%3Atrue%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-10%22%2C%22from%22%3A%222026-08-11%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22awsUsageAccountId%22%2C%22fieldName%22%3A%22Account%22%2C%22identifier%22%3A%22AWS%22%2C%22identifierName%22%3A%22AWS%22%7D&unitMetrics=%5B%5D",
+          "intent": "Verify Anomalies View 25 +$26.8K impact Aug 11 - Sep 10 toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "Anomalies View 25 +$26.8K impact Aug 11 - Sep 10",
+            "tagName": "DIV",
+            "expression": "getByTestId(\"page-body\").getByText(\"AnomaliesView25+$26.8K impactAug 11 - Sep 10\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "cost-explorer"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible",
+            "value": "Anomalies View 25 +$26.8K impact Aug 11 - Sep 10",
+            "name": "Anomalies View 25 +$26.8K impact Aug 11 - Sep 10"
+          },
+          "confidence": "medium",
+          "context": "element div, name \"Anomalies View 25 +$26.8K impact Aug 11 - Sep 10\""
+        },
+        {
+          "index": 24,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/uPXL2dw8T9-urS_HyzNc7w?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3Anull%2C%22azureViewPreferences%22%3Anull%2C%22showAnomalies%22%3Atrue%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-10%22%2C%22from%22%3A%222026-08-11%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22awsUsageAccountId%22%2C%22fieldName%22%3A%22Account%22%2C%22identifier%22%3A%22AWS%22%2C%22identifierName%22%3A%22AWS%22%7D&unitMetrics=%5B%5D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/uPXL2dw8T9-urS_HyzNc7w?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3Anull%2C%22azureViewPreferences%22%3Anull%2C%22showAnomalies%22%3Atrue%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-10%22%2C%22from%22%3A%222026-08-11%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22awsUsageAccountId%22%2C%22fieldName%22%3A%22Account%22%2C%22identifier%22%3A%22AWS%22%2C%22identifierName%22%3A%22AWS%22%7D&unitMetrics=%5B%5D",
+          "intent": "Verify Anomalies View 25 +$26.8K impact Aug 11 - Sep 10 toHaveText \"Anomalies  = 25\"",
+          "action": "assert",
+          "locatorHint": {
+            "name": "Anomalies View 25 +$26.8K impact Aug 11 - Sep 10",
+            "tagName": "DIV",
+            "expression": "getByTestId(\"page-body\").getByText(\"AnomaliesView25+$26.8K impactAug 11 - Sep 10\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "cost-explorer"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toHaveText",
+            "value": "Anomalies  = 25",
+            "name": "Anomalies View 25 +$26.8K impact Aug 11 - Sep 10"
+          },
+          "confidence": "medium",
+          "context": "element div, name \"Anomalies View 25 +$26.8K impact Aug 11 - Sep 10\""
+        },
+        {
+          "index": 25,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/uPXL2dw8T9-urS_HyzNc7w?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3Anull%2C%22azureViewPreferences%22%3Anull%2C%22showAnomalies%22%3Atrue%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-10%22%2C%22from%22%3A%222026-08-11%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22awsUsageAccountId%22%2C%22fieldName%22%3A%22Account%22%2C%22identifier%22%3A%22AWS%22%2C%22identifierName%22%3A%22AWS%22%7D&unitMetrics=%5B%5D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/uPXL2dw8T9-urS_HyzNc7w?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3Anull%2C%22azureViewPreferences%22%3Anull%2C%22showAnomalies%22%3Atrue%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-10%22%2C%22from%22%3A%222026-08-11%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22awsUsageAccountId%22%2C%22fieldName%22%3A%22Account%22%2C%22identifier%22%3A%22AWS%22%2C%22identifierName%22%3A%22AWS%22%7D&unitMetrics=%5B%5D",
+          "intent": "Verify View toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "View",
+            "tagName": "P"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "cost-explorer"
+          },
+          "skipInTest": true,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible",
+            "value": "View",
+            "name": "View"
+          },
+          "confidence": "medium",
+          "context": "element p, name \"View\""
+        },
+        {
+          "index": 26,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/cost-explorer/uPXL2dw8T9-urS_HyzNc7w?preferences=%7B%22includeOthers%22%3Afalse%2C%22includeUnallocatedCost%22%3Afalse%2C%22awsPreferences%22%3A%7B%22includeDiscounts%22%3Afalse%2C%22includeCredits%22%3Atrue%2C%22includeRefunds%22%3Atrue%2C%22includeTaxes%22%3Atrue%2C%22awsCost%22%3A%22UNBLENDED%22%7D%2C%22gcpPreferences%22%3Anull%2C%22azureViewPreferences%22%3Anull%2C%22showAnomalies%22%3Atrue%7D&filters=%5B%7B%22viewConditions%22%3A%5B%7B%22type%22%3A%22VIEW_ID_CONDITION%22%2C%22viewField%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22viewOperator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%5D&aggregation=%22DAY%22&timeRange=%7B%22to%22%3A%222026-09-10%22%2C%22from%22%3A%222026-08-11%22%7D&chartType=%22column%22&groupBy=%7B%22fieldId%22%3A%22awsUsageAccountId%22%2C%22fieldName%22%3A%22Account%22%2C%22identifier%22%3A%22AWS%22%2C%22identifierName%22%3A%22AWS%22%7D&unitMetrics=%5B%5D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Click View",
+          "action": "click",
+          "locatorHint": {
+            "name": "View",
+            "tagName": "P"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": true,
+          "confidence": "medium",
+          "context": "element p, name \"View\""
+        },
+        {
+          "index": 27,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 28,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Verify Anomalies toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "Anomalies",
+            "tagName": "P",
+            "expression": "getByTestId(\"page-header\").getByText(\"Anomalies\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible",
+            "value": "Anomalies",
+            "name": "Anomalies"
+          },
+          "confidence": "medium",
+          "context": "element p, name \"Anomalies\""
+        },
+        {
+          "index": 29,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Verify Active Anomalies 25 toHaveText \"Active Anomalies25\"",
+          "action": "assert",
+          "locatorHint": {
+            "name": "Active Anomalies 25",
+            "tagName": "DIV",
+            "expression": "getByText(\"Active Anomalies25\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toHaveText",
+            "value": "Active Anomalies25",
+            "name": "Active Anomalies 25"
+          },
+          "confidence": "medium",
+          "context": "element div, name \"Active Anomalies 25\""
+        },
+        {
+          "index": 30,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Verify <div> in \"By Resources (25 active)\" toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "role": "tabpanel",
+            "name": "By Resources (25 active)",
+            "tagName": "DIV"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible",
+            "value": "Datedouble-caret-verticalDurationdouble-caret-verticalSeveritydouble-caret-verticalAccountProduct/ServiceTotal Actual Spend(over anomaly duration)double-caret-verticalExpected Spend(over anomaly duration)double-caret-verticalUnusual Spend(over anomaly duration)caret-down% Increasedouble-caret-vertic",
+            "name": "By Resources (25 active)"
+          },
+          "confidence": "high",
+          "context": "element div, role tabpanel, name \"By Resources (25 active)\""
+        },
+        {
+          "index": 31,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Verify <div> toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "09/07/20261 dayCritical100000000000AWS Certificate Manager-$3,586.56$0.00+$3,586.5510,000% +A",
+            "tagName": "DIV"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": true,
+          "expect": {
+            "kind": "row-visible",
+            "matcher": "toBeVisible",
+            "value": "09/07/20261 dayCritical100000000000AWS Certificate Manager-$3,586.56$0.00+$3,586.5510,000% +A",
+            "name": "09/07/20261 dayCritical100000000000AWS Certificate Manager-$3,586.56$0.00+$3,586.5510,000% +A"
+          },
+          "confidence": "medium",
+          "context": "element div, name \"09/07/20261 dayCritical100000000000AWS Certificate Manager-$3,586.56$0.00+$3,586.5510,000% +A\""
+        },
+        {
+          "index": 32,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Verify 100000000000 toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "role": "cell",
+            "name": "100000000000",
+            "tagName": "DIV"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible",
+            "value": "100000000000",
+            "name": "100000000000"
+          },
+          "confidence": "high",
+          "context": "element div, role cell, name \"100000000000\""
+        },
+        {
+          "index": 33,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Verify 100000000000 toHaveText \"100000000000\"",
+          "action": "assert",
+          "locatorHint": {
+            "role": "cell",
+            "name": "100000000000",
+            "tagName": "DIV"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toHaveText",
+            "value": "100000000000",
+            "name": "100000000000"
+          },
+          "confidence": "high",
+          "context": "element div, role cell, name \"100000000000\""
+        },
+        {
+          "index": 34,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Click Date Last 30 days Add Filter Save Reset",
+          "action": "click",
+          "locatorHint": {
+            "testId": "page-subheader",
+            "name": "Date Last 30 days Add Filter Save Reset",
+            "tagName": "DIV"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element div, name \"Date Last 30 days Add Filter Save Reset\""
+        },
+        {
+          "index": 35,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Click Settings",
           "action": "click",
           "locatorHint": {
             "role": "button",
-            "name": "Continue",
+            "name": "Settings",
             "tagName": "BUTTON"
           },
           "productHints": {
             "navModule": "ce",
-            "feature": "budgets",
-            "pageHeading": "All Budgets"
+            "feature": "anomaly-detection"
           },
           "skipInTest": false,
           "confidence": "high",
-          "context": "element button, role button, name \"Continue\", on \"All Budgets\""
+          "context": "element button, role button, name \"Settings\""
         },
         {
-          "index": 21,
-          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "intent": "Enter \"100\" in name=\"budgetAmount\"",
-          "action": "fill",
-          "value": "100",
+          "index": 36,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Click Anomaly Ignore list",
+          "action": "click",
           "locatorHint": {
-            "role": "textbox",
-            "tagName": "INPUT",
-            "expression": "locator(\"input[name=\\\"budgetAmount\\\"]\")"
+            "role": "tab",
+            "name": "Anomaly Ignore list",
+            "tagName": "DIV"
           },
           "productHints": {
             "navModule": "ce",
-            "feature": "budgets",
-            "pageHeading": "All Budgets"
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element div, role tab, name \"Anomaly Ignore list\""
+        },
+        {
+          "index": 37,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Click new Ignore List Rule",
+          "action": "click",
+          "locatorHint": {
+            "role": "button",
+            "name": "new Ignore List Rule",
+            "tagName": "BUTTON"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element button, role button, name \"new Ignore List Rule\""
+        },
+        {
+          "index": 38,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Enter \"AwsANomaliesIgnoreRule\" in Enter rule name",
+          "action": "fill",
+          "value": "AwsANomaliesIgnoreRule",
+          "locatorHint": {
+            "role": "textbox",
+            "name": "Enter rule name",
+            "tagName": "INPUT"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
           },
           "skipInTest": false,
           "valueKind": {
@@ -374,73 +725,133 @@
             "unique": false,
             "createsResource": false
           },
-          "confidence": "low",
-          "context": "element input, role textbox, on \"All Budgets\""
+          "confidence": "high",
+          "context": "element input, role textbox, name \"Enter rule name\""
         },
         {
-          "index": 22,
-          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "intent": "Click Continue",
+          "index": 39,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Click Cloud Type",
           "action": "click",
           "locatorHint": {
-            "role": "button",
-            "name": "Continue",
-            "tagName": "BUTTON"
+            "name": "Cloud Type",
+            "tagName": "P",
+            "expression": "getByText(\"Cloud Type\", { exact: true })"
           },
           "productHints": {
             "navModule": "ce",
-            "feature": "budgets",
-            "pageHeading": "All Budgets"
+            "feature": "anomaly-detection"
           },
           "skipInTest": false,
+          "confidence": "medium",
+          "context": "element p, name \"Cloud Type\""
+        },
+        {
+          "index": 40,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Click <path> in \"Cloud Type\"",
+          "action": "click",
+          "locatorHint": {
+            "tagName": "PATH",
+            "expression": "locator(\"path\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "confidence": "unresolved",
+          "context": "element path"
+        },
+        {
+          "index": 41,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Enter \"100000000000\" in - Select -",
+          "action": "fill",
+          "value": "100000000000",
+          "locatorHint": {
+            "role": "textbox",
+            "name": "- Select -",
+            "tagName": "INPUT"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "valueKind": {
+            "kind": "literal",
+            "unique": false,
+            "createsResource": false
+          },
           "confidence": "high",
-          "context": "element button, role button, name \"Continue\", on \"All Budgets\""
+          "context": "element input, role textbox, name \"- Select -\""
         },
         {
-          "index": 23,
-          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "intent": "Click <div>",
-          "action": "click",
+          "index": 42,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Check <input> in \"100000000000\"",
+          "action": "check",
           "locatorHint": {
-            "name": "Configure AlertsSend an alert to Harness User Groups when the actual or forecasted cost exceeds a percentage of your Budget amount created in the previous step.Add a custom message to the alert (Optional)Budget Amount$100.00No alerts definedplusAdd new alertchevron-leftPreviousSavechevron-right",
-            "tagName": "DIV",
-            "expression": "locator(\"div[class~=\\\"StepWizard--stepDetails\\\"]\")"
+            "role": "checkbox",
+            "tagName": "INPUT",
+            "scope": "bp3-menu",
+            "expression": "locator(\"input[class~=\\\"MultiSelect--checkbox\\\"]\")"
           },
           "productHints": {
             "navModule": "ce",
-            "feature": "budgets",
-            "pageHeading": "All Budgets"
+            "feature": "anomaly-detection"
           },
-          "skipInTest": true,
-          "confidence": "medium",
-          "context": "element div, name \"Configure AlertsSend an alert to Harness User Groups when the actual or forecasted cost exceeds a percentage of your Budget amount created in the previous step.Add a custom message to the alert (Optional)Budget Amount$100.00No alerts definedplusAdd new alertchevron-leftPreviousSavechevron-right\", on \"All Budgets\""
+          "skipInTest": false,
+          "confidence": "low",
+          "context": "element input, role checkbox, inside bp3-menu"
         },
         {
-          "index": 24,
-          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "intent": "Click <div>",
+          "index": 43,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Click 100000000000",
           "action": "click",
           "locatorHint": {
-            "name": "Configure AlertsSend an alert to Harness User Groups when the actual or forecasted cost exceeds a percentage of your Budget amount created in the previous step.Add a custom message to the alert (Optional)Budget Amount$100.00No alerts definedplusAdd new alertchevron-leftPreviousSavechevron-right",
-            "tagName": "DIV",
-            "expression": "locator(\"div[class~=\\\"StepWizard--stepDetails\\\"]\")"
+            "name": "100000000000",
+            "tagName": "P",
+            "scope": "bp3-menu"
           },
           "productHints": {
             "navModule": "ce",
-            "feature": "budgets",
-            "pageHeading": "All Budgets"
+            "feature": "anomaly-detection"
           },
           "skipInTest": true,
           "confidence": "medium",
-          "context": "element div, name \"Configure AlertsSend an alert to Harness User Groups when the actual or forecasted cost exceeds a percentage of your Budget amount created in the previous step.Add a custom message to the alert (Optional)Budget Amount$100.00No alerts definedplusAdd new alertchevron-leftPreviousSavechevron-right\", on \"All Budgets\""
+          "context": "element p, name \"100000000000\", inside bp3-menu"
         },
         {
-          "index": 25,
-          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
-          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/budgets",
+          "index": 44,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Click Save Cancel",
+          "action": "click",
+          "locatorHint": {
+            "name": "Save Cancel",
+            "tagName": "DIV",
+            "expression": "getByText(\"SaveCancel\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "confidence": "medium",
+          "context": "element div, name \"Save Cancel\""
+        },
+        {
+          "index": 45,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
           "intent": "Click Save",
           "action": "click",
           "locatorHint": {
@@ -450,17 +861,1195 @@
           },
           "productHints": {
             "navModule": "ce",
-            "feature": "budgets",
-            "pageHeading": "All Budgets"
+            "feature": "anomaly-detection"
           },
           "skipInTest": false,
           "confidence": "high",
-          "context": "element button, role button, name \"Save\", on \"All Budgets\""
+          "context": "element button, role button, name \"Save\""
+        },
+        {
+          "index": 46,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Verify Harness /* create stacking context so that siblings don't have to compete for z-index */ #react-root { position: relative; z-index: 1; } .pre-loader-wrapper { position: fixed; top: 0; left: 0; bottom: 0; right: 0; display: flex; justify-content: center; align-items: center; text-align: center; } .pr is restricted for read-only user",
+          "action": "assert",
+          "locatorHint": {
+            "name": "Harness /* create stacking context so that siblings don't have to compete for z-index */ #react-root { position: relative; z-index: 1; } .pre-loader-wrapper { position: fixed; top: 0; left: 0; bottom: 0; right: 0; display: flex; justify-content: center; align-items: center; text-align: center; } .pr",
+            "tagName": "HTML",
+            "expression": "getByText(\"Ignore list rule created successfully!\", { exact: true })"
+          },
+          "disabledState": {
+            "hasDisabledAttribute": false,
+            "ariaDisabled": null,
+            "nativeDisabled": false,
+            "blueprintDisabledClass": true,
+            "tabIndex": null,
+            "tagName": "HTML",
+            "role": null
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "toast",
+            "matcher": "toBeVisible",
+            "value": "Ignore list rule created successfully!",
+            "name": "Harness /* create stacking context so that siblings don't have to compete for z-index */ #react-root { position: relative; z-index: 1; } .pre-loader-wrapper { position: fixed; top: 0; left: 0; bottom: 0; right: 0; display: flex; justify-content: center; align-items: center; text-align: center; } .pr"
+          },
+          "confidence": "medium",
+          "context": "element html, name \"Harness /* create stacking context so that siblings don't have to compete for z-index */ #react-root { position: relative; z-index: 1; } .pre-loader-wrapper { position: fixed; top: 0; left: 0; bottom: 0; right: 0; display: flex; justify-content: center; align-items: center; text-align: center; } .pr\", restricted control"
+        },
+        {
+          "index": 47,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Verify <div> in \"Anomaly Ignore list\" toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "role": "tabpanel",
+            "name": "Anomaly Ignore list",
+            "tagName": "DIV"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": true,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible",
+            "value": "AccountAllStatusAll3 Ignore list Rulesplusnew Ignore List RuleEnabledAwsANomaliesIgnoreRuleCccm_playwright3 seconds agoScope: 100000000000Level: AccountDisabled100000000000AWSCccm_playwright11 minutes agoScope: 100000000000Level: AccountEnabledTestIgnoreListCccm_playwright3 hours agoScope: ai-code-a",
+            "name": "Anomaly Ignore list"
+          },
+          "confidence": "high",
+          "context": "element div, role tabpanel, name \"Anomaly Ignore list\""
+        },
+        {
+          "index": 48,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Verify Search toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "role": "textbox",
+            "name": "Search",
+            "tagName": "INPUT"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible",
+            "value": "Search",
+            "name": "Search"
+          },
+          "confidence": "high",
+          "context": "element input, role textbox, name \"Search\""
+        },
+        {
+          "index": 49,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Enter \"AwsANomaliesIgnoreRule\" in Search",
+          "action": "fill",
+          "value": "AwsANomaliesIgnoreRule",
+          "locatorHint": {
+            "role": "textbox",
+            "name": "Search",
+            "tagName": "INPUT"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "valueKind": {
+            "kind": "literal",
+            "unique": false,
+            "createsResource": false
+          },
+          "confidence": "high",
+          "context": "element input, role textbox, name \"Search\""
+        },
+        {
+          "index": 50,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Verify AwsANomaliesIgnoreRule toHaveText \"AwsANomaliesIgnoreRule\"",
+          "action": "assert",
+          "locatorHint": {
+            "name": "AwsANomaliesIgnoreRule",
+            "tagName": "P",
+            "expression": "getByText(\"AwsANomaliesIgnoreRule\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toHaveText",
+            "value": "AwsANomaliesIgnoreRule",
+            "name": "AwsANomaliesIgnoreRule"
+          },
+          "confidence": "medium",
+          "context": "element p, name \"AwsANomaliesIgnoreRule\""
+        },
+        {
+          "index": 51,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Verify <span> in \"Enabled\" toBeChecked",
+          "action": "assert",
+          "locatorHint": {
+            "tagName": "SPAN",
+            "expression": "locator(\"span[class~=\\\"bp3-control-indicator\\\"]\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": true,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeChecked"
+          },
+          "confidence": "low",
+          "context": "element span"
+        },
+        {
+          "index": 52,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Verify Enabled toHaveText \"Enabled\"",
+          "action": "assert",
+          "locatorHint": {
+            "name": "Enabled",
+            "tagName": "P",
+            "expression": "getByText(\"Enabled\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toHaveText",
+            "value": "Enabled",
+            "name": "Enabled"
+          },
+          "confidence": "medium",
+          "context": "element p, name \"Enabled\""
+        },
+        {
+          "index": 53,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Click cross",
+          "action": "click",
+          "locatorHint": {
+            "role": "button",
+            "name": "cross",
+            "tagName": "BUTTON"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element button, role button, name \"cross\""
+        },
+        {
+          "index": 54,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "intent": "Click cross",
+          "action": "click",
+          "locatorHint": {
+            "role": "button",
+            "name": "cross",
+            "tagName": "BUTTON"
+          },
+          "disabledState": {
+            "hasDisabledAttribute": false,
+            "ariaDisabled": null,
+            "nativeDisabled": false,
+            "blueprintDisabledClass": true,
+            "tabIndex": null,
+            "tagName": "HTML",
+            "role": null
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element button, role button, name \"cross\", restricted control"
+        },
+        {
+          "index": 55,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11&perspectiveFilters=%7B%22filters%22%3A%5B%7B%22viewMetadataFilter%22%3A%7B%22viewId%22%3A%22uPXL2dw8T9-urS_HyzNc7w%22%2C%22isPreview%22%3Afalse%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22AFTER%22%2C%22value%22%3A1786406400000%7D%7D%2C%7B%22timeFilter%22%3A%7B%22field%22%3A%7B%22fieldId%22%3A%22startTime%22%2C%22fieldName%22%3A%22startTime%22%2C%22identifier%22%3A%22COMMON%22%7D%2C%22operator%22%3A%22BEFORE%22%2C%22value%22%3A1789084799000%7D%7D%2C%7B%22ruleFilter%22%3A%7B%22conditions%22%3A%5B%7B%22field%22%3A%7B%22fieldId%22%3A%22cloudProvider%22%2C%22fieldName%22%3A%22Cloud%20Provider%22%2C%22identifier%22%3A%22COMMON%22%2C%22identifierName%22%3A%22Common%22%7D%2C%22operator%22%3A%22EQUALS%22%2C%22values%22%3A%5B%22AWS%22%5D%7D%5D%7D%7D%5D%2C%22groupBy%22%3A%5B%5D%7D",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection",
+          "intent": "Click Anomalies",
+          "action": "click",
+          "locatorHint": {
+            "role": "link",
+            "name": "Anomalies",
+            "tagName": "A"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element a, role link, name \"Anomalies\""
+        },
+        {
+          "index": 56,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 57,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Enter \"100000000000\" in Search",
+          "action": "fill",
+          "value": "100000000000",
+          "locatorHint": {
+            "role": "textbox",
+            "name": "Search",
+            "tagName": "INPUT"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "valueKind": {
+            "kind": "literal",
+            "unique": false,
+            "createsResource": false
+          },
+          "confidence": "high",
+          "context": "element input, role textbox, name \"Search\""
+        },
+        {
+          "index": 58,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 59,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Verify No Active Anomalies toHaveText \"No Active Anomalies\"",
+          "action": "assert",
+          "locatorHint": {
+            "role": "tabpanel",
+            "name": "By Resources",
+            "tagName": "DIV"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toHaveText",
+            "value": "No Active Anomalies",
+            "name": "By Resources"
+          },
+          "confidence": "high",
+          "context": "element div, role tabpanel, name \"By Resources\""
+        },
+        {
+          "index": 60,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Click <button> in \"Date Last 30 days Add Filter Save Reset\"",
+          "action": "click",
+          "locatorHint": {
+            "role": "button",
+            "tagName": "BUTTON",
+            "expression": "locator(\"button\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "confidence": "unresolved",
+          "context": "element button, role button"
+        },
+        {
+          "index": 61,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 62,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Click By Resources By Cost Buckets",
+          "action": "click",
+          "locatorHint": {
+            "role": "tablist",
+            "name": "By Resources By Cost Buckets",
+            "tagName": "DIV"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element div, role tablist, name \"By Resources By Cost Buckets\""
+        },
+        {
+          "index": 63,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Click Settings",
+          "action": "click",
+          "locatorHint": {
+            "role": "button",
+            "name": "Settings",
+            "tagName": "BUTTON"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element button, role button, name \"Settings\""
+        },
+        {
+          "index": 64,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Click AwsANomaliesIgnoreRule",
+          "action": "click",
+          "locatorHint": {
+            "name": "AwsANomaliesIgnoreRule",
+            "tagName": "P",
+            "expression": "getByText(\"AwsANomaliesIgnoreRule\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "confidence": "medium",
+          "context": "element p, name \"AwsANomaliesIgnoreRule\""
+        },
+        {
+          "index": 65,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Click AwsANomaliesIgnoreRule",
+          "action": "click",
+          "locatorHint": {
+            "name": "AwsANomaliesIgnoreRule",
+            "tagName": "P",
+            "expression": "getByText(\"AwsANomaliesIgnoreRule\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "confidence": "medium",
+          "context": "element p, name \"AwsANomaliesIgnoreRule\""
+        },
+        {
+          "index": 66,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Enter \"AwsANomaliesIgnoreRule\" in Search",
+          "action": "fill",
+          "value": "AwsANomaliesIgnoreRule",
+          "locatorHint": {
+            "role": "textbox",
+            "name": "Search",
+            "tagName": "INPUT"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "valueKind": {
+            "kind": "literal",
+            "unique": false,
+            "createsResource": false
+          },
+          "confidence": "high",
+          "context": "element input, role textbox, name \"Search\""
+        },
+        {
+          "index": 67,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Press Enter on Search",
+          "action": "press",
+          "value": "Enter",
+          "locatorHint": {
+            "role": "textbox",
+            "name": "Search",
+            "tagName": "INPUT"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element input, role textbox, name \"Search\""
+        },
+        {
+          "index": 68,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Click <span> in \"Enabled\"",
+          "action": "click",
+          "locatorHint": {
+            "tagName": "SPAN",
+            "expression": "locator(\"span[class~=\\\"bp3-control-indicator\\\"]\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": true,
+          "confidence": "low",
+          "context": "element span"
+        },
+        {
+          "index": 69,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Check <input> in \"Enabled\"",
+          "action": "check",
+          "locatorHint": {
+            "role": "checkbox",
+            "tagName": "INPUT",
+            "expression": "locator(\"input\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "confidence": "unresolved",
+          "context": "element input, role checkbox"
+        },
+        {
+          "index": 70,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Verify Harness /* create stacking context so that siblings don't have to compete for z-index */ #react-root { position: relative; z-index: 1; } .pre-loader-wrapper { position: fixed; top: 0; left: 0; bottom: 0; right: 0; display: flex; justify-content: center; align-items: center; text-align: center; } .pr is restricted for read-only user",
+          "action": "assert",
+          "locatorHint": {
+            "name": "Harness /* create stacking context so that siblings don't have to compete for z-index */ #react-root { position: relative; z-index: 1; } .pre-loader-wrapper { position: fixed; top: 0; left: 0; bottom: 0; right: 0; display: flex; justify-content: center; align-items: center; text-align: center; } .pr",
+            "tagName": "HTML",
+            "expression": "getByText(\"Ignore list rule disabled successfully!\", { exact: true })"
+          },
+          "disabledState": {
+            "hasDisabledAttribute": false,
+            "ariaDisabled": null,
+            "nativeDisabled": false,
+            "blueprintDisabledClass": true,
+            "tabIndex": null,
+            "tagName": "HTML",
+            "role": null
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "toast",
+            "matcher": "toBeVisible",
+            "value": "Ignore list rule disabled successfully!",
+            "name": "Harness /* create stacking context so that siblings don't have to compete for z-index */ #react-root { position: relative; z-index: 1; } .pre-loader-wrapper { position: fixed; top: 0; left: 0; bottom: 0; right: 0; display: flex; justify-content: center; align-items: center; text-align: center; } .pr"
+          },
+          "confidence": "medium",
+          "context": "element html, name \"Harness /* create stacking context so that siblings don't have to compete for z-index */ #react-root { position: relative; z-index: 1; } .pre-loader-wrapper { position: fixed; top: 0; left: 0; bottom: 0; right: 0; display: flex; justify-content: center; align-items: center; text-align: center; } .pr\", restricted control"
+        },
+        {
+          "index": 71,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Verify Disabled toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "Disabled",
+            "tagName": "P",
+            "expression": "getByText(\"Disabled\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible",
+            "value": "Disabled",
+            "name": "Disabled"
+          },
+          "confidence": "medium",
+          "context": "element p, name \"Disabled\""
+        },
+        {
+          "index": 72,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Verify AwsANomaliesIgnoreRule toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "AwsANomaliesIgnoreRule",
+            "tagName": "P",
+            "expression": "getByText(\"AwsANomaliesIgnoreRule\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible",
+            "value": "AwsANomaliesIgnoreRule",
+            "name": "AwsANomaliesIgnoreRule"
+          },
+          "confidence": "medium",
+          "context": "element p, name \"AwsANomaliesIgnoreRule\""
+        },
+        {
+          "index": 73,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Verify <div> in \"Anomaly Ignore list\" toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "role": "tabpanel",
+            "name": "Anomaly Ignore list",
+            "tagName": "DIV"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible",
+            "value": "DisabledAwsANomaliesIgnoreRuleCccm_playwright1 second agoScope: 100000000000Level: Account",
+            "name": "Anomaly Ignore list"
+          },
+          "confidence": "high",
+          "context": "element div, role tabpanel, name \"Anomaly Ignore list\""
+        },
+        {
+          "index": 74,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Verify <span> in \"Disabled\" not.toBeChecked",
+          "action": "assert",
+          "locatorHint": {
+            "tagName": "SPAN",
+            "expression": "locator(\"span[class~=\\\"bp3-control-indicator\\\"]\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": true,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeChecked"
+          },
+          "confidence": "low",
+          "context": "element span"
+        },
+        {
+          "index": 75,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Click cross",
+          "action": "click",
+          "locatorHint": {
+            "role": "button",
+            "name": "cross",
+            "tagName": "BUTTON"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element button, role button, name \"cross\""
+        },
+        {
+          "index": 76,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Click cross",
+          "action": "click",
+          "locatorHint": {
+            "role": "button",
+            "name": "cross",
+            "tagName": "BUTTON"
+          },
+          "disabledState": {
+            "hasDisabledAttribute": false,
+            "ariaDisabled": null,
+            "nativeDisabled": false,
+            "blueprintDisabledClass": true,
+            "tabIndex": null,
+            "tagName": "HTML",
+            "role": null
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element button, role button, name \"cross\", restricted control"
+        },
+        {
+          "index": 77,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection",
+          "intent": "Click Anomalies",
+          "action": "click",
+          "locatorHint": {
+            "role": "link",
+            "name": "Anomalies",
+            "tagName": "A"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element a, role link, name \"Anomalies\""
+        },
+        {
+          "index": 78,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 79,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection",
+          "intent": "Click Anomalies",
+          "action": "click",
+          "locatorHint": {
+            "role": "link",
+            "name": "Anomalies",
+            "tagName": "A"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element a, role link, name \"Anomalies\""
+        },
+        {
+          "index": 80,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 81,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Enter \"100000000000\" in Search",
+          "action": "fill",
+          "value": "100000000000",
+          "locatorHint": {
+            "role": "textbox",
+            "name": "Search",
+            "tagName": "INPUT"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "valueKind": {
+            "kind": "literal",
+            "unique": false,
+            "createsResource": false
+          },
+          "confidence": "high",
+          "context": "element input, role textbox, name \"Search\""
+        },
+        {
+          "index": 82,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Navigate to https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "action": "navigate",
+          "value": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": true,
+          "confidence": "high"
+        },
+        {
+          "index": 83,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Verify Active Anomalies 11 toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "Active Anomalies 11",
+            "tagName": "DIV",
+            "expression": "getByText(\"Active Anomalies11\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible",
+            "value": "Active Anomalies 11",
+            "name": "Active Anomalies 11"
+          },
+          "confidence": "medium",
+          "context": "element div, name \"Active Anomalies 11\""
+        },
+        {
+          "index": 84,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Verify <div> in \"By Resources (11 active)\" toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "role": "tabpanel",
+            "name": "By Resources (11 active)",
+            "tagName": "DIV"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible",
+            "value": "Datedouble-caret-verticalDurationdouble-caret-verticalSeveritydouble-caret-verticalAccountProduct/ServiceTotal Actual Spend(over anomaly duration)double-caret-verticalExpected Spend(over anomaly duration)double-caret-verticalUnusual Spend(over anomaly duration)caret-down% Increasedouble-caret-vertic",
+            "name": "By Resources (11 active)"
+          },
+          "confidence": "high",
+          "context": "element div, role tabpanel, name \"By Resources (11 active)\""
+        },
+        {
+          "index": 85,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Verify <div> in \"09/07/2026\" toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "role": "row",
+            "name": "09/07/20261 dayCritical100000000000AWS Certificate Manager-$3,586.56$0.00+$3,586.5510,000% +A",
+            "tagName": "DIV"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": true,
+          "expect": {
+            "kind": "row-visible",
+            "matcher": "toBeVisible",
+            "value": "09/07/20261 dayCritical100000000000AWS Certificate Manager-$3,586.56$0.00+$3,586.5510,000% +A",
+            "name": "09/07/20261 dayCritical100000000000AWS Certificate Manager-$3,586.56$0.00+$3,586.5510,000% +A"
+          },
+          "confidence": "high",
+          "context": "element div, role row, name \"09/07/20261 dayCritical100000000000AWS Certificate Manager-$3,586.56$0.00+$3,586.5510,000% +A\""
+        },
+        {
+          "index": 86,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Verify <div> in \"09/07/2026\" toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "role": "row",
+            "name": "09/07/20261 dayCritical100000000000Amazon Elastic Container Service-$2,456.96$0.00+$2,456.9510,000% +A",
+            "tagName": "DIV"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "row-visible",
+            "matcher": "toBeVisible",
+            "value": "09/07/20261 dayCritical100000000000Amazon Elastic Container Service-$2,456.96$0.00+$2,456.9510,000% +A",
+            "name": "09/07/20261 dayCritical100000000000Amazon Elastic Container Service-$2,456.96$0.00+$2,456.9510,000% +A"
+          },
+          "confidence": "high",
+          "context": "element div, role row, name \"09/07/20261 dayCritical100000000000Amazon Elastic Container Service-$2,456.96$0.00+$2,456.9510,000% +A\""
+        },
+        {
+          "index": 87,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Verify <div> in \"09/07/2026\" toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "role": "row",
+            "name": "09/03/20261 dayCritical100000000000AWS Key Management Service-$1,524.92$0.00+$1,524.9110,000% +A",
+            "tagName": "DIV"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "row-visible",
+            "matcher": "toBeVisible",
+            "value": "09/03/20261 dayCritical100000000000AWS Key Management Service-$1,524.92$0.00+$1,524.9110,000% +A",
+            "name": "09/03/20261 dayCritical100000000000AWS Key Management Service-$1,524.92$0.00+$1,524.9110,000% +A"
+          },
+          "confidence": "high",
+          "context": "element div, role row, name \"09/03/20261 dayCritical100000000000AWS Key Management Service-$1,524.92$0.00+$1,524.9110,000% +A\""
+        },
+        {
+          "index": 88,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Verify (1 - 10) of 11 toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "(1 - 10) of 11",
+            "tagName": "SPAN",
+            "expression": "getByText(\"(1 - 10) of 11\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible",
+            "value": "(1 - 10) of 11",
+            "name": "(1 - 10) of 11"
+          },
+          "confidence": "medium",
+          "context": "element span, name \"(1 - 10) of 11\""
+        },
+        {
+          "index": 89,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Click Date Last 30 days Add Filter Save Reset",
+          "action": "click",
+          "locatorHint": {
+            "testId": "page-subheader",
+            "name": "Date Last 30 days Add Filter Save Reset",
+            "tagName": "DIV"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element div, name \"Date Last 30 days Add Filter Save Reset\""
+        },
+        {
+          "index": 90,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Click Settings",
+          "action": "click",
+          "locatorHint": {
+            "role": "button",
+            "name": "Settings",
+            "tagName": "BUTTON"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element button, role button, name \"Settings\""
+        },
+        {
+          "index": 91,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Click AwsANomaliesIgnoreRule",
+          "action": "click",
+          "locatorHint": {
+            "name": "AwsANomaliesIgnoreRule",
+            "tagName": "P",
+            "expression": "getByText(\"AwsANomaliesIgnoreRule\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "confidence": "medium",
+          "context": "element p, name \"AwsANomaliesIgnoreRule\""
+        },
+        {
+          "index": 92,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Click AwsANomaliesIgnoreRule",
+          "action": "click",
+          "locatorHint": {
+            "name": "AwsANomaliesIgnoreRule",
+            "tagName": "P",
+            "expression": "getByText(\"AwsANomaliesIgnoreRule\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "confidence": "medium",
+          "context": "element p, name \"AwsANomaliesIgnoreRule\""
+        },
+        {
+          "index": 93,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Enter \"AwsANomaliesIgnoreRule\" in Search",
+          "action": "fill",
+          "value": "AwsANomaliesIgnoreRule",
+          "locatorHint": {
+            "role": "textbox",
+            "name": "Search",
+            "tagName": "INPUT"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "valueKind": {
+            "kind": "literal",
+            "unique": false,
+            "createsResource": false
+          },
+          "confidence": "high",
+          "context": "element input, role textbox, name \"Search\""
+        },
+        {
+          "index": 94,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Click <button> in \"Disabled\"",
+          "action": "click",
+          "locatorHint": {
+            "role": "button",
+            "tagName": "BUTTON",
+            "expression": "locator(\"button\")"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "confidence": "unresolved",
+          "context": "element button, role button"
+        },
+        {
+          "index": 95,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Click Delete",
+          "action": "click",
+          "locatorHint": {
+            "role": "button",
+            "name": "Delete",
+            "tagName": "BUTTON"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "confidence": "high",
+          "context": "element button, role button, name \"Delete\""
+        },
+        {
+          "index": 96,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Click Ignore list rule deleted successfully!",
+          "action": "click",
+          "locatorHint": {
+            "name": "Harness /* create stacking context so that siblings don't have to compete for z-index */ #react-root { position: relative; z-index: 1; } .pre-loader-wrapper { position: fixed; top: 0; left: 0; bottom: 0; right: 0; display: flex; justify-content: center; align-items: center; text-align: center; } .pr",
+            "tagName": "HTML",
+            "expression": "getByText(\"Ignore list rule deleted successfully!\", { exact: true })"
+          },
+          "disabledState": {
+            "hasDisabledAttribute": false,
+            "ariaDisabled": null,
+            "nativeDisabled": false,
+            "blueprintDisabledClass": true,
+            "tabIndex": null,
+            "tagName": "HTML",
+            "role": null
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "confidence": "medium",
+          "context": "element html, name \"Harness /* create stacking context so that siblings don't have to compete for z-index */ #react-root { position: relative; z-index: 1; } .pre-loader-wrapper { position: fixed; top: 0; left: 0; bottom: 0; right: 0; display: flex; justify-content: center; align-items: center; text-align: center; } .pr\", restricted control"
+        },
+        {
+          "index": 97,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Verify Harness /* create stacking context so that siblings don't have to compete for z-index */ #react-root { position: relative; z-index: 1; } .pre-loader-wrapper { position: fixed; top: 0; left: 0; bottom: 0; right: 0; display: flex; justify-content: center; align-items: center; text-align: center; } .pr is restricted for read-only user",
+          "action": "assert",
+          "locatorHint": {
+            "name": "Harness /* create stacking context so that siblings don't have to compete for z-index */ #react-root { position: relative; z-index: 1; } .pre-loader-wrapper { position: fixed; top: 0; left: 0; bottom: 0; right: 0; display: flex; justify-content: center; align-items: center; text-align: center; } .pr",
+            "tagName": "HTML",
+            "expression": "getByText(\"Ignore list rule deleted successfully!\", { exact: true })"
+          },
+          "disabledState": {
+            "hasDisabledAttribute": false,
+            "ariaDisabled": null,
+            "nativeDisabled": false,
+            "blueprintDisabledClass": true,
+            "tabIndex": null,
+            "tagName": "HTML",
+            "role": null
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "toast",
+            "matcher": "toBeVisible",
+            "value": "Ignore list rule deleted successfully!",
+            "name": "Harness /* create stacking context so that siblings don't have to compete for z-index */ #react-root { position: relative; z-index: 1; } .pre-loader-wrapper { position: fixed; top: 0; left: 0; bottom: 0; right: 0; display: flex; justify-content: center; align-items: center; text-align: center; } .pr"
+          },
+          "confidence": "medium",
+          "context": "element html, name \"Harness /* create stacking context so that siblings don't have to compete for z-index */ #react-root { position: relative; z-index: 1; } .pre-loader-wrapper { position: fixed; top: 0; left: 0; bottom: 0; right: 0; display: flex; justify-content: center; align-items: center; text-align: center; } .pr\", restricted control"
+        },
+        {
+          "index": 98,
+          "startUrl": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "urlAfter": "https://qa.harness.io/ng/account/JAvSzjfNQ6GPmm5PdhFWZQ/module/ce/anomaly-detection?searchText=100000000000&timeFilters%5Bto%5D=2026-09-10&timeFilters%5Bfrom%5D=2026-08-11",
+          "intent": "Verify No ignore list rules match your search criteria. toBeVisible",
+          "action": "assert",
+          "locatorHint": {
+            "name": "No ignore list rules match your search criteria.",
+            "tagName": "DIV",
+            "expression": "getByText(\"No ignore list rules match your search criteria.\", { exact: true })"
+          },
+          "productHints": {
+            "navModule": "ce",
+            "feature": "anomaly-detection"
+          },
+          "skipInTest": false,
+          "expect": {
+            "kind": "assertion",
+            "matcher": "toBeVisible",
+            "value": "No ignore list rules match your search criteria.",
+            "name": "No ignore list rules match your search criteria."
+          },
+          "confidence": "medium",
+          "context": "element div, name \"No ignore list rules match your search criteria.\""
         }
       ]
     }
   ],
   "unresolvedStepIndexes": [
-    21
+    40,
+    42,
+    60,
+    69,
+    94
   ]
 }

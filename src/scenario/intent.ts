@@ -395,8 +395,12 @@ export function enrichScenario(scenario: ScenarioContext): ScenarioContext {
   return scenario;
 }
 
-/** Enforces the compact handoff invariants before it is written to disk. */
-export function validateScenarioIntent(intent: ScenarioIntent): void {
+/**
+ * Lists every handoff invariant the intent breaks. Collecting instead of
+ * throwing keeps a long recording usable: the artifact is still written and the
+ * caller decides whether the problems are fatal.
+ */
+export function scenarioIntentProblems(intent: ScenarioIntent): string[] {
   const problems: string[] = [];
   for (const testCase of intent.testCases) {
     for (const step of testCase.steps) {
@@ -435,6 +439,12 @@ export function validateScenarioIntent(intent: ScenarioIntent): void {
         problems.push(`step ${step.index}: unresolved workflow step`);
     }
   }
+  return problems;
+}
+
+/** Enforces the compact handoff invariants. Used where a bad export must fail. */
+export function validateScenarioIntent(intent: ScenarioIntent): void {
+  const problems = scenarioIntentProblems(intent);
   if (problems.length)
     throw new Error(`Invalid scenario intent:\n- ${problems.join("\n- ")}`);
 }
@@ -508,6 +518,5 @@ export function scenarioToIntent(scenario: ScenarioContext): ScenarioIntent {
       )
       .map(({ index }) => index),
   };
-  validateScenarioIntent(intent);
   return intent;
 }

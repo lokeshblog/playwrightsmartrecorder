@@ -6,6 +6,7 @@ import {
   scenarioToCsv,
   scenarioToIntent,
   scenarioContextSchema,
+  scenarioIntentProblems,
   scenarioIntentSchema,
   smartConfigSchema,
   validateScenarioIntent,
@@ -101,6 +102,39 @@ describe("scenario recording", () => {
     expect(() => validateScenarioIntent(intent)).toThrow(
       /generic locator expression[\s\S]*unresolved workflow step/,
     );
+  });
+
+  it("still exports an intent when a step has no trustworthy locator", async () => {
+    const isolated = await browser.newPage();
+    await isolated.setContent(`
+      <main>
+        <h1>Budgets</h1>
+        <div>
+          <button type="button"><svg viewBox="0 0 8 8"><path d="M0 0h8v8z"/></svg></button>
+          <button type="button"><svg viewBox="0 0 8 8"><path d="M8 8h8v8z"/></svg></button>
+        </div>
+      </main>
+    `);
+    const recording = recordScenario(isolated, config);
+    await recorderControl(isolated);
+    await isolated.locator("button").first().click();
+    await isolated.keyboard.press("Control+Shift+S");
+    const result = await recording;
+
+    // A nameless icon control cannot be located safely, but losing the whole
+    // recording over it is worse than exporting it flagged.
+    const intent = scenarioToIntent(result);
+    expect(scenarioIntentSchema.parse(intent)).toEqual(intent);
+    expect(intent.unresolvedStepIndexes).toContain(1);
+    expect(scenarioIntentProblems(intent)).toEqual(
+      expect.arrayContaining([
+        expect.stringContaining("step 1: unresolved workflow step"),
+      ]),
+    );
+    expect(() => validateScenarioIntent(intent)).toThrow(
+      /unresolved workflow step/,
+    );
+    await isolated.close();
   });
 
   it("records an ordered flow with locator context and generated code", async () => {

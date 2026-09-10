@@ -169,8 +169,10 @@ Unresolved: <none or one blocking choice>
 - Remove duplicate clicks only when they are recorder noise and not required
   state transitions.
 - Drop `skipInTest` login, redirect, launcher, duplicate-tooltip, and unresolved
-  generic-tag rows. A non-skipped `unresolved` row is an invalid export, not an
-  invitation to invent a locator.
+  generic-tag rows. A non-skipped `unresolved` row is a flagged export listed in
+  `unresolvedStepIndexes`, not an invitation to invent a locator. Explain the
+  target from its evidence, and if no stable locator exists, report the required
+  accessible name or product attribute instead of guessing.
 - Parameterize recorded data using existing builders/constants.
 - Add outcome assertions consistent with neighbouring tests; do not invent a
   product assertion unsupported by the flow.

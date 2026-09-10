@@ -18,6 +18,7 @@ import { scoreCandidate } from "../locator/score.js";
 import { repairLocator } from "../repair/repair.js";
 import { scenarioToCsv } from "../scenario/export.js";
 import {
+  scenarioIntentProblems,
   scenarioToIntent,
   validateScenarioIntent,
 } from "../scenario/intent.js";
@@ -35,7 +36,27 @@ import type {
 function confidenceMark(confidence: string): string {
   if (confidence === "high") return "●";
   if (confidence === "medium") return "◐";
+  if (confidence === "unresolved") return "⚠";
   return "○";
+}
+
+/**
+ * A recording that breaks a handoff invariant is still worth keeping, so the
+ * problems are reported against the saved files instead of discarding them.
+ */
+function reportIntentProblems(
+  intent: ScenarioIntent,
+  intentFile: string,
+): void {
+  const problems = scenarioIntentProblems(intent);
+  if (!problems.length) return;
+  console.warn(
+    `\n${String(problems.length)} step${problems.length === 1 ? "" : "s"} in ${intentFile} need a locator before conversion:`,
+  );
+  for (const problem of problems) console.warn(`  - ${problem}`);
+  console.warn(
+    "Re-record those steps with 'Ask when locator is weak' enabled, or ask the product team for a stable accessible name or data-testid. The conversion skill must not invent a locator for them.",
+  );
 }
 
 /**
@@ -93,9 +114,10 @@ async function saveSessionArtifacts(
     path.join(directory, "scenario-context.csv"),
     scenarioToCsv(scenario),
   );
+  const intent = scenarioToIntent(scenario);
   await writeFile(
     path.join(directory, "scenario-intent.json"),
-    `${JSON.stringify(scenarioToIntent(scenario), null, 2)}\n`,
+    `${JSON.stringify(intent, null, 2)}\n`,
   );
   await writeFile(
     path.join(directory, "replay-report.json"),
@@ -141,7 +163,7 @@ async function saveSessionArtifacts(
   );
   await writeFile(
     path.resolve(root, ".codegen/scenario-intent.json"),
-    `${JSON.stringify(scenarioToIntent(scenario), null, 2)}\n`,
+    `${JSON.stringify(intent, null, 2)}\n`,
   );
   await writeFile(
     path.resolve(root, ".codegen/replay-report.json"),
@@ -152,13 +174,14 @@ async function saveSessionArtifacts(
     `Cursor prompt saved at ${path.relative(root, path.join(directory, "cursor-prompt.txt"))}`,
   );
   console.log(`\nCursor: ${cursorPrompt}`);
+  reportIntentProblems(intent, relativeIntent);
   return directory;
 }
 
 const program = new Command()
   .name("playwright-codegen-smart")
   .description("Capture DOM context and generate robust Playwright locators")
-  .version("1.8.0");
+  .version("1.9.0");
 
 program
   .command("init")
@@ -248,17 +271,18 @@ program
             ? `recommended: page.${result.recommended.locator} (${result.recommended.score})`
             : "No candidate met the configured safety threshold.",
         );
-      else {
+      let intent: ScenarioIntent | undefined;
+      let intentFile = "";
+      if (!("recommended" in result)) {
         const csvOutput = path.resolve(
           root,
           options.csv ?? output.replace(/\.json$/i, ".csv"),
         );
         await mkdir(path.dirname(csvOutput), { recursive: true });
         await writeFile(csvOutput, scenarioToCsv(result));
-        await writeFile(
-          path.join(path.dirname(output), "scenario-intent.json"),
-          `${JSON.stringify(scenarioToIntent(result), null, 2)}\n`,
-        );
+        intent = scenarioToIntent(result);
+        intentFile = path.join(path.dirname(output), "scenario-intent.json");
+        await writeFile(intentFile, `${JSON.stringify(intent, null, 2)}\n`);
         console.log(`saved ${path.relative(root, csvOutput)}`);
         console.log(
           `captured ${result.testCases.length} testcase${result.testCases.length === 1 ? "" : "s"} and ${result.steps.length} step${result.steps.length === 1 ? "" : "s"}`,
@@ -274,13 +298,14 @@ program
             latest.replace(/\.json$/i, ".csv"),
             scenarioToCsv(result),
           );
-        if (!("recommended" in result))
+        if (intent)
           await writeFile(
             latest.replace(/scenario-context\.json$/i, "scenario-intent.json"),
-            `${JSON.stringify(scenarioToIntent(result), null, 2)}\n`,
+            `${JSON.stringify(intent, null, 2)}\n`,
           );
         console.log(`latest copy at ${path.relative(root, latest)}`);
       }
+      if (intent) reportIntentProblems(intent, path.relative(root, intentFile));
     },
   );
 

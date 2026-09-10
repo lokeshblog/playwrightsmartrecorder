@@ -23,6 +23,7 @@ export { describeTarget, summarizeTarget } from "./scenario/describe.js";
 export { suggestLocators } from "./locator/suggest.js";
 export {
   enrichScenario,
+  scenarioIntentProblems,
   scenarioToIntent,
   validateScenarioIntent,
 } from "./scenario/intent.js";
